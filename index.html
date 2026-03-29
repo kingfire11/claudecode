@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Инструкции по установке Claude Code с подключением к кастомному API Kiro Cheap">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Kiro Cheap — Установка Claude Code</title>
+  <style>
+    /* CSS Variables */
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-tertiary: #1a1a1a;
+      --bg-code: #0d1117;
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --text-muted: #8b949e;
+      --accent-primary: #00dc82;
+      --accent-hover: #00ff95;
+      --accent-glow: rgba(0, 220, 130, 0.3);
+      --border-color: #30363d;
+      --error-bg: #4c1a1a;
+      --error-border: #f85149;
+      --success-bg: #1a3a1a;
+      --success-border: #3fb950;
+      --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --transition: all 0.2s ease;
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text-primary);
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); margin-top: 4rem; margin-bottom: 1.5rem; letter-spacing: -0.01em; }
+    h3 { font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+
+    p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+    ul { margin-bottom: 1rem; padding-left: 1.5rem; color: var(--text-secondary); }
+    li { margin-bottom: 0.5rem; }
+
+    a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    a:hover { color: var(--accent-hover); }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .logo span { color: var(--accent-primary); }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      padding: 0.5rem 0;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--text-primary);
+      border-bottom-color: var(--accent-primary);
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-menu span {
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    /* Hero Section */
+    #hero {
+      padding: clamp(100px, 20vh, 180px) 1.5rem 80px;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(0, 220, 130, 0.1) 0%, transparent 50%);
+    }
+
+    #hero h1 {
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #hero .subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-primary);
+      background: var(--bg-tertiary);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 100px;
+    }
+
+    section {
+      padding: 3rem 0;
+    }
+
+    section:first-of-type {
+      padding-top: 0;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .card:last-child {
+      margin-bottom: 0;
+    }
+
+    .card:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    /* Code Blocks */
+    .code-block {
+      background: var(--bg-code);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin: 1.25rem 0;
+      overflow: hidden;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .code-header span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .copy-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+      background: var(--bg-tertiary);
+    }
+
+    .copy-btn.copied {
+      color: var(--accent-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .code-block pre {
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .code-block code {
+      color: var(--text-primary);
+      display: block;
+      white-space: pre;
+      font-family: var(--font-mono);
+    }
+
+    /* Step numbers */
+    .step {
+      counter-increment: step-counter;
+      margin-bottom: 2.5rem;
+    }
+
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    /* Tabs for OS selection */
+    .os-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .os-tab {
+      padding: 0.875rem 1.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .os-tab:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .os-tab.active {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .os-content {
+      display: none;
+    }
+
+    .os-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Prerequisites list */
+    .prereq-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .prereq-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .prereq-list li:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .prereq-list li::before {
+      content: '✓';
+      color: var(--accent-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* Error table */
+    .error-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    .error-table th,
+    .error-table td {
+      padding: 1.25rem;
+      text-align: left;
+      border: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    .error-table th {
+      background: var(--bg-tertiary);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .error-table tr:hover {
+      background: var(--bg-secondary);
+    }
+
+    .error-table code {
+      color: var(--accent-primary);
+      font-size: 0.85rem;
+    }
+
+    .error-table td small {
+      display: block;
+      margin-top: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* FAQ */
+    .faq-item {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: var(--text-muted);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-secondary);
+      border: none;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .faq-question:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: var(--accent-primary);
+      transition: var(--transition);
+      line-height: 1;
+    }
+
+    .faq-item.active .faq-question::after {
+      content: '−';
+    }
+
+    .faq-item.active {
+      border-color: var(--accent-primary);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+
+    .faq-answer-content {
+      padding: 1.25rem 1.5rem;
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .faq-answer-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* CTA Section */
+    #cta {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(0, 220, 130, 0.05) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      margin-top: 4rem;
+    }
+
+    #cta h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    #cta p {
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 4rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    footer a {
+      color: var(--accent-primary);
+    }
+
+    footer p {
+      color: var(--text-muted);
+    }
+
+    /* Scroll animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Section spacing */
+    #hero + section {
+      padding-top: 4rem;
+    }
+
+    /* Credit Options for Step 5 */
+    .credit-options {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+    }
+
+    .credit-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      background: var(--bg-code);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      transition: var(--transition);
+      position: relative;
+      min-width: 180px;
+    }
+
+    .credit-option:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .credit-option.highlighted {
+      border-color: var(--accent-primary);
+      box-shadow: 0 4px 20px rgba(0, 220, 130, 0.15);
+    }
+
+    .credit-option.selected {
+      border-color: var(--accent-primary);
+      background: rgba(0, 220, 130, 0.1);
+      box-shadow: 0 0 0 2px var(--accent-primary), 0 4px 20px rgba(0, 220, 130, 0.2);
+    }
+
+    .co-credits {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .co-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      font-family: var(--font-mono);
+    }
+
+    .co-badge {
+      position: absolute;
+      top: -8px;
+      right: 50%;
+      transform: translateX(50%);
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
+      color: var(--bg-primary);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* Important Note */
+    .important-note {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(0, 220, 130, 0.1);
+      border: 1px solid var(--accent-primary);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .important-note strong {
+      color: var(--text-primary);
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 768px) {
+      .credit-options {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .credit-option {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--bg-primary);
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .mobile-menu {
+        display: flex;
+      }
+
+      .os-tabs {
+        justify-content: center;
+      }
+
+      .os-tab {
+        flex: 1;
+        text-align: center;
+        min-width: 100px;
+      }
+
+      .error-table {
+        font-size: 0.85rem;
+      }
+
+      .error-table th,
+      .error-table td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <a href="#" class="logo">Claude Code <span>API</span></a>
+      <nav>
+        <button class="mobile-menu" aria-label="Меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul>
+          <li><a href="#prerequisites">Требования</a></li>
+          <li><a href="#install">Установка</a></li>
+          <li><a href="#settings">Settings.json</a></li>
+          <li><a href="#errors">Ошибки</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero">
+    <h1>Установка Claude Code</h1>
+    <p class="subtitle">
+      Пошаговое руководство по установке и настройке Claude Code с подключением
+      к кастомному API Kiro Cheap
+    </p>
+    <div class="cta-buttons">
+      <a href="#install" class="btn btn-primary">
+        Начать установку
+      </a>
+      <a href="#prerequisites" class="btn btn-secondary">
+        Требования
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Prerequisites -->
+    <section id="prerequisites" class="fade-in">
+      <h2>Предварительные требования</h2>
+      <p>Перед установкой Claude Code убедитесь, что у вас установлены следующие компоненты:</p>
+      <ul class="prereq-list">
+        <li>Node.js версии 18 или выше</li>
+        <li>npm (поставляется с Node.js)</li>
+        <li>Доступ в интернет</li>
+      </ul>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📦</div>
+          <h3>Проверка установленных версий</h3>
+        </div>
+        <p>Выполните следующие команды для проверки:</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span>Terminal</span>
+            <button class="copy-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Копировать
+            </button>
+          </div>
+          <pre><code>node --version
+npm --version</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="install" class="fade-in">
+      <h2>Установка по операционным системам</h2>
+
+      <!-- OS Tabs -->
+      <div class="os-tabs">
+        <button class="os-tab active" data-os="macos">macOS</button>
+        <button class="os-tab" data-os="windows">Windows</button>
+        <button class="os-tab" data-os="linux">Linux</button>
+      </div>
+
+      <!-- macOS Content -->
+      <div class="os-content active" id="macos-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🍎</div>
+            <h3>Установка на macOS</h3>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">0</span>
+              <h4>Регистрация и подготовка</h4>
+            </div>
+            <p style="margin-bottom: 1rem;">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
+            <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
+              <li>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
+              <li><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
+              <li>Сохраните API ключ из личного кабинета</li>
+            </ol>
+            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;">
+              Зарегистрироваться
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h4>Установка Homebrew (если не установлен)</h4>
+            </div>
+            <p>Homebrew — пакетный менеджер для macOS, который упростит установку Node.js.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h4>Установка Node.js</h4>
+            </div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>brew install node</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h4>Установка Claude Code</h4>
+            </div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">4</span>
+              <h4>Настройка settings.json</h4>
+            </div>
+            <p>Откройте файл конфигурации Claude Code:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>code ~/.claude/settings.json</code></pre>
+            </div>
+            <p>Или откройте через Finder: <code>~/Library/Application Support/Claude/settings.json</code></p>
+            <p>Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ из личного кабинета):</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JSON</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.kiro.cheap",
+    "ANTHROPIC_API_KEY": "ваш_api_key",
+    "ANTHROPIC_AUTH_TOKEN": "ваш_api_key",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_EFFORT_LEVEL": "high",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_AUTOUPDATER": "1",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_COST_WARNINGS": "1",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "120000",
+    "BASH_MAX_TIMEOUT_MS": "600000",
+    "BASH_MAX_OUTPUT_LENGTH": "100000",
+    "MAX_THINKING_TOKENS": "31999"
+  },
+  "model": "claude-opus-4.6",
+  "skipDangerousModePermissionPrompt": true
+}</code></pre>
+            </div>
+            <p><strong>Важно:</strong> Замените <code>ваш_api_key</code> на фактический ключ из личного кабинета Kiro Cheap.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">5</span>
+              <h4>Пополнение баланса</h4>
+            </div>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
+              <strong>1 кредит = $1 Anthropic-equivalent usage</strong>
+            </p>
+
+            <div class="credit-options">
+              <label class="credit-option selectable" data-amount="3000" data-credits="3,000">
+                <input type="radio" name="credit-amount" value="3000" hidden>
+                <span class="co-credits">3,000 кредитов</span>
+                <span class="co-price">3,000 ₽</span>
+              </label>
+              <label class="credit-option selectable highlighted" data-amount="5000" data-credits="6,000">
+                <input type="radio" name="credit-amount" value="5000" hidden>
+                <span class="co-credits">6,000 кредитов</span>
+                <span class="co-price">5,000 ₽</span>
+                <span class="co-badge">Выгодно</span>
+              </label>
+              <label class="credit-option selectable" data-amount="10000" data-credits="12,000">
+                <input type="radio" name="credit-amount" value="10000" hidden>
+                <span class="co-credits">12,000 кредитов</span>
+                <span class="co-price">10,000 ₽</span>
+              </label>
+            </div>
+
+            <div class="telegram-form" style="margin-top: 1.5rem;">
+              <div class="form-group">
+                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
+                <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
+              </div>
+              <p style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none;" target="_blank" rel="noopener">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                  </svg>
+                  Написать в Telegram
+                </a>
+              </p>
+            </div>
+            <div class="important-note">
+              <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Windows Content -->
+      <div class="os-content" id="windows-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🪟</div>
+            <h3>Установка на Windows</h3>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">0</span>
+              <h4>Регистрация и подготовка</h4>
+            </div>
+            <p style="margin-bottom: 1rem;">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
+            <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
+              <li>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
+              <li><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
+              <li>Сохраните API ключ из личного кабинета</li>
+            </ol>
+            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;">
+              Зарегистрироваться
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h4>Установка Node.js</h4>
+            </div>
+            <p>Скачайте и установите Node.js с официального сайта:</p>
+            <ul>
+              <li>Перейдите на <a href="https://nodejs.org/" target="_blank">nodejs.org</a></li>
+              <li>Скачайте LTS версию для Windows</li>
+              <li>Запустите установщик и следуйте инструкциям</li>
+            </ul>
+            <p>После установки перезапустите терминал.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h4>Открытие PowerShell от имени администратора</h4>
+            </div>
+            <p>Нажмите <code>Win + X</code> и выберите «Windows PowerShell (администратор)» или «Терминал (администратор)».</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h4>Установка Claude Code</h4>
+            </div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>PowerShell</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">4</span>
+              <h4>Настройка settings.json</h4>
+            </div>
+            <p>Откройте файл конфигурации Claude Code:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>PowerShell</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>notepad $env:APPDATA\Claude\settings.json</code></pre>
+            </div>
+            <p>Если файл не существует, создайте новый. Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ):</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JSON</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.kiro.cheap",
+    "ANTHROPIC_API_KEY": "ваш_api_key",
+    "ANTHROPIC_AUTH_TOKEN": "ваш_api_key",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_EFFORT_LEVEL": "high",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_AUTOUPDATER": "1",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_COST_WARNINGS": "1",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "120000",
+    "BASH_MAX_TIMEOUT_MS": "600000",
+    "BASH_MAX_OUTPUT_LENGTH": "100000",
+    "MAX_THINKING_TOKENS": "31999"
+  },
+  "model": "claude-opus-4.6",
+  "skipDangerousModePermissionPrompt": true
+}</code></pre>
+            </div>
+            <p><strong>Важно:</strong> Замените <code>ваш_api_key</code> на фактический ключ из личного кабинета Kiro Cheap.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">5</span>
+              <h4>Пополнение баланса</h4>
+            </div>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
+              <strong>1 кредит = $1 Anthropic-equivalent usage</strong>
+            </p>
+
+            <div class="credit-options">
+              <label class="credit-option selectable" data-amount="3000" data-credits="3,000">
+                <input type="radio" name="credit-amount" value="3000" hidden>
+                <span class="co-credits">3,000 кредитов</span>
+                <span class="co-price">3,000 ₽</span>
+              </label>
+              <label class="credit-option selectable highlighted" data-amount="5000" data-credits="6,000">
+                <input type="radio" name="credit-amount" value="5000" hidden>
+                <span class="co-credits">6,000 кредитов</span>
+                <span class="co-price">5,000 ₽</span>
+                <span class="co-badge">Выгодно</span>
+              </label>
+              <label class="credit-option selectable" data-amount="10000" data-credits="12,000">
+                <input type="radio" name="credit-amount" value="10000" hidden>
+                <span class="co-credits">12,000 кредитов</span>
+                <span class="co-price">10,000 ₽</span>
+              </label>
+            </div>
+
+            <div class="telegram-form" style="margin-top: 1.5rem;">
+              <div class="form-group">
+                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
+                <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
+              </div>
+              <p style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none;" target="_blank" rel="noopener">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                  </svg>
+                  Написать в Telegram
+                </a>
+              </p>
+            </div>
+            <div class="important-note">
+              <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linux Content -->
+      <div class="os-content" id="linux-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🐧</div>
+            <h3>Установка на Linux</h3>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">0</span>
+              <h4>Регистрация и подготовка</h4>
+            </div>
+            <p style="margin-bottom: 1rem;">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
+            <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
+              <li>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
+              <li><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
+              <li>Сохраните API ключ из личного кабинета</li>
+            </ol>
+            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;">
+              Зарегистрироваться
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h4>Установка Node.js (Ubuntu/Debian)</h4>
+            </div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h4>Установка Node.js (CentOS/RHEL/Fedora)</h4>
+            </div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+sudo yum install -y nodejs</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h4>Установка Claude Code</h4>
+            </div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+            </div>
+            <p>Если возникает ошибка доступа, используйте <code>sudo</code>:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>sudo npm install -g @anthropic-ai/claude-code</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">4</span>
+              <h4>Настройка settings.json</h4>
+            </div>
+            <p>Откройте файл конфигурации Claude Code:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>code ~/.claude/settings.json</code></pre>
+            </div>
+            <p>Или используйте текстовый редактор:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>nano ~/.claude/settings.json</code></pre>
+            </div>
+            <p>Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ):</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JSON</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Копировать
+                </button>
+              </div>
+              <pre><code>{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.kiro.cheap",
+    "ANTHROPIC_API_KEY": "ваш_api_key",
+    "ANTHROPIC_AUTH_TOKEN": "ваш_api_key",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_EFFORT_LEVEL": "high",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_AUTOUPDATER": "1",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_COST_WARNINGS": "1",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "120000",
+    "BASH_MAX_TIMEOUT_MS": "600000",
+    "BASH_MAX_OUTPUT_LENGTH": "100000",
+    "MAX_THINKING_TOKENS": "31999"
+  },
+  "model": "claude-opus-4.6",
+  "skipDangerousModePermissionPrompt": true
+}</code></pre>
+            </div>
+            <p><strong>Важно:</strong> Замените <code>ваш_api_key</code> на фактический ключ из личного кабинета Kiro Cheap.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">5</span>
+              <h4>Пополнение баланса</h4>
+            </div>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
+              <strong>1 кредит = $1 Anthropic-equivalent usage</strong>
+            </p>
+
+            <div class="credit-options">
+              <label class="credit-option selectable" data-amount="3000" data-credits="3,000">
+                <input type="radio" name="credit-amount" value="3000" hidden>
+                <span class="co-credits">3,000 кредитов</span>
+                <span class="co-price">3,000 ₽</span>
+              </label>
+              <label class="credit-option selectable highlighted" data-amount="5000" data-credits="6,000">
+                <input type="radio" name="credit-amount" value="5000" hidden>
+                <span class="co-credits">6,000 кредитов</span>
+                <span class="co-price">5,000 ₽</span>
+                <span class="co-badge">Выгодно</span>
+              </label>
+              <label class="credit-option selectable" data-amount="10000" data-credits="12,000">
+                <input type="radio" name="credit-amount" value="10000" hidden>
+                <span class="co-credits">12,000 кредитов</span>
+                <span class="co-price">10,000 ₽</span>
+              </label>
+            </div>
+
+            <div class="telegram-form" style="margin-top: 1.5rem;">
+              <div class="form-group">
+                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
+                <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
+              </div>
+              <p style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none;" target="_blank" rel="noopener">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                  </svg>
+                  Написать в Telegram
+                </a>
+              </p>
+            </div>
+            <div class="important-note">
+              <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings.json paths -->
+    <section id="settings" class="fade-in">
+      <h2>Расположение settings.json</h2>
+      <p>Файл конфигурации <code>settings.json</code> находится в следующих директориях:</p>
+
+      <div class="card">
+        <table class="error-table">
+          <thead>
+            <tr>
+              <th>ОС</th>
+              <th>Путь к settings.json</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>macOS</strong></td>
+              <td><code>~/.claude/settings.json</code><br><small>~/Library/Application Support/Claude/settings.json</small></td>
+            </tr>
+            <tr>
+              <td><strong>Windows</strong></td>
+              <td><code>%APPDATA%\Claude\settings.json</code></td>
+            </tr>
+            <tr>
+              <td><strong>Linux</strong></td>
+              <td><code>~/.claude/settings.json</code><br><small>~/.config/Claude/settings.json</small></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="border-color: var(--accent-primary);">
+        <p style="margin: 0; color: var(--text-secondary);">
+          <strong>💡 Совет:</strong> После редактирования settings.json перезапустите терминал для применения изменений.
+        </p>
+      </div>
+    </section>
+
+    <!-- Verification -->
+    <section id="verification" class="fade-in">
+      <h2>Проверка работоспособности</h2>
+      <p>После настройки убедитесь, что Claude Code работает корректно:</p>
+
+      <div class="card">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Terminal</span>
+            <button class="copy-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Копировать
+            </button>
+          </div>
+          <pre><code>claude --version</code></pre>
+        </div>
+      </div>
+
+      <p>Запустите Claude Code и задайте простой вопрос:</p>
+
+      <div class="card">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Terminal</span>
+            <button class="copy-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Копировать
+            </button>
+          </div>
+          <pre><code>claude
+> Привет! Расскажи, что ты умеешь делать?</code></pre>
+        </div>
+      </div>
+
+      <div class="card" style="border-color: var(--success-border); background: var(--success-bg);">
+        <p style="margin: 0; color: var(--text-primary);">
+          <strong>✓ Успех!</strong> Если вы получили ответ от Claude — настройка завершена успешно.
+        </p>
+      </div>
+    </section>
+
+    <!-- Errors -->
+    <section id="errors" class="fade-in">
+      <h2>Возможные ошибки и решения</h2>
+
+      <table class="error-table">
+        <thead>
+          <tr>
+            <th>Ошибка</th>
+            <th>Причина</th>
+            <th>Решение</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>command not found: claude</code></td>
+            <td>Claude Code не установлен или не в PATH</td>
+            <td>Переустановите: <code>npm install -g @anthropic-ai/claude-code</code></td>
+          </tr>
+          <tr>
+            <td><code>EACCES permission denied</code></td>
+            <td>Недостаточно прав для установки</td>
+            <td>Используйте <code>sudo</code> или настройте права на npm глобальные пакеты</td>
+          </tr>
+          <tr>
+            <td><code>connection refused</code></td>
+            <td>Неверный Base URL или проблемы с сетью</td>
+            <td>Проверьте URL: <code>https://kiro.cheap/api</code></td>
+          </tr>
+          <tr>
+            <td><code>401 Unauthorized</code></td>
+            <td>Неверный API ключ</td>
+            <td>Получите новый ключ в личном кабинете и обновите конфиг</td>
+          </tr>
+          <tr>
+            <td><code>npm ERR! code EEXIST</code></td>
+            <td>Конфликт версий или файлов</td>
+            <td>Удалите старую версию: <code>npm uninstall -g @anthropic-ai/claude-code</code></td>
+          </tr>
+          <tr>
+            <td><code>node: command not found</code></td>
+            <td>Node.js не установлен</td>
+            <td>Установите Node.js 18+ согласно инструкции для вашей ОС</td>
+          </tr>
+          <tr>
+            <td><code>certificate verify failed</code></td>
+            <td>Проблемы с SSL сертификатом</td>
+            <td>Обновите сертификаты ОС или временно отключите проверку SSL</td>
+          </tr>
+          <tr>
+            <td><code>Invalid JSON in settings.json</code></td>
+            <td>Синтаксическая ошибка в JSON</td>
+            <td>Проверьте файл на валидность JSON (запятые, кавычки, скобки)</td>
+          </tr>
+          <tr>
+            <td><code>ANTHROPIC_API_KEY is required</code></td>
+            <td>Не указан API ключ</td>
+            <td>Добавьте ключ в settings.json: <code>"ANTHROPIC_API_KEY": "ваш_ключ"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="fade-in">
+      <h2>Часто задаваемые вопросы</h2>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Что такое Kiro Cheap?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Kiro Cheap — это кастомный API-прокси для Claude Code, который предоставляет доступ к моделям Anthropic по более доступным ценам. Сервис выступает промежуточным звеном между клиентом и официальным API Anthropic.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Как получить API ключ?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a>, пополните баланс и создайте API ключ в личном кабинете.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Безопасно ли использовать кастомный API?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Да, Kiro Cheap использует официальное API Anthropic. Ваши данные не сохраняются и не передаются третьим лицам. API ключ используется только для аутентификации и тарификации запросов.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Можно ли использовать Claude Code без подписки?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Да, с Kiro Cheap вы платите только за фактически использованные токены. Никакой ежемесячной подписки не требуется.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Какие модели доступны через Kiro Cheap?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Доступны все модели Anthropic, включая новейшие:<br>
+            <strong>Claude Sonnet 4.6</strong>, <strong>Claude Opus 4.6</strong>, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Выбор модели указывается в <code>settings.json</code> (параметр <code>model</code>) или при запуске через флаг <code>--model</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Как обновить Claude Code?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Для обновления выполните команду: <code>npm update -g @anthropic-ai/claude-code</code>. Рекомендуется регулярно обновляться до последней версии.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Что делать, если Claude Code не отвечает?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Проверьте: 1) Подключение к интернету, 2) Корректность Base URL, 3) Наличие средств на балансе, 4) Статус сервиса на странице Kiro Cheap. Также попробуйте перезапустить терминал.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Можно ли использовать на сервере без GUI?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Да, Claude Code полностью работает в терминале и не требует графического интерфейса. Идеально подходит для удалённых серверов и CI/CD пайплайнов.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Как сменить API ключ или Base URL?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Откройте файл <code>settings.json</code> и измените значения <code>ANTHROPIC_API_KEY</code> и <code>ANTHROPIC_BASE_URL</code>. Путь к файлу:<br>
+            <strong>macOS/Linux:</strong> <code>~/.claude/settings.json</code><br>
+            <strong>Windows:</strong> <code>%APPDATA%\Claude\settings.json</code></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Где посмотреть историю использования и расходы?
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Вся статистика использования, история запросов и детализация расходов доступны в личном кабинете на kiro.cheap после авторизации.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="fade-in">
+      <h2>Готовы начать?</h2>
+      <p style="margin-bottom: 1.5rem;">
+        Зарегистрируйтесь в Kiro Cheap и получите доступ к Claude Code по выгодным ценам
+      </p>
+      <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary">
+        Зарегистрироваться бесплатно
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      &copy; 2026 Kiro Cheap. Все права защищены.<br>
+      <a href="https://kiro.cheap" target="_blank">kiro.cheap</a>
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Telegram form handler - works for all OS sections
+      function initTelegramForm(container) {
+        const telegramBtn = container.querySelector('.telegram-btn');
+        const telegramUsername = container.querySelector('input.telegram-username');
+        const creditOptions = container.querySelectorAll('.credit-option.selectable');
+
+        console.log('Init form:', {
+          hasBtn: !!telegramBtn,
+          hasInput: !!telegramUsername,
+          hasOptions: creditOptions.length
+        });
+
+        if (!telegramBtn || !telegramUsername || creditOptions.length === 0) {
+          console.warn('Missing elements in container');
+          return;
+        }
+
+        // Store state on the container
+        container.selectedAmount = null;
+        container.selectedCredits = null;
+
+        creditOptions.forEach(option => {
+          option.addEventListener('click', function() {
+            console.log('Credit option clicked:', option.dataset.credits);
+            container.querySelectorAll('.credit-option').forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+
+            const radio = option.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+
+            container.selectedAmount = option.dataset.amount;
+            container.selectedCredits = option.dataset.credits;
+
+            console.log('Selected:', container.selectedAmount, container.selectedCredits);
+            updateTelegramButton();
+          });
+        });
+
+        telegramUsername.addEventListener('input', updateTelegramButton);
+
+        function updateTelegramButton() {
+          const username = telegramUsername.value.trim();
+          console.log('updateTelegramButton called:', { username, selectedAmount: container.selectedAmount });
+
+          if (container.selectedAmount && username) {
+            console.log('Enabling button');
+            telegramBtn.style.opacity = '1';
+            telegramBtn.style.pointerEvents = 'auto';
+
+            const message = `Добрый день ${username} ${container.selectedCredits} кредитов на ${container.selectedAmount} ₽`;
+            const telegramUrl = `https://t.me/claudxeseller?text=${encodeURIComponent(message)}`;
+
+            console.log('Setting href:', telegramUrl);
+            telegramBtn.href = telegramUrl;
+          } else {
+            console.log('Disabling button');
+            telegramBtn.style.opacity = '0.5';
+            telegramBtn.style.pointerEvents = 'none';
+            telegramBtn.href = '#';
+          }
+        }
+      }
+
+      // Initialize for all OS sections
+      document.querySelectorAll('.os-content').forEach(osContent => {
+        initTelegramForm(osContent);
+      });
+
+      // Mobile menu toggle
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const navUl = document.querySelector('nav ul');
+
+      if (mobileMenu && navUl) {
+        mobileMenu.addEventListener('click', () => {
+          navUl.classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('nav a').forEach(link => {
+          link.addEventListener('click', () => {
+            navUl.classList.remove('active');
+          });
+        });
+      }
+
+      // OS Tabs
+      const osTabs = document.querySelectorAll('.os-tab');
+      const osContents = document.querySelectorAll('.os-content');
+
+      osTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const os = tab.dataset.os;
+
+          // Remove active from all
+          osTabs.forEach(t => t.classList.remove('active'));
+          osContents.forEach(c => c.classList.remove('active'));
+
+          // Add active to selected
+          tab.classList.add('active');
+          document.getElementById(`${os}-content`).classList.add('active');
+        });
+      });
+
+      // Copy buttons
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.code-block').querySelector('code').textContent;
+
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add('copied');
+            btn.innerHTML = `
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Скопировано
+          `;
+
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = `
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Копировать
+            `;
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const isActive = item.classList.contains('active');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('active');
+        });
+
+        // Open clicked if wasn't active
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Header shadow on scroll
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+      } else {
+        header.style.boxShadow = 'none';
+      }
+    });
+  }); // End DOMContentLoaded
+  </script>
+</body>
+</html>
