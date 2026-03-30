@@ -108,6 +108,35 @@
 
     .logo span { color: var(--accent-primary); }
 
+    .lang-switch {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.35rem 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-btn:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+    }
+
+    .lang-btn.active {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+
     nav ul {
       display: flex;
       list-style: none;
@@ -892,6 +921,15 @@
     }
 
     @media (max-width: 768px) {
+      .lang-switch {
+        margin-right: 1rem;
+      }
+
+      .lang-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+
       .floating-help-btn {
         bottom: 20px;
         right: 20px;
@@ -919,18 +957,22 @@
   <header>
     <div class="header-content">
       <a href="#" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
       <nav>
-        <button class="mobile-menu" aria-label="Меню">
+        <button class="mobile-menu" aria-label="Menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
         <ul>
-          <li><a href="#prerequisites">Требования</a></li>
-          <li><a href="#install">Установка</a></li>
-          <li><a href="#settings">Settings.json</a></li>
-          <li><a href="#errors">Ошибки</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#prerequisites" data-i18n="nav-prerequisites">Требования</a></li>
+          <li><a href="#install" data-i18n="nav-install">Установка</a></li>
+          <li><a href="#settings" data-i18n="nav-settings">Settings.json</a></li>
+          <li><a href="#errors" data-i18n="nav-errors">Ошибки</a></li>
+          <li><a href="#faq" data-i18n="nav-faq">FAQ</a></li>
         </ul>
       </nav>
     </div>
@@ -938,16 +980,16 @@
 
   <!-- Hero -->
   <section id="hero">
-    <h1>Установка Claude Code</h1>
-    <p class="subtitle">
+    <h1 data-i18n="hero-title">Установка Claude Code</h1>
+    <p class="subtitle" data-i18n="hero-subtitle">
       Пошаговое руководство по установке и настройке Claude Code с подключением
       к кастомному API Kiro Cheap
     </p>
     <div class="cta-buttons">
-      <a href="#install" class="btn btn-primary">
+      <a href="#install" class="btn btn-primary" data-i18n="btn-install">
         Начать установку
       </a>
-      <a href="#prerequisites" class="btn btn-secondary">
+      <a href="#prerequisites" class="btn btn-secondary" data-i18n="btn-quickstart">
         Требования
       </a>
     </div>
@@ -957,20 +999,20 @@
   <main>
     <!-- Prerequisites -->
     <section id="prerequisites" class="fade-in">
-      <h2>Предварительные требования</h2>
-      <p>Перед установкой Claude Code убедитесь, что у вас установлены следующие компоненты:</p>
+      <h2 data-i18n="section-prerequisites">Предварительные требования</h2>
+      <p data-i18n="prereq-intro">Перед установкой Claude Code убедитесь, что у вас установлены следующие компоненты:</p>
       <ul class="prereq-list">
-        <li>Node.js версии 18 или выше</li>
-        <li>npm (поставляется с Node.js)</li>
-        <li>Доступ в интернет</li>
+        <li data-i18n="prereq-list-1">Node.js версии 18 или выше</li>
+        <li data-i18n="prereq-list-2">npm (поставляется с Node.js)</li>
+        <li data-i18n="prereq-list-3">Доступ в интернет</li>
       </ul>
 
       <div class="card">
         <div class="card-header">
           <div class="card-icon">📦</div>
-          <h3>Проверка установленных версий</h3>
+          <h3 data-i18n="card-check-versions">Проверка установленных версий</h3>
         </div>
-        <p>Выполните следующие команды для проверки:</p>
+        <p data-i18n="card-check-desc">Выполните следующие команды для проверки:</p>
         <div class="code-block">
           <div class="code-header">
             <span>Terminal</span>
@@ -979,7 +1021,7 @@
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
-              Копировать
+              <span data-i18n="btn-copy">Копировать</span>
             </button>
           </div>
           <pre><code>node --version
@@ -990,7 +1032,7 @@ npm --version</code></pre>
 
     <!-- Installation -->
     <section id="install" class="fade-in">
-      <h2>Установка по операционным системам</h2>
+      <h2 data-i18n="section-install">Установка по операционным системам</h2>
 
       <!-- OS Tabs -->
       <div class="os-tabs">
@@ -1004,21 +1046,21 @@ npm --version</code></pre>
         <div class="card">
           <div class="card-header">
             <div class="card-icon">🍎</div>
-            <h3>Установка на macOS</h3>
+            <h3 data-i18n="macos-title">Установка на macOS</h3>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">0</span>
-              <h4>Регистрация и подготовка</h4>
+              <h4 data-i18n="step-0-title">Регистрация и подготовка</h4>
             </div>
-            <p style="margin-bottom: 1rem;">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
+            <p style="margin-bottom: 1rem;" data-i18n="step-0-desc">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
             <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
-              <li>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
-              <li><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
-              <li>Сохраните API ключ из личного кабинета</li>
+              <li data-i18n-html="step-0-li-1">Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
+              <li><strong data-i18n="step-0-li-2">Запомните ваш никнейм</strong> <span data-i18n="step-0-li-2-cont">— он понадобится для пополнения баланса</span></li>
+              <li data-i18n="step-0-li-3">Сохраните API ключ из личного кабинета</li>
             </ol>
-            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;">
+            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;" data-i18n="btn-register">
               Зарегистрироваться
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -1031,9 +1073,9 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">1</span>
-              <h4>Установка Homebrew (если не установлен)</h4>
+              <h4 data-i18n="step-1-macos-title">Установка Homebrew (если не установлен)</h4>
             </div>
-            <p>Homebrew — пакетный менеджер для macOS, который упростит установку Node.js.</p>
+            <p data-i18n="step-1-macos-desc">Homebrew — пакетный менеджер для macOS, который упростит установку Node.js.</p>
             <div class="code-block">
               <div class="code-header">
                 <span>Bash</span>
@@ -1042,7 +1084,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
@@ -1052,7 +1094,7 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">2</span>
-              <h4>Установка Node.js</h4>
+              <h4 data-i18n="step-2-title">Установка Node.js</h4>
             </div>
             <div class="code-block">
               <div class="code-header">
@@ -1062,7 +1104,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>brew install node</code></pre>
@@ -1072,7 +1114,7 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">3</span>
-              <h4>Установка Claude Code</h4>
+              <h4 data-i18n="step-3-title">Установка Claude Code</h4>
             </div>
             <div class="code-block">
               <div class="code-header">
@@ -1082,7 +1124,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
@@ -1092,9 +1134,9 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">4</span>
-              <h4>Настройка settings.json</h4>
+              <h4 data-i18n="step-4-title">Настройка settings.json</h4>
             </div>
-            <p>Откройте файл конфигурации Claude Code:</p>
+            <p data-i18n="step-4-desc">Откройте файл конфигурации Claude Code:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>Bash</span>
@@ -1103,13 +1145,13 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>code ~/.claude/settings.json</code></pre>
             </div>
-            <p>Или откройте через Finder: <code>~/Library/Application Support/Claude/settings.json</code></p>
-            <p>Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ из личного кабинета):</p>
+            <p data-i18n="step-4-desc-finder">Или откройте через Finder: <code>~/Library/Application Support/Claude/settings.json</code></p>
+            <p data-i18n="step-4-desc-config">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ из личного кабинета):</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JSON</span>
@@ -1118,7 +1160,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>{
@@ -1149,16 +1191,16 @@ npm --version</code></pre>
   "skipDangerousModePermissionPrompt": true
 }</code></pre>
             </div>
-            <p><strong>Важно:</strong> Замените <code>ваш_api_key</code> на фактический ключ из личного кабинета Kiro Cheap.</p>
+            <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Kiro Cheap.</span></p>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">5</span>
-              <h4>Пополнение баланса</h4>
+              <h4 data-i18n="step-5-title">Пополнение баланса</h4>
             </div>
             <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
-              <strong>1 кредит = $1 Anthropic-equivalent usage</strong>
+              <strong data-i18n="step-5-credit-rate">1 кредит = $1 Anthropic-equivalent usage</strong>
             </p>
 
             <div class="credit-options">
@@ -1171,7 +1213,7 @@ npm --version</code></pre>
                 <input type="radio" name="credit-amount" value="5000" hidden>
                 <span class="co-credits">6,000 кредитов</span>
                 <span class="co-price">5,000 ₽</span>
-                <span class="co-badge">Выгодно</span>
+                <span class="co-badge" data-i18n="badge-profitable">Выгодно</span>
               </label>
               <label class="credit-option selectable" data-amount="10000" data-credits="12,000">
                 <input type="radio" name="credit-amount" value="10000" hidden>
@@ -1182,7 +1224,7 @@ npm --version</code></pre>
 
             <div class="telegram-form" style="margin-top: 1.5rem;">
               <div class="form-group">
-                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
+                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" data-i18n="label-telegram">Ваш никнейм в Telegram</label>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
               <div style="margin-top: 1.5rem; text-align: center;">
@@ -1190,12 +1232,12 @@ npm --version</code></pre>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
-                  Отправить в Telegram
+                  <span data-i18n="btn-telegram">Отправить в Telegram</span>
                 </a>
               </div>
             </div>
             <div class="important-note">
-              <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
+              <strong data-i18n="note-select-amount">⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
             </div>
           </div>
         </div>
@@ -1206,21 +1248,21 @@ npm --version</code></pre>
         <div class="card">
           <div class="card-header">
             <div class="card-icon">🪟</div>
-            <h3>Установка на Windows</h3>
+            <h3 data-i18n="windows-title">Установка на Windows</h3>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">0</span>
-              <h4>Регистрация и подготовка</h4>
+              <h4 data-i18n="step-0-title">Регистрация и подготовка</h4>
             </div>
-            <p style="margin-bottom: 1rem;">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
+            <p style="margin-bottom: 1rem;" data-i18n="step-0-desc">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
             <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
-              <li>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
-              <li><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
-              <li>Сохраните API ключ из личного кабинета</li>
+              <li data-i18n-html="step-0-li-1">Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
+              <li><strong data-i18n="step-0-li-2">Запомните ваш никнейм</strong> <span data-i18n="step-0-li-2-cont">— он понадобится для пополнения баланса</span></li>
+              <li data-i18n="step-0-li-3">Сохраните API ключ из личного кабинета</li>
             </ol>
-            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;">
+            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;" data-i18n="btn-register">
               Зарегистрироваться
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -1233,29 +1275,29 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">1</span>
-              <h4>Установка Node.js</h4>
+              <h4 data-i18n="step-1-win-title">Установка Node.js</h4>
             </div>
-            <p>Скачайте и установите Node.js с официального сайта:</p>
+            <p data-i18n="step-1-win-desc">Скачайте и установите Node.js с официального сайта:</p>
             <ul>
-              <li>Перейдите на <a href="https://nodejs.org/" target="_blank">nodejs.org</a></li>
-              <li>Скачайте LTS версию для Windows</li>
-              <li>Запустите установщик и следуйте инструкциям</li>
+              <li data-i18n-html="step-1-win-li-1">Перейдите на <a href="https://nodejs.org/" target="_blank">nodejs.org</a></li>
+              <li data-i18n="step-1-win-li-2">Скачайте LTS версию для Windows</li>
+              <li data-i18n="step-1-win-li-3">Запустите установщик и следуйте инструкциям</li>
             </ul>
-            <p>После установки перезапустите терминал.</p>
+            <p data-i18n="step-1-win-end">После установки перезапустите терминал.</p>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">2</span>
-              <h4>Открытие PowerShell от имени администратора</h4>
+              <h4 data-i18n="step-2-win-title">Открытие PowerShell от имени администратора</h4>
             </div>
-            <p>Нажмите <code>Win + X</code> и выберите «Windows PowerShell (администратор)» или «Терминал (администратор)».</p>
+            <p data-i18n-html="step-2-win-desc">Нажмите <code>Win + X</code> и выберите «Windows PowerShell (администратор)» или «Терминал (администратор)».</p>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">3</span>
-              <h4>Установка Claude Code</h4>
+              <h4 data-i18n="step-3-title">Установка Claude Code</h4>
             </div>
             <div class="code-block">
               <div class="code-header">
@@ -1265,7 +1307,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
@@ -1275,9 +1317,9 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">4</span>
-              <h4>Настройка settings.json</h4>
+              <h4 data-i18n="step-4-title">Настройка settings.json</h4>
             </div>
-            <p>Откройте файл конфигурации Claude Code:</p>
+            <p data-i18n="win-step-4-desc">Откройте файл конфигурации:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>PowerShell</span>
@@ -1286,12 +1328,14 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>notepad $env:APPDATA\Claude\settings.json</code></pre>
             </div>
-            <p>Если файл не существует, создайте новый. Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ):</p>
+            <p data-i18n="win-step-4-create">Если файл не существует, создайте новый.</p>
+            <p data-i18n="win-step-4-paste">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code></p>
+            <p data-i18n="win-step-4-key">на ваш ключ):</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JSON</span>
@@ -1300,7 +1344,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>{
@@ -1331,16 +1375,16 @@ npm --version</code></pre>
   "skipDangerousModePermissionPrompt": true
 }</code></pre>
             </div>
-            <p><strong>Важно:</strong> Замените <code>ваш_api_key</code> на фактический ключ из личного кабинета Kiro Cheap.</p>
+            <p><strong data-i18n="win-step-4-important">Важно:</strong> <span data-i18n="win-step-4-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="win-step-4-end">на фактический ключ из личного кабинета Kiro Cheap.</span></p>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">5</span>
-              <h4>Пополнение баланса</h4>
+              <h4 data-i18n="step-5-title">Пополнение баланса</h4>
             </div>
             <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
-              <strong>1 кредит = $1 Anthropic-equivalent usage</strong>
+              <strong data-i18n="step-5-credit-rate">1 кредит = $1 Anthropic-equivalent usage</strong>
             </p>
 
             <div class="credit-options">
@@ -1353,7 +1397,7 @@ npm --version</code></pre>
                 <input type="radio" name="credit-amount" value="5000" hidden>
                 <span class="co-credits">6,000 кредитов</span>
                 <span class="co-price">5,000 ₽</span>
-                <span class="co-badge">Выгодно</span>
+                <span class="co-badge" data-i18n="badge-profitable">Выгодно</span>
               </label>
               <label class="credit-option selectable" data-amount="10000" data-credits="12,000">
                 <input type="radio" name="credit-amount" value="10000" hidden>
@@ -1364,7 +1408,7 @@ npm --version</code></pre>
 
             <div class="telegram-form" style="margin-top: 1.5rem;">
               <div class="form-group">
-                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
+                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" data-i18n="label-telegram">Ваш никнейм в Telegram</label>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
               <div style="margin-top: 1.5rem; text-align: center;">
@@ -1372,12 +1416,12 @@ npm --version</code></pre>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
-                  Отправить в Telegram
+                  <span data-i18n="btn-telegram">Отправить в Telegram</span>
                 </a>
               </div>
             </div>
             <div class="important-note">
-              <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
+              <strong data-i18n="note-select-amount">⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
             </div>
           </div>
         </div>
@@ -1388,21 +1432,21 @@ npm --version</code></pre>
         <div class="card">
           <div class="card-header">
             <div class="card-icon">🐧</div>
-            <h3>Установка на Linux</h3>
+            <h3 data-i18n="linux-title">Установка на Linux</h3>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">0</span>
-              <h4>Регистрация и подготовка</h4>
+              <h4 data-i18n="step-0-title">Регистрация и подготовка</h4>
             </div>
-            <p style="margin-bottom: 1rem;">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
+            <p style="margin-bottom: 1rem;" data-i18n="step-0-desc">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
             <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
-              <li>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
-              <li><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
-              <li>Сохраните API ключ из личного кабинета</li>
+              <li data-i18n-html="step-0-li-1">Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a></li>
+              <li><strong data-i18n="step-0-li-2">Запомните ваш никнейм</strong> <span data-i18n="step-0-li-2-cont">— он понадобится для пополнения баланса</span></li>
+              <li data-i18n="step-0-li-3">Сохраните API ключ из личного кабинета</li>
             </ol>
-            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;">
+            <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;" data-i18n="btn-register">
               Зарегистрироваться
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -1415,7 +1459,7 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">1</span>
-              <h4>Установка Node.js (Ubuntu/Debian)</h4>
+              <h4 data-i18n="step-1-linux-ubuntu">Установка Node.js (Ubuntu/Debian)</h4>
             </div>
             <div class="code-block">
               <div class="code-header">
@@ -1425,7 +1469,7 @@ npm --version</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
@@ -1436,7 +1480,7 @@ sudo apt-get install -y nodejs</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">2</span>
-              <h4>Установка Node.js (CentOS/RHEL/Fedora)</h4>
+              <h4 data-i18n="step-1-linux-centos">Установка Node.js (CentOS/RHEL/Fedora)</h4>
             </div>
             <div class="code-block">
               <div class="code-header">
@@ -1446,7 +1490,7 @@ sudo apt-get install -y nodejs</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
@@ -1457,7 +1501,7 @@ sudo yum install -y nodejs</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">3</span>
-              <h4>Установка Claude Code</h4>
+              <h4 data-i18n="step-3-title">Установка Claude Code</h4>
             </div>
             <div class="code-block">
               <div class="code-header">
@@ -1467,12 +1511,12 @@ sudo yum install -y nodejs</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
             </div>
-            <p>Если возникает ошибка доступа, используйте <code>sudo</code>:</p>
+            <p data-i18n="linux-step-3-sudo">Если возникает ошибка доступа, используйте <code>sudo</code>:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>Bash</span>
@@ -1491,9 +1535,9 @@ sudo yum install -y nodejs</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">4</span>
-              <h4>Настройка settings.json</h4>
+              <h4 data-i18n="step-4-title">Настройка settings.json</h4>
             </div>
-            <p>Откройте файл конфигурации Claude Code:</p>
+            <p data-i18n="step-4-desc">Откройте файл конфигурации Claude Code:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>Bash</span>
@@ -1502,12 +1546,12 @@ sudo yum install -y nodejs</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>code ~/.claude/settings.json</code></pre>
             </div>
-            <p>Или используйте текстовый редактор:</p>
+            <p data-i18n="step-4-desc-editor">Или используйте текстовый редактор:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>Bash</span>
@@ -1516,12 +1560,12 @@ sudo yum install -y nodejs</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>nano ~/.claude/settings.json</code></pre>
             </div>
-            <p>Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ):</p>
+            <p data-i18n="step-4-desc-config">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ):</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JSON</span>
@@ -1530,7 +1574,7 @@ sudo yum install -y nodejs</code></pre>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
-                  Копировать
+                  <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
               <pre><code>{
@@ -1561,16 +1605,16 @@ sudo yum install -y nodejs</code></pre>
   "skipDangerousModePermissionPrompt": true
 }</code></pre>
             </div>
-            <p><strong>Важно:</strong> Замените <code>ваш_api_key</code> на фактический ключ из личного кабинета Kiro Cheap.</p>
+            <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Kiro Cheap.</span></p>
           </div>
 
           <div class="step">
             <div class="step-title">
               <span class="step-number">5</span>
-              <h4>Пополнение баланса</h4>
+              <h4 data-i18n="step-5-title">Пополнение баланса</h4>
             </div>
             <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
-              <strong>1 кредит = $1 Anthropic-equivalent usage</strong>
+              <strong data-i18n="step-5-credit-rate">1 кредит = $1 Anthropic-equivalent usage</strong>
             </p>
 
             <div class="credit-options">
@@ -1583,7 +1627,7 @@ sudo yum install -y nodejs</code></pre>
                 <input type="radio" name="credit-amount" value="5000" hidden>
                 <span class="co-credits">6,000 кредитов</span>
                 <span class="co-price">5,000 ₽</span>
-                <span class="co-badge">Выгодно</span>
+                <span class="co-badge" data-i18n="badge-profitable">Выгодно</span>
               </label>
               <label class="credit-option selectable" data-amount="10000" data-credits="12,000">
                 <input type="radio" name="credit-amount" value="10000" hidden>
@@ -1594,7 +1638,7 @@ sudo yum install -y nodejs</code></pre>
 
             <div class="telegram-form" style="margin-top: 1.5rem;">
               <div class="form-group">
-                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
+                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" data-i18n="label-telegram">Ваш никнейм в Telegram</label>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
               <div style="margin-top: 1.5rem; text-align: center;">
@@ -1602,12 +1646,12 @@ sudo yum install -y nodejs</code></pre>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
-                  Отправить в Telegram
+                  <span data-i18n="btn-telegram">Отправить в Telegram</span>
                 </a>
               </div>
             </div>
             <div class="important-note">
-              <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
+              <strong data-i18n="note-select-amount">⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
             </div>
           </div>
         </div>
@@ -1616,28 +1660,28 @@ sudo yum install -y nodejs</code></pre>
 
     <!-- Settings.json paths -->
     <section id="settings" class="fade-in">
-      <h2>Расположение settings.json</h2>
-      <p>Файл конфигурации <code>settings.json</code> находится в следующих директориях:</p>
+      <h2 data-i18n="location-title">Расположение settings.json</h2>
+      <p data-i18n="settings-desc">Файл конфигурации <code>settings.json</code> находится в следующих директориях:</p>
 
       <div class="card">
         <table class="error-table">
           <thead>
             <tr>
-              <th>ОС</th>
-              <th>Путь к settings.json</th>
+              <th data-i18n="os-macos">ОС</th>
+              <th data-i18n="table-cause">Путь к settings.json</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>macOS</strong></td>
+              <td><strong data-i18n="macos-title">macOS</strong></td>
               <td><code>~/.claude/settings.json</code><br><small>~/Library/Application Support/Claude/settings.json</small></td>
             </tr>
             <tr>
-              <td><strong>Windows</strong></td>
+              <td><strong data-i18n="windows-title">Windows</strong></td>
               <td><code>%APPDATA%\Claude\settings.json</code></td>
             </tr>
             <tr>
-              <td><strong>Linux</strong></td>
+              <td><strong data-i18n="linux-title">Linux</strong></td>
               <td><code>~/.claude/settings.json</code><br><small>~/.config/Claude/settings.json</small></td>
             </tr>
           </tbody>
@@ -1646,15 +1690,15 @@ sudo yum install -y nodejs</code></pre>
 
       <div class="card" style="border-color: var(--accent-primary);">
         <p style="margin: 0; color: var(--text-secondary);">
-          <strong>💡 Совет:</strong> После редактирования settings.json перезапустите терминал для применения изменений.
+          <strong data-i18n="card-tip-title">💡 Совет:</strong> <span data-i18n="card-tip-text">После редактирования settings.json перезапустите терминал для применения изменений.</span>
         </p>
       </div>
     </section>
 
     <!-- Verification -->
     <section id="verification" class="fade-in">
-      <h2>Проверка работоспособности</h2>
-      <p>После настройки убедитесь, что Claude Code работает корректно:</p>
+      <h2 data-i18n="verify-title">Проверка работоспособности</h2>
+      <p data-i18n="verify-desc">После настройки убедитесь, что Claude Code работает корректно:</p>
 
       <div class="card">
         <div class="code-block">
@@ -1665,14 +1709,14 @@ sudo yum install -y nodejs</code></pre>
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
-              Копировать
+              <span data-i18n="btn-copy">Копировать</span>
             </button>
           </div>
           <pre><code>claude --version</code></pre>
         </div>
       </div>
 
-      <p>Запустите Claude Code и задайте простой вопрос:</p>
+      <p data-i18n="verify-run-desc">Запустите Claude Code и задайте простой вопрос:</p>
 
       <div class="card">
         <div class="code-block">
@@ -1683,7 +1727,7 @@ sudo yum install -y nodejs</code></pre>
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
-              Копировать
+              <span data-i18n="btn-copy">Копировать</span>
             </button>
           </div>
           <pre><code>claude
@@ -1693,21 +1737,21 @@ sudo yum install -y nodejs</code></pre>
 
       <div class="card" style="border-color: var(--success-border); background: var(--success-bg);">
         <p style="margin: 0; color: var(--text-primary);">
-          <strong>✓ Успех!</strong> Если вы получили ответ от Claude — настройка завершена успешно.
+          <strong data-i18n="verify-success">✓ Успех!</strong> <span data-i18n="verify-success-desc">Если вы получили ответ от Claude — настройка завершена успешно.</span>
         </p>
       </div>
     </section>
 
     <!-- Errors -->
     <section id="errors" class="fade-in">
-      <h2>Возможные ошибки и решения</h2>
+      <h2 data-i18n="errors-title">Возможные ошибки и решения</h2>
 
       <table class="error-table">
         <thead>
           <tr>
-            <th>Ошибка</th>
-            <th>Причина</th>
-            <th>Решение</th>
+            <th data-i18n="table-error">Ошибка</th>
+            <th data-i18n="table-cause">Причина</th>
+            <th data-i18n="table-solution">Решение</th>
           </tr>
         </thead>
         <tbody>
@@ -1762,58 +1806,58 @@ sudo yum install -y nodejs</code></pre>
 
     <!-- FAQ -->
     <section id="faq" class="fade-in">
-      <h2>Часто задаваемые вопросы</h2>
+      <h2 data-i18n="section-faq">Часто задаваемые вопросы</h2>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q1">
           Что такое Kiro Cheap?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a1">
             <p>Kiro Cheap — это кастомный API-прокси для Claude Code, который предоставляет доступ к моделям Anthropic по более доступным ценам. Сервис выступает промежуточным звеном между клиентом и официальным API Anthropic.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q5">
           Как получить API ключ?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a5">
             <p>Зарегистрируйтесь на <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a>, пополните баланс и создайте API ключ в личном кабинете.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q2">
           Безопасно ли использовать кастомный API?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a2">
             <p>Да, Kiro Cheap использует официальное API Anthropic. Ваши данные не сохраняются и не передаются третьим лицам. API ключ используется только для аутентификации и тарификации запросов.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q3">
           Можно ли использовать Claude Code без подписки?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a3">
             <p>Да, с Kiro Cheap вы платите только за фактически использованные токены. Никакой ежемесячной подписки не требуется.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q4">
           Какие модели доступны через Kiro Cheap?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a4">
             <p>Доступны все модели Anthropic, включая новейшие:<br>
             <strong>Claude Sonnet 4.6</strong>, <strong>Claude Opus 4.6</strong>, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Выбор модели указывается в <code>settings.json</code> (параметр <code>model</code>) или при запуске через флаг <code>--model</code>.</p>
           </div>
@@ -1821,44 +1865,44 @@ sudo yum install -y nodejs</code></pre>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q6">
           Как обновить Claude Code?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a6">
             <p>Для обновления выполните команду: <code>npm update -g @anthropic-ai/claude-code</code>. Рекомендуется регулярно обновляться до последней версии.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q7">
           Что делать, если Claude Code не отвечает?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a7">
             <p>Проверьте: 1) Подключение к интернету, 2) Корректность Base URL, 3) Наличие средств на балансе, 4) Статус сервиса на странице Kiro Cheap. Также попробуйте перезапустить терминал.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q8">
           Можно ли использовать на сервере без GUI?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a8">
             <p>Да, Claude Code полностью работает в терминале и не требует графического интерфейса. Идеально подходит для удалённых серверов и CI/CD пайплайнов.</p>
           </div>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q9">
           Как сменить API ключ или Base URL?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a9">
             <p>Откройте файл <code>settings.json</code> и измените значения <code>ANTHROPIC_API_KEY</code> и <code>ANTHROPIC_BASE_URL</code>. Путь к файлу:<br>
             <strong>macOS/Linux:</strong> <code>~/.claude/settings.json</code><br>
             <strong>Windows:</strong> <code>%APPDATA%\Claude\settings.json</code></p>
@@ -1867,11 +1911,11 @@ sudo yum install -y nodejs</code></pre>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" data-i18n="faq-q10">
           Где посмотреть историю использования и расходы?
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-content">
+          <div class="faq-answer-content" data-i18n-html="faq-a10">
             <p>Вся статистика использования, история запросов и детализация расходов доступны в личном кабинете на kiro.cheap после авторизации.</p>
           </div>
         </div>
@@ -1880,11 +1924,11 @@ sudo yum install -y nodejs</code></pre>
 
     <!-- CTA -->
     <section id="cta" class="fade-in">
-      <h2>Готовы начать?</h2>
-      <p style="margin-bottom: 1.5rem;">
+      <h2 data-i18n="cta-title">Готовы начать?</h2>
+      <p style="margin-bottom: 1.5rem;" data-i18n="footer-cta">
         Зарегистрируйтесь в Kiro Cheap и получите доступ к Claude Code по выгодным ценам
       </p>
-      <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary">
+      <a href="https://kiro.cheap/register" target="_blank" class="btn btn-primary" data-i18n="btn-register">
         Зарегистрироваться бесплатно
       </a>
     </section>
@@ -1897,7 +1941,7 @@ sudo yum install -y nodejs</code></pre>
       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
       <line x1="12" y1="17" x2="12.01" y2="17"/>
     </svg>
-    <span class="help-label">Помощь</span>
+    <span class="help-label" data-i18n="help-label">Помощь</span>
   </button>
 
   <!-- Help Modal -->
@@ -1911,13 +1955,13 @@ sudo yum install -y nodejs</code></pre>
           <line x1="12" y1="17" x2="12.01" y2="17"/>
         </svg>
       </div>
-      <h3>Нужна помощь с установкой?</h3>
-      <p>Не получается установить Claude Code? Напишите нам — мы поможем!</p>
+      <h3 data-i18n="footer-help">Нужна помощь с установкой?</h3>
+      <p data-i18n="footer-help-desc">Не получается установить Claude Code? Напишите нам — мы поможем!</p>
       <a href="https://t.me/claudxeseller" target="_blank" rel="noopener" class="btn btn-primary modal-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
           <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
         </svg>
-        Отправить в Telegram
+        <span data-i18n="btn-telegram">Отправить в Telegram</span>
       </a>
     </div>
   </div>
@@ -1925,7 +1969,7 @@ sudo yum install -y nodejs</code></pre>
   <!-- Footer -->
   <footer>
     <p>
-      &copy; 2026 Kiro Cheap. Все права защищены.<br>
+      &copy; 2026 Kiro Cheap. <span data-i18n="footer-copy">Все права защищены</span>.<br>
       <a href="https://kiro.cheap" target="_blank">kiro.cheap</a>
     </p>
   </footer>
@@ -2157,6 +2201,421 @@ sudo yum install -y nodejs</code></pre>
       } else {
         header.style.boxShadow = 'none';
       }
+    });
+
+    // Language Switcher
+    const translations = {
+      ru: {
+        'nav-prerequisites': 'Требования',
+        'nav-install': 'Установка',
+        'nav-settings': 'Settings.json',
+        'nav-errors': 'Ошибки',
+        'nav-faq': 'FAQ',
+        'hero-title': 'Установка Claude Code',
+        'hero-subtitle': 'Пошаговое руководство по установке и настройке Claude Code с подключением к кастомному API Kiro Cheap',
+        'btn-install': 'Начать установку',
+        'btn-quickstart': 'Требования',
+        'section-prerequisites': 'Предварительные требования',
+        'section-install': 'Установка по операционным системам',
+        'section-settings': 'Настройка settings.json',
+        'section-errors': 'Частые ошибки',
+        'section-faq': 'Частые вопросы',
+        'prereq-intro': 'Перед установкой Claude Code убедитесь, что у вас установлены следующие компоненты:',
+        'prereq-list-1': 'Node.js версии 18 или выше',
+        'prereq-list-2': 'npm (поставляется с Node.js)',
+        'prereq-list-3': 'Доступ в интернет',
+        'card-check-versions': 'Проверка установленных версий',
+        'card-check-desc': 'Выполните следующие команды для проверки:',
+        'btn-copy': 'Копировать',
+        'os-macos': 'macOS',
+        'os-windows': 'Windows',
+        'os-linux': 'Linux',
+        'macos-title': 'Установка на macOS',
+        'windows-title': 'Установка на Windows',
+        'linux-title': 'Установка на Linux',
+        'step-0-title': 'Регистрация и подготовка',
+        'step-0-desc': 'Перед установкой необходимо зарегистрироваться и получить API ключ:',
+        'step-0-li-1': 'Зарегистрируйтесь на',
+        'step-0-li-2': 'Запомните ваш никнейм',
+        'step-0-li-2-cont': '— он понадобится для пополнения баланса',
+        'step-0-li-3': 'Сохраните API ключ из личного кабинета',
+        'btn-register': 'Зарегистрироваться',
+        'step-1-macos-title': 'Установка Homebrew (если не установлен)',
+        'step-1-macos-desc': 'Homebrew — пакетный менеджер для macOS, который упростит установку Node.js.',
+        'step-1-win-title': 'Установка Node.js',
+        'step-1-win-desc': 'Скачайте и установите Node.js с официального сайта:',
+        'step-1-win-li-1': 'Перейдите на',
+        'step-1-win-li-2': 'Скачайте LTS версию для Windows',
+        'step-1-win-li-3': 'Запустите установщик и следуйте инструкциям',
+        'step-1-win-end': 'После установки перезапустите терминал.',
+        'step-1-linux-ubuntu': 'Установка Node.js (Ubuntu/Debian)',
+        'step-1-linux-centos': 'Установка Node.js (CentOS/RHEL/Fedora)',
+        'step-2-title': 'Установка Node.js',
+        'step-2-win-title': 'Открытие PowerShell от имени администратора',
+        'step-2-win-desc': 'Нажмите',
+        'step-2-win-desc-end': 'и выберите «Windows PowerShell (администратор)» или «Терминал (администратор)».',
+        'step-3-title': 'Установка Claude Code',
+        'step-3-macos-desc': 'Если возникает ошибка доступа, используйте',
+        'step-4-title': 'Настройка settings.json',
+        'step-4-desc': 'Откройте файл конфигурации Claude Code:',
+        'step-4-desc-finder': 'Или откройте через Finder:',
+        'step-4-desc-not-exists': 'Если файл не существует, создайте новый. Вставьте следующую конфигурацию (замените',
+        'step-4-desc-editor': 'Или используйте текстовый редактор:',
+        'step-4-desc-config': 'Вставьте следующую конфигурацию (замените',
+        'step-4-important': 'Важно:',
+        'step-4-important-replace': 'Замените',
+        'step-4-important-end': 'на фактический ключ из личного кабинета Kiro Cheap.',
+        'step-5-title': 'Пополнение баланса',
+        'step-5-credit-rate': '1 кредит = $1 Anthropic-equivalent usage',
+        'label-telegram': 'Ваш никнейм в Telegram',
+        'placeholder-username': '@username',
+        'btn-telegram': 'Отправить в Telegram',
+        'note-select-amount': '⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения',
+        'badge-profitable': 'Выгодно',
+        'settings-file-locations': 'Файл конфигурации',
+        'settings-file-locations-end': 'находится в следующих директориях:',
+        'verify-title': 'Проверка работоспособности',
+        'verify-desc': 'После настройки убедитесь, что Claude Code работает корректно:',
+        'verify-run-desc': 'Запустите Claude Code и задайте простой вопрос:',
+        'verify-success': '✓ Успех!',
+        'verify-success-desc': 'Если вы получили ответ от Claude — настройка завершена успешно.',
+        'errors-title': 'Возможные ошибки и решения',
+        'footer-help': 'Нужна помощь с установкой?',
+        'footer-help-desc': 'Не получается установить Claude Code? Напишите нам — мы поможем!',
+        'footer-cta': 'Зарегистрируйтесь в Kiro Cheap и получите доступ к Claude Code по выгодным ценам',
+        'faq-q1': 'Что такое Kiro Cheap?',
+        'faq-a1': 'Kiro Cheap — это кастомный API-прокси для Claude Code, который предоставляет доступ к моделям Anthropic по более доступным ценам. Сервис выступает промежуточным звеном между клиентом и официальным API Anthropic.',
+        'faq-q2': 'Это безопасно?',
+        'faq-a2': 'Да, Kiro Cheap использует официальное API Anthropic. Ваши данные не сохраняются и не передаются третьим лицам. API ключ используется только для аутентификации и тарификации запросов.',
+        'faq-q3': 'Нужна ли подписка?',
+        'faq-a3': 'Да, с Kiro Cheap вы платите только за фактически использованные токены. Никакой ежемесячной подписки не требуется.',
+        'faq-q4': 'Какие модели доступны?',
+        'faq-a4': 'Все актуальные модели Anthropic, включая новейшие: Claude Sonnet 4.6, Claude Opus 4.6, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Выбор модели указывается в settings.json (параметр model) или при запуске через флаг --model.',
+        'faq-q5': 'Как пополнить баланс?',
+        'faq-a5': 'Зарегистрируйтесь на kiro.cheap/register, пополните баланс и создайте API ключ в личном кабинете.',
+        'faq-q6': 'Как обновить Claude Code?',
+        'faq-a6': 'Для обновления выполните команду: npm update -g @anthropic-ai/claude-code. Рекомендуется регулярно обновляться до последней версии.',
+        'faq-q7': 'Что делать если ошибка подключения?',
+        'faq-a7': 'Проверьте: 1) Подключение к интернету, 2) Корректность Base URL, 3) Наличие средств на балансе, 4) Статус сервиса на странице Kiro Cheap. Также попробуйте перезапустить терминал.',
+        'faq-q8': 'Можно ли использовать на сервере без GUI?',
+        'faq-a8': 'Да, Claude Code полностью работает в терминале и не требует графического интерфейса. Идеально подходит для удалённых серверов и CI/CD пайплайнов.',
+        'faq-q9': 'Как сменить API ключ?',
+        'faq-a9': 'Откройте файл settings.json и измените значения ANTHROPIC_API_KEY и ANTHROPIC_BASE_URL.',
+        'faq-q10': 'Где посмотреть статистику использования?',
+        'faq-a10': 'Вся статистика использования, история запросов и детализация расходов доступны в личном кабинете на kiro.cheap после авторизации.',
+        'cta-title': 'Готовы начать?',
+        'help-label': 'Помощь',
+        'btn-register-free': 'Зарегистрироваться бесплатно',
+        'table-error': 'Ошибка',
+        'table-cause': 'Причина',
+        'table-solution': 'Решение',
+        'step-5-desc': 'Выберите сумму пополнения и введите ваш никнейм в Telegram',
+        'credit-label': 'кредитов',
+        'rub-label': '₽',
+        'settings-desc': 'Файл конфигурации settings.json находится в следующих директориях:',
+        'settings-macos': 'macOS:',
+        'settings-linux': 'Linux:',
+        'settings-windows': 'Windows:',
+        'verify-success-full': 'Если вы получили ответ от Claude — настройка завершена успешно.',
+        'card-success': '✓ Успех!',
+        'card-tip-title': '💡 Совет:',
+        'card-tip-text': 'После редактирования settings.json перезапустите терминал для применения изменений.',
+        'linux-step-1-desc': 'Выберите подходящий метод для вашего дистрибутива:',
+        'linux-step-3-desc': 'Установите Claude Code:',
+        'linux-step-3-sudo': 'Если возникает ошибка доступа, используйте',
+        'win-step-4-desc': 'Откройте файл конфигурации:',
+        'win-step-4-create': 'Если файл не существует, создайте новый.',
+        'win-step-4-paste': 'Вставьте следующую конфигурацию (замените',
+        'win-step-4-key': 'на ваш ключ):',
+        'win-step-4-important': 'Важно:',
+        'win-step-4-replace': 'Замените',
+        'win-step-4-end': 'на фактический ключ из личного кабинета Kiro Cheap.',
+        'macos-step-4-desc': 'Откройте файл конфигурации:',
+        'macos-step-4-finder': 'Или через Finder:',
+        'macos-step-4-paste': 'Вставьте следующую конфигурацию (замените',
+        'macos-step-4-key': 'на ваш ключ из личного кабинета):',
+        'location-title': 'Расположение файла settings.json',
+        'footer-copy': 'Все права защищены'
+      },
+      en: {
+        'nav-prerequisites': 'Prerequisites',
+        'nav-install': 'Installation',
+        'nav-settings': 'Settings.json',
+        'nav-errors': 'Errors',
+        'nav-faq': 'FAQ',
+        'hero-title': 'Claude Code Installation',
+        'hero-subtitle': 'Step-by-step guide to installing and configuring Claude Code with custom Kiro Cheap API',
+        'btn-install': 'Start Installation',
+        'btn-quickstart': 'Prerequisites',
+        'section-prerequisites': 'Prerequisites',
+        'section-install': 'Installation by OS',
+        'section-settings': 'Settings.json Configuration',
+        'section-errors': 'Common Errors',
+        'section-faq': 'FAQ',
+        'prereq-intro': 'Before installing Claude Code, make sure you have the following components installed:',
+        'prereq-list-1': 'Node.js version 18 or higher',
+        'prereq-list-2': 'npm (comes with Node.js)',
+        'prereq-list-3': 'Internet connection',
+        'card-check-versions': 'Check installed versions',
+        'card-check-desc': 'Run the following commands to verify:',
+        'btn-copy': 'Copy',
+        'os-macos': 'macOS',
+        'os-windows': 'Windows',
+        'os-linux': 'Linux',
+        'macos-title': 'Installation on macOS',
+        'windows-title': 'Installation on Windows',
+        'linux-title': 'Installation on Linux',
+        'step-0-title': 'Registration and Preparation',
+        'step-0-desc': 'Before installation, you need to register and get an API key:',
+        'step-0-li-1': 'Register at',
+        'step-0-li-2': 'Remember your nickname',
+        'step-0-li-2-cont': '— you will need it for balance top-up',
+        'step-0-li-3': 'Save the API key from your account',
+        'btn-register': 'Register',
+        'step-1-macos-title': 'Install Homebrew (if not installed)',
+        'step-1-macos-desc': 'Homebrew is a package manager for macOS that simplifies Node.js installation.',
+        'step-1-win-title': 'Install Node.js',
+        'step-1-win-desc': 'Download and install Node.js from the official website:',
+        'step-1-win-li-1': 'Go to',
+        'step-1-win-li-2': 'Download LTS version for Windows',
+        'step-1-win-li-3': 'Run the installer and follow instructions',
+        'step-1-win-end': 'After installation, restart your terminal.',
+        'step-1-linux-ubuntu': 'Install Node.js (Ubuntu/Debian)',
+        'step-1-linux-centos': 'Install Node.js (CentOS/RHEL/Fedora)',
+        'step-2-title': 'Install Node.js',
+        'step-2-win-title': 'Open PowerShell as Administrator',
+        'step-2-win-desc': 'Press',
+        'step-2-win-desc-end': 'and select "Windows PowerShell (Admin)" or "Terminal (Admin)".',
+        'step-3-title': 'Install Claude Code',
+        'step-3-macos-desc': 'If you get access denied error, use',
+        'step-4-title': 'Configure settings.json',
+        'step-4-desc': 'Open Claude Code configuration file:',
+        'step-4-desc-finder': 'Or open via Finder:',
+        'step-4-desc-not-exists': 'If the file does not exist, create a new one. Paste the following configuration (replace',
+        'step-4-desc-editor': 'Or use a text editor:',
+        'step-4-desc-config': 'Paste the following configuration (replace',
+        'step-4-important': 'Important:',
+        'step-4-important-replace': 'Replace',
+        'step-4-important-end': 'with your actual key from Kiro Cheap account.',
+        'step-5-title': 'Balance Top-up',
+        'step-5-credit-rate': '1 credit = $1 Anthropic-equivalent usage',
+        'label-telegram': 'Your Telegram username',
+        'placeholder-username': '@username',
+        'btn-telegram': 'Send to Telegram',
+        'note-select-amount': '⚠️ Select an amount and enter your username to generate a message',
+        'badge-profitable': 'Best Value',
+        'settings-file-locations': 'Configuration file',
+        'settings-file-locations-end': 'is located in the following directories:',
+        'verify-title': 'Verify Installation',
+        'verify-desc': 'After configuration, make sure Claude Code is working correctly:',
+        'verify-run-desc': 'Run Claude Code and ask a simple question:',
+        'verify-success': '✓ Success!',
+        'verify-success-desc': 'If you received a response from Claude — setup is complete.',
+        'errors-title': 'Common Errors and Solutions',
+        'footer-help': 'Need Help with Installation?',
+        'footer-help-desc': 'Having trouble installing Claude Code? Write to us — we will help!',
+        'footer-cta': 'Register in Kiro Cheap and get access to Claude Code at great prices',
+        'faq-q1': 'What is Kiro Cheap?',
+        'faq-a1': 'Kiro Cheap is a custom API proxy for Claude Code that provides access to Anthropic models at more affordable prices. The service acts as an intermediary between the client and the official Anthropic API.',
+        'faq-q2': 'Is it safe?',
+        'faq-a2': 'Yes, Kiro Cheap uses the official Anthropic API. Your data is not stored or shared with third parties. The API key is used only for authentication and billing.',
+        'faq-q3': 'Is subscription required?',
+        'faq-a3': 'With Kiro Cheap, you only pay for tokens actually used. No monthly subscription is required.',
+        'faq-q4': 'Which models are available?',
+        'faq-a4': 'All current Anthropic models including the newest: Claude Sonnet 4.6, Claude Opus 4.6, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Model selection is specified in settings.json (model parameter) or via --model flag.',
+        'faq-q5': 'How to top up balance?',
+        'faq-a5': 'Register at kiro.cheap/register, top up your balance and create an API key in your account.',
+        'faq-q6': 'How to update Claude Code?',
+        'faq-a6': 'To update, run: npm update -g @anthropic-ai/claude-code. It is recommended to update regularly to the latest version.',
+        'faq-q7': 'What if connection error?',
+        'faq-a7': 'Check: 1) Internet connection, 2) Base URL correctness, 3) Balance availability, 4) Service status on Kiro Cheap page. Also try restarting the terminal.',
+        'faq-q8': 'Can I use on a server without GUI?',
+        'faq-a8': 'Yes, Claude Code works entirely in the terminal and does not require a graphical interface. Ideal for remote servers and CI/CD pipelines.',
+        'faq-q9': 'How to change API key?',
+        'faq-a9': 'Open settings.json file and change ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL values.',
+        'faq-q10': 'Where to see usage statistics?',
+        'faq-a10': 'All usage statistics, request history and expense details are available in your account at kiro.cheap after login.',
+        'cta-title': 'Ready to Start?',
+        'help-label': 'Help',
+        'btn-register-free': 'Register for Free',
+        'table-error': 'Error',
+        'table-cause': 'Cause',
+        'table-solution': 'Solution',
+        'step-5-desc': 'Select top-up amount and enter your Telegram username',
+        'credit-label': 'credits',
+        'rub-label': '₽',
+        'settings-desc': 'The settings.json configuration file is located in the following directories:',
+        'settings-macos': 'macOS:',
+        'settings-linux': 'Linux:',
+        'settings-windows': 'Windows:',
+        'verify-success-full': 'If you received a response from Claude — setup is complete.',
+        'card-success': '✓ Success!',
+        'card-tip-title': '💡 Tip:',
+        'card-tip-text': 'After editing settings.json, restart your terminal to apply changes.',
+        'linux-step-1-desc': 'Choose the appropriate method for your distribution:',
+        'linux-step-3-desc': 'Install Claude Code:',
+        'linux-step-3-sudo': 'If you get access denied error, use',
+        'win-step-4-desc': 'Open configuration file:',
+        'win-step-4-create': 'If the file does not exist, create a new one.',
+        'win-step-4-paste': 'Paste the following configuration (replace',
+        'win-step-4-key': 'with your key):',
+        'win-step-4-important': 'Important:',
+        'win-step-4-replace': 'Replace',
+        'win-step-4-end': 'with your actual key from Kiro Cheap account.',
+        'macos-step-4-desc': 'Open configuration file:',
+        'macos-step-4-finder': 'Or via Finder:',
+        'macos-step-4-paste': 'Paste the following configuration (replace',
+        'macos-step-4-key': 'with your key from account):',
+        'location-title': 'settings.json File Location',
+        'footer-copy': 'All rights reserved'
+      }
+    };
+
+    let currentLang = 'ru';
+
+    function updateContent(lang) {
+      const t = translations[lang];
+      if (!t) return;
+
+      // Update elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+
+      // Update elements with data-i18n-html attribute
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (t[key]) el.innerHTML = `<p>${t[key]}</p>`;
+      });
+
+      // Update nav links
+      document.querySelectorAll('nav ul li a[href="#prerequisites"]').forEach(el => el.textContent = t['nav-prerequisites']);
+      document.querySelectorAll('nav ul li a[href="#install"]').forEach(el => el.textContent = t['nav-install']);
+      document.querySelectorAll('nav ul li a[href="#settings"]').forEach(el => el.textContent = t['nav-settings']);
+      document.querySelectorAll('nav ul li a[href="#errors"]').forEach(el => el.textContent = t['nav-errors']);
+      document.querySelectorAll('nav ul li a[href="#faq"]').forEach(el => el.textContent = t['nav-faq']);
+
+      // Update hero
+      const heroTitle = document.querySelector('#hero h1');
+      const heroSubtitle = document.querySelector('#hero .subtitle');
+      if (heroTitle) heroTitle.textContent = t['hero-title'];
+      if (heroSubtitle) heroSubtitle.textContent = t['hero-subtitle'];
+
+      // Update buttons
+      document.querySelector('a.btn-primary[href="#install"]').textContent = t['btn-install'];
+      document.querySelector('a.btn-secondary[href="#prerequisites"]').textContent = t['btn-quickstart'];
+
+      // Update section titles
+      document.querySelector('#prerequisites h2').textContent = t['section-prerequisites'];
+      document.querySelector('#install h2').textContent = t['section-install'];
+      document.querySelector('#settings h2').textContent = t['section-settings'];
+      document.querySelector('#errors h2').textContent = t['section-errors'];
+      document.querySelector('#faq h2').textContent = t['section-faq'];
+
+      // Update prerequisites
+      document.querySelector('#prerequisites > p').textContent = t['prereq-intro'];
+      const prereqItems = document.querySelectorAll('#prerequisites .prereq-list li');
+      if (prereqItems[0]) prereqItems[0].textContent = t['prereq-list-1'];
+      if (prereqItems[1]) prereqItems[1].textContent = t['prereq-list-2'];
+      if (prereqItems[2]) prereqItems[2].textContent = t['prereq-list-3'];
+      document.querySelector('#prerequisites h3').textContent = t['card-check-versions'];
+      document.querySelector('#prerequisites .card > p').textContent = t['card-check-desc'];
+
+      // Update copy buttons
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        const textNode = btn.childNodes[btn.childNodes.length - 1];
+        if (textNode && textNode.nodeType === 3) {
+          textNode.textContent = t['btn-copy'];
+        } else {
+          btn.childNodes[btn.childNodes.length - 1]?.textContent === '' && (btn.lastElementChild.previousElementSibling.textContent = t['btn-copy']);
+        }
+      });
+
+      // Update OS tabs
+      document.querySelectorAll('.os-tab[data-os="macos"]').forEach(el => el.textContent = t['os-macos']);
+      document.querySelectorAll('.os-tab[data-os="windows"]').forEach(el => el.textContent = t['os-windows']);
+      document.querySelectorAll('.os-tab[data-os="linux"]').forEach(el => el.textContent = t['os-linux']);
+
+      // Update macOS content
+      document.querySelector('#macos-content h3').textContent = t['macos-title'];
+      document.querySelectorAll('#macos-content .step-title h4')[0].textContent = t['step-0-title'];
+      document.querySelectorAll('#macos-content .step')[0].querySelector('p').textContent = t['step-0-desc'];
+      const macosLi = document.querySelectorAll('#macos-content .step')[0].querySelectorAll('ol li');
+      if (macosLi[0]) macosLi[0].innerHTML = t['step-0-li-1'] + ' <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a>';
+      if (macosLi[1]) macosLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
+      if (macosLi[2]) macosLi[2].textContent = t['step-0-li-3'];
+      document.querySelector('#macos-content .btn-primary[href*="register"]').textContent = t['btn-register'];
+      document.querySelectorAll('#macos-content .step-title h4')[1].textContent = t['step-1-macos-title'];
+      document.querySelectorAll('#macos-content .step')[1].querySelector('p').textContent = t['step-1-macos-desc'];
+      document.querySelectorAll('#macos-content .step-title h4')[2].textContent = t['step-2-title'];
+      document.querySelectorAll('#macos-content .step-title h4')[3].textContent = t['step-3-title'];
+      document.querySelectorAll('#macos-content .step-title h4')[4].textContent = t['step-4-title'];
+
+      // Update Windows content
+      document.querySelector('#windows-content h3').textContent = t['windows-title'];
+      document.querySelectorAll('#windows-content .step-title h4')[0].textContent = t['step-0-title'];
+      document.querySelectorAll('#windows-content .step')[0].querySelector('p').textContent = t['step-0-desc'];
+      const winLi = document.querySelectorAll('#windows-content .step')[0].querySelectorAll('ol li');
+      if (winLi[0]) winLi[0].innerHTML = t['step-0-li-1'] + ' <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a>';
+      if (winLi[1]) winLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
+      if (winLi[2]) winLi[2].textContent = t['step-0-li-3'];
+      document.querySelector('#windows-content .btn-primary[href*="register"]').textContent = t['btn-register'];
+      document.querySelectorAll('#windows-content .step-title h4')[1].textContent = t['step-1-win-title'];
+      document.querySelectorAll('#windows-content .step')[1].querySelector('p').textContent = t['step-1-win-desc'];
+      const winUl = document.querySelectorAll('#windows-content .step')[1].querySelectorAll('ul li');
+      if (winUl[0]) winUl[0].innerHTML = t['step-1-win-li-1'] + ' <a href="https://nodejs.org/" target="_blank">nodejs.org</a>';
+      if (winUl[1]) winUl[1].textContent = t['step-1-win-li-2'];
+      if (winUl[2]) winUl[2].textContent = t['step-1-win-li-3'];
+      document.querySelectorAll('#windows-content .step')[1].querySelectorAll('p')[1].textContent = t['step-1-win-end'];
+      document.querySelectorAll('#windows-content .step-title h4')[2].textContent = t['step-2-win-title'];
+      document.querySelectorAll('#windows-content .step')[2].querySelector('p').innerHTML = t['step-2-win-desc'] + ' <code>Win + X</code> ' + t['step-2-win-desc-end'];
+      document.querySelectorAll('#windows-content .step-title h4')[3].textContent = t['step-3-title'];
+      document.querySelectorAll('#windows-content .step-title h4')[4].textContent = t['step-4-title'];
+
+      // Update Linux content
+      document.querySelector('#linux-content h3').textContent = t['linux-title'];
+      document.querySelectorAll('#linux-content .step-title h4')[0].textContent = t['step-0-title'];
+      document.querySelectorAll('#linux-content .step')[0].querySelector('p').textContent = t['step-0-desc'];
+      const linuxLi = document.querySelectorAll('#linux-content .step')[0].querySelectorAll('ol li');
+      if (linuxLi[0]) linuxLi[0].innerHTML = t['step-0-li-1'] + ' <a href="https://kiro.cheap/register" target="_blank">kiro.cheap/register</a>';
+      if (linuxLi[1]) linuxLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
+      if (linuxLi[2]) linuxLi[2].textContent = t['step-0-li-3'];
+      document.querySelector('#linux-content .btn-primary[href*="register"]').textContent = t['btn-register'];
+      document.querySelectorAll('#linux-content .step-title h4')[1].textContent = t['step-1-linux-ubuntu'];
+      document.querySelectorAll('#linux-content .step-title h4')[2].textContent = t['step-1-linux-centos'];
+      document.querySelectorAll('#linux-content .step-title h4')[3].textContent = t['step-3-title'];
+      document.querySelectorAll('#linux-content .step')[3].querySelectorAll('p')[0].textContent = t['step-3-macos-desc'] + ' sudo';
+      document.querySelectorAll('#linux-content .step-title h4')[4].textContent = t['step-4-title'];
+      document.querySelectorAll('#linux-content .step')[4].querySelectorAll('p')[0].textContent = t['step-4-desc'];
+      document.querySelectorAll('#linux-content .step')[4].querySelectorAll('p')[1].textContent = t['step-4-desc-editor'];
+      document.querySelectorAll('#linux-content .step')[4].querySelectorAll('p')[2].textContent = t['step-4-desc-config'];
+
+      // Update footer
+      const footerP = document.querySelector('footer p');
+      if (footerP) {
+        footerP.innerHTML = `&copy; 2026 Kiro Cheap. ${t['footer-copy']}`;
+      }
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+    }
+
+    // Initialize language switcher
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const lang = this.dataset.lang;
+        if (lang === currentLang) return;
+
+        currentLang = lang;
+
+        // Update button states
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        // Update content
+        updateContent(lang);
+      });
     });
   }); // End DOMContentLoaded
   </script>
