@@ -1031,7 +1031,7 @@ npm --version</code></pre>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
               <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
+                <a href="javascript:void(0)" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
@@ -1213,7 +1213,7 @@ npm --version</code></pre>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
               <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
+                <a href="javascript:void(0)" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
@@ -1443,7 +1443,7 @@ sudo yum install -y nodejs</code></pre>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
               <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
+                <a href="javascript:void(0)" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
@@ -1777,14 +1777,20 @@ sudo yum install -y nodejs</code></pre>
 
         telegramUsername.addEventListener('input', updateTelegramButton);
 
-        // Explicit click handler
+        // Explicit click handler that opens Telegram
         telegramBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
           const username = telegramUsername.value.trim();
           if (!container.selectedAmount || !username) {
-            e.preventDefault();
             return;
           }
-          // Let the href handle the redirect
+
+          const message = `Добрый день ${username} ${container.selectedCredits} кредитов на ${container.selectedAmount} ₽`;
+          const telegramUrl = `https://t.me/claudxeseller?text=${encodeURIComponent(message)}`;
+
+          window.open(telegramUrl, '_blank', 'noopener,noreferrer');
         });
 
         function updateTelegramButton() {
@@ -1793,15 +1799,11 @@ sudo yum install -y nodejs</code></pre>
           if (container.selectedAmount && username) {
             telegramBtn.style.opacity = '1';
             telegramBtn.style.pointerEvents = 'auto';
-
-            const message = `Добрый день ${username} ${container.selectedCredits} кредитов на ${container.selectedAmount} ₽`;
-            const telegramUrl = `https://t.me/claudxeseller?text=${encodeURIComponent(message)}`;
-
-            telegramBtn.href = telegramUrl;
+            telegramBtn.style.cursor = 'pointer';
           } else {
             telegramBtn.style.opacity = '0.5';
             telegramBtn.style.pointerEvents = 'none';
-            telegramBtn.href = '#';
+            telegramBtn.style.cursor = 'not-allowed';
           }
         }
       }
@@ -1918,7 +1920,7 @@ sudo yum install -y nodejs</code></pre>
       anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         // Skip if it's not a valid internal anchor
-        if (!href || href === '#' || href.length < 2) return;
+        if (!href || href === '#' || href.length < 2 || href.startsWith('#http')) return;
 
         e.preventDefault();
         const target = document.querySelector(href);
