@@ -763,72 +763,153 @@
       position: fixed;
       bottom: 30px;
       right: 30px;
-      width: 60px;
-      height: 60px;
+      width: auto;
+      height: 50px;
       background: var(--accent-primary);
       color: var(--bg-primary);
-      border-radius: 50%;
+      border-radius: 25px;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
       box-shadow: 0 4px 20px rgba(0, 220, 130, 0.4);
       transition: var(--transition);
       z-index: 999;
-      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
     }
 
     .floating-help-btn:hover {
-      transform: scale(1.1);
+      transform: translateY(-2px);
       box-shadow: 0 6px 30px rgba(0, 220, 130, 0.6);
       color: var(--bg-primary);
     }
 
     .floating-help-btn svg {
-      width: 28px;
-      height: 28px;
+      width: 22px;
+      height: 22px;
       stroke-width: 2.5;
     }
 
-    .help-tooltip {
-      position: absolute;
-      right: 70px;
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      line-height: 1.4;
+    .help-label {
       white-space: nowrap;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border-color);
-      opacity: 0;
-      pointer-events: none;
-      transition: var(--transition);
-      transform: translateX(10px);
-      max-width: 280px;
-      white-space: normal;
     }
 
-    .floating-help-btn:hover .help-tooltip {
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
       opacity: 1;
-      transform: translateX(0);
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .modal-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      background: rgba(0, 220, 130, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+    }
+
+    .modal-content h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-content p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .modal-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
 
     @media (max-width: 768px) {
       .floating-help-btn {
         bottom: 20px;
         right: 20px;
-        width: 50px;
-        height: 50px;
+        padding: 0 16px;
+        height: 45px;
       }
 
       .floating-help-btn svg {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
       }
 
-      .help-tooltip {
-        display: none;
+      .help-label {
+        font-size: 0.85rem;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
       }
     }
   </style>
@@ -1810,14 +1891,36 @@ sudo yum install -y nodejs</code></pre>
   </main>
 
   <!-- Floating Help Button -->
-  <a href="https://t.me/claudxeseller" target="_blank" rel="noopener" class="floating-help-btn" title="Нужна помощь?">
+  <button class="floating-help-btn" id="help-btn" title="Помощь">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
       <line x1="12" y1="17" x2="12.01" y2="17"/>
     </svg>
-    <span class="help-tooltip">Не получается установить? Напишите нам, поможем!</span>
-  </a>
+    <span class="help-label">Помощь</span>
+  </button>
+
+  <!-- Help Modal -->
+  <div class="modal-overlay" id="help-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div class="modal-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <h3>Нужна помощь с установкой?</h3>
+      <p>Не получается установить Claude Code? Напишите нам — мы поможем!</p>
+      <a href="https://t.me/claudxeseller" target="_blank" rel="noopener" class="btn btn-primary modal-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+          <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+        </svg>
+        Написать в Telegram
+      </a>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -1896,6 +1999,34 @@ sudo yum install -y nodejs</code></pre>
       document.querySelectorAll('.os-content').forEach(osContent => {
         initTelegramForm(osContent);
       });
+
+      // Help Modal
+      const helpBtn = document.getElementById('help-btn');
+      const helpModal = document.getElementById('help-modal');
+      const modalClose = document.getElementById('modal-close');
+
+      if (helpBtn && helpModal && modalClose) {
+        helpBtn.addEventListener('click', () => {
+          helpModal.classList.add('active');
+        });
+
+        modalClose.addEventListener('click', () => {
+          helpModal.classList.remove('active');
+        });
+
+        helpModal.addEventListener('click', (e) => {
+          if (e.target === helpModal) {
+            helpModal.classList.remove('active');
+          }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && helpModal.classList.contains('active')) {
+            helpModal.classList.remove('active');
+          }
+        });
+      }
 
       // Mobile menu toggle
       const mobileMenu = document.querySelector('.mobile-menu');
