@@ -1030,14 +1030,14 @@ npm --version</code></pre>
                 <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
-              <p style="margin-top: 1.5rem; text-align: center;">
-                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none;" target="_blank" rel="noopener">
+              <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
                   Написать в Telegram
                 </a>
-              </p>
+              </div>
             </div>
             <div class="important-note">
               <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
@@ -1212,14 +1212,14 @@ npm --version</code></pre>
                 <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
-              <p style="margin-top: 1.5rem; text-align: center;">
-                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none;" target="_blank" rel="noopener">
+              <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
                   Написать в Telegram
                 </a>
-              </p>
+              </div>
             </div>
             <div class="important-note">
               <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
@@ -1442,14 +1442,14 @@ sudo yum install -y nodejs</code></pre>
                 <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Ваш никнейм в Telegram</label>
                 <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
               </div>
-              <p style="margin-top: 1.5rem; text-align: center;">
-                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none;" target="_blank" rel="noopener">
+              <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                   </svg>
                   Написать в Telegram
                 </a>
-              </p>
+              </div>
             </div>
             <div class="important-note">
               <strong>⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
@@ -1776,6 +1776,16 @@ sudo yum install -y nodejs</code></pre>
         });
 
         telegramUsername.addEventListener('input', updateTelegramButton);
+
+        // Explicit click handler
+        telegramBtn.addEventListener('click', function(e) {
+          const username = telegramUsername.value.trim();
+          if (!container.selectedAmount || !username) {
+            e.preventDefault();
+            return;
+          }
+          // Let the href handle the redirect
+        });
 
         function updateTelegramButton() {
           const username = telegramUsername.value.trim();
