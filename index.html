@@ -1919,11 +1919,12 @@ sudo yum install -y nodejs</code></pre>
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
-        // Skip if it's not a valid internal anchor
-        if (!href || href === '#' || href.length < 2 || href.startsWith('#http')) return;
+        // Skip if it's not a valid internal anchor (must start with # and be a simple anchor)
+        if (!href || href === '#' || !href.startsWith('#') || href.includes('http') || href.includes('t.me')) return;
 
         e.preventDefault();
-        const target = document.querySelector(href);
+        const targetId = href.substring(1); // Remove the #
+        const target = document.getElementById(targetId) || document.querySelector(href);
         if (target) {
           target.scrollIntoView({
             behavior: 'smooth',
