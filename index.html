@@ -625,101 +625,6 @@
       padding-top: 4rem;
     }
 
-    /* Credit Options for Step 5 */
-    .credit-options {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 1.5rem 0;
-    }
-
-    .credit-option {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.25rem 2rem;
-      background: var(--bg-code);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      transition: var(--transition);
-      position: relative;
-      min-width: 180px;
-    }
-
-    .credit-option:hover {
-      border-color: var(--accent-primary);
-      transform: translateY(-2px);
-    }
-
-    .credit-option.highlighted {
-      border-color: var(--accent-primary);
-      box-shadow: 0 4px 20px rgba(0, 220, 130, 0.15);
-    }
-
-    .credit-option.selected {
-      border-color: var(--accent-primary);
-      background: rgba(0, 220, 130, 0.1);
-      box-shadow: 0 0 0 2px var(--accent-primary), 0 4px 20px rgba(0, 220, 130, 0.2);
-    }
-
-    .co-credits {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    .co-price {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent-primary);
-      font-family: var(--font-mono);
-    }
-
-    .co-badge {
-      position: absolute;
-      top: -8px;
-      right: 50%;
-      transform: translateX(50%);
-      background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
-      color: var(--bg-primary);
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-    }
-
-    /* Important Note */
-    .important-note {
-      margin-top: 1.5rem;
-      padding: 1.25rem 1.5rem;
-      background: rgba(0, 220, 130, 0.1);
-      border: 1px solid var(--accent-primary);
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .important-note strong {
-      color: var(--text-primary);
-      font-size: 1.05rem;
-    }
-
-    @media (max-width: 768px) {
-      .credit-options {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .credit-option {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
       nav ul {
@@ -1194,52 +1099,6 @@ npm --version</code></pre>
             <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Kiro Cheap.</span></p>
           </div>
 
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">5</span>
-              <h4 data-i18n="step-5-title">Пополнение баланса</h4>
-            </div>
-            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
-              <strong data-i18n="step-5-credit-rate">1 кредит = $1 Anthropic-equivalent usage</strong>
-            </p>
-
-            <div class="credit-options">
-              <label class="credit-option selectable" data-amount="3000" data-credits="3,000">
-                <input type="radio" name="credit-amount" value="3000" hidden>
-                <span class="co-credits">3,000 кредитов</span>
-                <span class="co-price">3,500 ₽</span>
-              </label>
-              <label class="credit-option selectable highlighted" data-amount="5000" data-credits="5,000">
-                <input type="radio" name="credit-amount" value="5000" hidden>
-                <span class="co-credits">5,000 кредитов</span>
-                <span class="co-price">5,000 ₽</span>
-                <span class="co-badge" data-i18n="badge-profitable">Выгодно</span>
-              </label>
-              <label class="credit-option selectable" data-amount="10000" data-credits="10,000">
-                <input type="radio" name="credit-amount" value="10000" hidden>
-                <span class="co-credits">10,000 кредитов</span>
-                <span class="co-price">8,000 ₽</span>
-              </label>
-            </div>
-
-            <div class="telegram-form" style="margin-top: 1.5rem;">
-              <div class="form-group">
-                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" data-i18n="label-telegram">Ваш никнейм в Kiro.cheap</label>
-                <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
-              </div>
-              <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="javascript:void(0)" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
-                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                  </svg>
-                  <span data-i18n="btn-telegram">Отправить в Telegram</span>
-                </a>
-              </div>
-            </div>
-            <div class="important-note">
-              <strong data-i18n="note-select-amount">⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -1378,52 +1237,6 @@ npm --version</code></pre>
             <p><strong data-i18n="win-step-4-important">Важно:</strong> <span data-i18n="win-step-4-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="win-step-4-end">на фактический ключ из личного кабинета Kiro Cheap.</span></p>
           </div>
 
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">5</span>
-              <h4 data-i18n="step-5-title">Пополнение баланса</h4>
-            </div>
-            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
-              <strong data-i18n="step-5-credit-rate">1 кредит = $1 Anthropic-equivalent usage</strong>
-            </p>
-
-            <div class="credit-options">
-              <label class="credit-option selectable" data-amount="3000" data-credits="3,000">
-                <input type="radio" name="credit-amount" value="3000" hidden>
-                <span class="co-credits">3,000 кредитов</span>
-                <span class="co-price">3,500 ₽</span>
-              </label>
-              <label class="credit-option selectable highlighted" data-amount="5000" data-credits="5,000">
-                <input type="radio" name="credit-amount" value="5000" hidden>
-                <span class="co-credits">5,000 кредитов</span>
-                <span class="co-price">5,000 ₽</span>
-                <span class="co-badge" data-i18n="badge-profitable">Выгодно</span>
-              </label>
-              <label class="credit-option selectable" data-amount="10000" data-credits="10,000">
-                <input type="radio" name="credit-amount" value="10000" hidden>
-                <span class="co-credits">10,000 кредитов</span>
-                <span class="co-price">8,000 ₽</span>
-              </label>
-            </div>
-
-            <div class="telegram-form" style="margin-top: 1.5rem;">
-              <div class="form-group">
-                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" data-i18n="label-telegram">Ваш никнейм в Kiro.cheap</label>
-                <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
-              </div>
-              <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="javascript:void(0)" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
-                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                  </svg>
-                  <span data-i18n="btn-telegram">Отправить в Telegram</span>
-                </a>
-              </div>
-            </div>
-            <div class="important-note">
-              <strong data-i18n="note-select-amount">⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -1608,52 +1421,6 @@ sudo yum install -y nodejs</code></pre>
             <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Kiro Cheap.</span></p>
           </div>
 
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">5</span>
-              <h4 data-i18n="step-5-title">Пополнение баланса</h4>
-            </div>
-            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">
-              <strong data-i18n="step-5-credit-rate">1 кредит = $1 Anthropic-equivalent usage</strong>
-            </p>
-
-            <div class="credit-options">
-              <label class="credit-option selectable" data-amount="3000" data-credits="3,000">
-                <input type="radio" name="credit-amount" value="3000" hidden>
-                <span class="co-credits">3,000 кредитов</span>
-                <span class="co-price">3,500 ₽</span>
-              </label>
-              <label class="credit-option selectable highlighted" data-amount="5000" data-credits="5,000">
-                <input type="radio" name="credit-amount" value="5000" hidden>
-                <span class="co-credits">5,000 кредитов</span>
-                <span class="co-price">5,000 ₽</span>
-                <span class="co-badge" data-i18n="badge-profitable">Выгодно</span>
-              </label>
-              <label class="credit-option selectable" data-amount="10000" data-credits="10,000">
-                <input type="radio" name="credit-amount" value="10000" hidden>
-                <span class="co-credits">10,000 кредитов</span>
-                <span class="co-price">8,000 ₽</span>
-              </label>
-            </div>
-
-            <div class="telegram-form" style="margin-top: 1.5rem;">
-              <div class="form-group">
-                <label class="telegram-username-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" data-i18n="label-telegram">Ваш никнейм в Kiro.cheap</label>
-                <input type="text" class="telegram-username" placeholder="@username" style="width: 100%; padding: 0.875rem 1rem; background: var(--bg-code); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-mono);">
-              </div>
-              <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="javascript:void(0)" class="telegram-btn btn btn-primary" style="opacity: 0.5; pointer-events: none; display: inline-flex; align-items: center; justify-content: center;" target="_blank" rel="noopener">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
-                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                  </svg>
-                  <span data-i18n="btn-telegram">Отправить в Telegram</span>
-                </a>
-              </div>
-            </div>
-            <div class="important-note">
-              <strong data-i18n="note-select-amount">⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения</strong>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -1977,73 +1744,6 @@ sudo yum install -y nodejs</code></pre>
   <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Telegram form handler - works for all OS sections
-      function initTelegramForm(container) {
-        const telegramBtn = container.querySelector('.telegram-btn');
-        const telegramUsername = container.querySelector('input.telegram-username');
-        const creditOptions = container.querySelectorAll('.credit-option.selectable');
-
-        if (!telegramBtn || !telegramUsername || creditOptions.length === 0) {
-          return;
-        }
-
-        // Store state on the container
-        container.selectedAmount = null;
-        container.selectedCredits = null;
-
-        creditOptions.forEach(option => {
-          option.addEventListener('click', function() {
-            container.querySelectorAll('.credit-option').forEach(opt => opt.classList.remove('selected'));
-            option.classList.add('selected');
-
-            const radio = option.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
-
-            container.selectedAmount = option.dataset.amount;
-            container.selectedCredits = option.dataset.credits;
-
-            updateTelegramButton();
-          });
-        });
-
-        telegramUsername.addEventListener('input', updateTelegramButton);
-
-        // Explicit click handler that opens Telegram
-        telegramBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const username = telegramUsername.value.trim();
-          if (!container.selectedAmount || !username) {
-            return;
-          }
-
-          const message = `Добрый день ${username} ${container.selectedCredits} кредитов на ${container.selectedAmount} ₽`;
-          const telegramUrl = `https://t.me/claudxeseller?text=${encodeURIComponent(message)}`;
-
-          window.open(telegramUrl, '_blank', 'noopener,noreferrer');
-        });
-
-        function updateTelegramButton() {
-          const username = telegramUsername.value.trim();
-
-          if (container.selectedAmount && username) {
-            telegramBtn.style.opacity = '1';
-            telegramBtn.style.pointerEvents = 'auto';
-            telegramBtn.style.cursor = 'pointer';
-          } else {
-            telegramBtn.style.opacity = '0.5';
-            telegramBtn.style.pointerEvents = 'none';
-            telegramBtn.style.cursor = 'not-allowed';
-          }
-        }
-      }
-
-      // Initialize for all OS sections
-      document.querySelectorAll('.os-content').forEach(osContent => {
-        initTelegramForm(osContent);
-      });
-
       // Help Modal
       const helpBtn = document.getElementById('help-btn');
       const helpModal = document.getElementById('help-modal');
@@ -2265,13 +1965,6 @@ sudo yum install -y nodejs</code></pre>
         'step-4-important': 'Важно:',
         'step-4-important-replace': 'Замените',
         'step-4-important-end': 'на фактический ключ из личного кабинета Kiro Cheap.',
-        'step-5-title': 'Пополнение баланса',
-        'step-5-credit-rate': '1 кредит = $1 Anthropic-equivalent usage',
-        'label-telegram': 'Ваш никнейм в Kiro.cheap',
-        'placeholder-username': '@username',
-        'btn-telegram': 'Отправить в Telegram',
-        'note-select-amount': '⚠️ Выберите сумму пополнения и введите ваш никнейм для формирования сообщения',
-        'badge-profitable': 'Выгодно',
         'settings-file-locations': 'Файл конфигурации',
         'settings-file-locations-end': 'находится в следующих директориях:',
         'verify-title': 'Проверка работоспособности',
@@ -2309,9 +2002,6 @@ sudo yum install -y nodejs</code></pre>
         'table-error': 'Ошибка',
         'table-cause': 'Причина',
         'table-solution': 'Решение',
-        'step-5-desc': 'Выберите сумму пополнения и введите ваш никнейм в Telegram',
-        'credit-label': 'кредитов',
-        'rub-label': '₽',
         'settings-desc': 'Файл конфигурации settings.json находится в следующих директориях:',
         'settings-macos': 'macOS:',
         'settings-linux': 'Linux:',
@@ -2397,13 +2087,6 @@ sudo yum install -y nodejs</code></pre>
         'step-4-important': 'Important:',
         'step-4-important-replace': 'Replace',
         'step-4-important-end': 'with your actual key from Kiro Cheap account.',
-        'step-5-title': 'Balance Top-up',
-        'step-5-credit-rate': '1 credit = $1 Anthropic-equivalent usage',
-        'label-telegram': 'Your Kiro.cheap username',
-        'placeholder-username': '@username',
-        'btn-telegram': 'Send to Telegram',
-        'note-select-amount': '⚠️ Select an amount and enter your username to generate a message',
-        'badge-profitable': 'Best Value',
         'settings-file-locations': 'Configuration file',
         'settings-file-locations-end': 'is located in the following directories:',
         'verify-title': 'Verify Installation',
