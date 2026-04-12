@@ -978,29 +978,9 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">1</span>
-              <h4 data-i18n="step-1-macos-title">Установка Homebrew (если не установлен)</h4>
-            </div>
-            <p data-i18n="step-1-macos-desc">Homebrew — пакетный менеджер для macOS, который упростит установку Node.js.</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">2</span>
               <h4 data-i18n="step-2-title">Установка Node.js</h4>
             </div>
+            <p data-i18n="step-1-macos-desc">Скачайте и установите Node.js с официального сайта:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>Bash</span>
@@ -1018,7 +998,7 @@ npm --version</code></pre>
 
           <div class="step">
             <div class="step-title">
-              <span class="step-number">3</span>
+              <span class="step-number">2</span>
               <h4 data-i18n="step-3-title">Установка Claude Code</h4>
             </div>
             <div class="code-block">
@@ -1038,7 +1018,7 @@ npm --version</code></pre>
 
           <div class="step">
             <div class="step-title">
-              <span class="step-number">4</span>
+              <span class="step-number">3</span>
               <h4 data-i18n="step-4-title">Настройка settings.json</h4>
             </div>
             <p data-i18n="step-4-desc">Откройте файл конфигурации Claude Code:</p>
@@ -2217,11 +2197,10 @@ sudo yum install -y nodejs</code></pre>
       if (macosLi[1]) macosLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
       if (macosLi[2]) macosLi[2].textContent = t['step-0-li-3'];
       document.querySelector('#macos-content .btn-primary[href*="register"]').textContent = t['btn-register'];
-      document.querySelectorAll('#macos-content .step-title h4')[1].textContent = t['step-1-macos-title'];
+      document.querySelectorAll('#macos-content .step-title h4')[1].textContent = t['step-2-title'];
       document.querySelectorAll('#macos-content .step')[1].querySelector('p').textContent = t['step-1-macos-desc'];
-      document.querySelectorAll('#macos-content .step-title h4')[2].textContent = t['step-2-title'];
-      document.querySelectorAll('#macos-content .step-title h4')[3].textContent = t['step-3-title'];
-      document.querySelectorAll('#macos-content .step-title h4')[4].textContent = t['step-4-title'];
+      document.querySelectorAll('#macos-content .step-title h4')[2].textContent = t['step-3-title'];
+      document.querySelectorAll('#macos-content .step-title h4')[3].textContent = t['step-4-title'];
 
       // Update Windows content
       document.querySelector('#windows-content h3').textContent = t['windows-title'];
