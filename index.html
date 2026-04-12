@@ -1148,19 +1148,12 @@ npm --version</code></pre>
           <div class="step">
             <div class="step-title">
               <span class="step-number">2</span>
-              <h4 data-i18n="step-2-win-title">Открытие PowerShell от имени администратора</h4>
-            </div>
-            <p data-i18n-html="step-2-win-desc">Нажмите <code>Win + X</code> и выберите «Windows PowerShell (администратор)» или «Терминал (администратор)».</p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">3</span>
               <h4 data-i18n="step-3-title">Установка Claude Code</h4>
             </div>
+            <p data-i18n="step-3-macos-desc">Откройте командную строку и выполните:</p>
             <div class="code-block">
               <div class="code-header">
-                <span>PowerShell</span>
+                <span>cmd / PowerShell</span>
                 <button class="copy-btn">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -1175,13 +1168,13 @@ npm --version</code></pre>
 
           <div class="step">
             <div class="step-title">
-              <span class="step-number">4</span>
+              <span class="step-number">3</span>
               <h4 data-i18n="step-4-title">Настройка settings.json</h4>
             </div>
-            <p data-i18n="win-step-4-desc">Откройте файл конфигурации:</p>
+            <p data-i18n="win-step-4-desc">Откройте файл конфигурации через командную строку:</p>
             <div class="code-block">
               <div class="code-header">
-                <span>PowerShell</span>
+                <span>cmd / PowerShell</span>
                 <button class="copy-btn">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -1190,7 +1183,8 @@ npm --version</code></pre>
                   <span data-i18n="btn-copy">Копировать</span>
                 </button>
               </div>
-              <pre><code>notepad $env:APPDATA\Claude\settings.json</code></pre>
+              <pre><code>cd %USERPROFILE%\.claude
+notepad settings.json</code></pre>
             </div>
             <p data-i18n="win-step-4-create">Если файл не существует, создайте новый.</p>
             <p data-i18n="win-step-4-paste">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code></p>
@@ -1951,9 +1945,6 @@ sudo yum install -y nodejs</code></pre>
         'step-1-linux-ubuntu': 'Установка Node.js (Ubuntu/Debian)',
         'step-1-linux-centos': 'Установка Node.js (CentOS/RHEL/Fedora)',
         'step-2-title': 'Установка Node.js',
-        'step-2-win-title': 'Открытие PowerShell от имени администратора',
-        'step-2-win-desc': 'Нажмите',
-        'step-2-win-desc-end': 'и выберите «Windows PowerShell (администратор)» или «Терминал (администратор)».',
         'step-3-title': 'Установка Claude Code',
         'step-3-macos-desc': 'Если возникает ошибка доступа, используйте',
         'step-4-title': 'Настройка settings.json',
@@ -2073,9 +2064,6 @@ sudo yum install -y nodejs</code></pre>
         'step-1-linux-ubuntu': 'Install Node.js (Ubuntu/Debian)',
         'step-1-linux-centos': 'Install Node.js (CentOS/RHEL/Fedora)',
         'step-2-title': 'Install Node.js',
-        'step-2-win-title': 'Open PowerShell as Administrator',
-        'step-2-win-desc': 'Press',
-        'step-2-win-desc-end': 'and select "Windows PowerShell (Admin)" or "Terminal (Admin)".',
         'step-3-title': 'Install Claude Code',
         'step-3-macos-desc': 'If you get access denied error, use',
         'step-4-title': 'Configure settings.json',
@@ -2251,10 +2239,8 @@ sudo yum install -y nodejs</code></pre>
       if (winUl[1]) winUl[1].textContent = t['step-1-win-li-2'];
       if (winUl[2]) winUl[2].textContent = t['step-1-win-li-3'];
       document.querySelectorAll('#windows-content .step')[1].querySelectorAll('p')[1].textContent = t['step-1-win-end'];
-      document.querySelectorAll('#windows-content .step-title h4')[2].textContent = t['step-2-win-title'];
-      document.querySelectorAll('#windows-content .step')[2].querySelector('p').innerHTML = t['step-2-win-desc'] + ' <code>Win + X</code> ' + t['step-2-win-desc-end'];
-      document.querySelectorAll('#windows-content .step-title h4')[3].textContent = t['step-3-title'];
-      document.querySelectorAll('#windows-content .step-title h4')[4].textContent = t['step-4-title'];
+      document.querySelectorAll('#windows-content .step-title h4')[2].textContent = t['step-3-title'];
+      document.querySelectorAll('#windows-content .step-title h4')[3].textContent = t['step-4-title'];
 
       // Update Linux content
       document.querySelector('#linux-content h3').textContent = t['linux-title'];
