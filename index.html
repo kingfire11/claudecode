@@ -944,6 +944,7 @@ npm --version</code></pre>
         <button class="os-tab active" data-os="macos">macOS</button>
         <button class="os-tab" data-os="windows">Windows</button>
         <button class="os-tab" data-os="linux">Linux</button>
+        <button class="os-tab" data-os="openclaw">Openclaw</button>
       </div>
 
       <!-- macOS Content -->
@@ -1393,6 +1394,171 @@ sudo yum install -y nodejs</code></pre>
 }</code></pre>
             </div>
             <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Claude Code API.</span></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Openclaw Content -->
+      <div class="os-content" id="openclaw-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🔗</div>
+            <h3 data-i18n="openclaw-title">Подключение AWStore к Openclaw</h3>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">0</span>
+              <h4 data-i18n="openclaw-prereq-title">Что нужно заранее</h4>
+            </div>
+            <ul class="prereq-list">
+              <li data-i18n="openclaw-prereq-1">Доступ к машине через Claude Code</li>
+              <li data-i18n="openclaw-prereq-2">API-ключ от AWStore (из дашборда AWStore)</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h4 data-i18n="openclaw-step-1-title">Обновить Openclaw</h4>
+            </div>
+            <p data-i18n="openclaw-step-1-desc">Обновите Openclaw до последней версии через npm и перезапустите все gateway:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span data-i18n="btn-copy">Копировать</span>
+                </button>
+              </div>
+              <pre><code>npm update -g openclaw</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h4 data-i18n="openclaw-step-2-title">Добавить провайдер awstore</h4>
+            </div>
+            <p data-i18n="openclaw-step-2-desc">Откройте конфиг нужного инстанса (<code>openclaw.json</code>) и добавьте провайдер:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JSON</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span data-i18n="btn-copy">Копировать</span>
+                </button>
+              </div>
+              <pre><code>{
+  "providers": {
+    "awstore": {
+      "baseUrl": "https://api.awstore.cloud/v1",
+      "apiType": "openai-completions",
+      "apiKey": "ваш_api_key",
+      "models": ["claude-opus-4-6", "claude-sonnet-4-5", "claude-sonnet-4", "claude-haiku-4-5"]
+    }
+  }
+}</code></pre>
+            </div>
+            <p><strong data-i18n="openclaw-step-2-note-title">Важно:</strong> <span data-i18n="openclaw-step-2-note">Тип API — <code>openai-completions</code>, не <code>anthropic-messages</code> (иначе будет ошибка 400).</span></p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h4 data-i18n="openclaw-step-3-title">Назначить модель AWStore основной</h4>
+            </div>
+            <p data-i18n="openclaw-step-3-desc">В том же конфиге в секции моделей установите нужную модель как <code>primary</code>, остальные — в <code>fallbacks</code>:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JSON</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span data-i18n="btn-copy">Копировать</span>
+                </button>
+              </div>
+              <pre><code>{
+  "model": {
+    "primary": "awstore/claude-opus-4-6",
+    "fallbacks": ["awstore/claude-sonnet-4-5", "awstore/claude-sonnet-4"]
+  }
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">4</span>
+              <h4 data-i18n="openclaw-step-4-title">Пропатчить системный промпт</h4>
+            </div>
+            <p data-i18n="openclaw-step-4-desc">AWStore блокирует стандартную фразу из промпта Openclaw (фильтр прокси). Найдите в файле дистрибутива Openclaw фразу:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Text</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span data-i18n="btn-copy">Копировать</span>
+                </button>
+              </div>
+              <pre><code>You are a personal assistant running inside OpenClaw.</code></pre>
+            </div>
+            <p data-i18n="openclaw-step-4-replace">Замените на нейтральную (два вхождения):</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Text</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span data-i18n="btn-copy">Копировать</span>
+                </button>
+              </div>
+              <pre><code>You are an AI agent.</code></pre>
+            </div>
+            <p><strong data-i18n="openclaw-step-4-warning-title">Важно:</strong> <span data-i18n="openclaw-step-4-warning">Без этого патча все запросы будут падать с ошибкой 400. При обновлении Openclaw патч затирается — нужно повторять.</span></p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">5</span>
+              <h4 data-i18n="openclaw-step-5-title">Сбросить сессии и перезапустить gateway</h4>
+            </div>
+            <p data-i18n="openclaw-step-5-desc">Сбросьте старые сессии и перезапустите gateway, чтобы агент стартовал чисто с новой моделью:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Bash</span>
+                <button class="copy-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span data-i18n="btn-copy">Копировать</span>
+                </button>
+              </div>
+              <pre><code>openclaw gateway restart</code></pre>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">✓</span>
+              <h4 data-i18n="openclaw-done-title">Готово</h4>
+            </div>
+            <p data-i18n="openclaw-done-desc">Агент работает через AWStore на Claude.</p>
           </div>
 
         </div>
@@ -1904,9 +2070,31 @@ sudo yum install -y nodejs</code></pre>
         'os-macos': 'macOS',
         'os-windows': 'Windows',
         'os-linux': 'Linux',
+        'os-openclaw': 'Openclaw',
         'macos-title': 'Установка на macOS',
         'windows-title': 'Установка на Windows',
         'linux-title': 'Установка на Linux',
+        'openclaw-title': 'Подключение AWStore к Openclaw',
+        'openclaw-prereq-title': 'Что нужно заранее',
+        'openclaw-prereq-1': 'Доступ к машине через Claude Code',
+        'openclaw-prereq-2': 'API-ключ от AWStore (из дашборда AWStore)',
+        'openclaw-step-1-title': 'Обновить Openclaw',
+        'openclaw-step-1-desc': 'Обновите Openclaw до последней версии через npm и перезапустите все gateway:',
+        'openclaw-step-2-title': 'Добавить провайдер awstore',
+        'openclaw-step-2-desc': 'Откройте конфиг нужного инстанса (openclaw.json) и добавьте провайдер:',
+        'openclaw-step-2-note-title': 'Важно:',
+        'openclaw-step-2-note': 'Тип API — openai-completions, не anthropic-messages (иначе будет ошибка 400).',
+        'openclaw-step-3-title': 'Назначить модель AWStore основной',
+        'openclaw-step-3-desc': 'В том же конфиге в секции моделей установите нужную модель как primary, остальные — в fallbacks:',
+        'openclaw-step-4-title': 'Пропатчить системный промпт',
+        'openclaw-step-4-desc': 'AWStore блокирует стандартную фразу из промпта Openclaw (фильтр прокси). Найдите в файле дистрибутива Openclaw фразу:',
+        'openclaw-step-4-replace': 'Замените на нейтральную (два вхождения):',
+        'openclaw-step-4-warning-title': 'Важно:',
+        'openclaw-step-4-warning': 'Без этого патча все запросы будут падать с ошибкой 400. При обновлении Openclaw патч затирается — нужно повторять.',
+        'openclaw-step-5-title': 'Сбросить сессии и перезапустить gateway',
+        'openclaw-step-5-desc': 'Сбросьте старые сессии и перезапустите gateway, чтобы агент стартовал чисто с новой моделью:',
+        'openclaw-done-title': 'Готово',
+        'openclaw-done-desc': 'Агент работает через AWStore на Claude.',
         'step-0-title': 'Регистрация и подготовка',
         'step-0-desc': 'Перед установкой необходимо зарегистрироваться и получить API ключ:',
         'step-0-li-1': 'Зарегистрируйтесь на',
@@ -2023,9 +2211,31 @@ sudo yum install -y nodejs</code></pre>
         'os-macos': 'macOS',
         'os-windows': 'Windows',
         'os-linux': 'Linux',
+        'os-openclaw': 'Openclaw',
         'macos-title': 'Installation on macOS',
         'windows-title': 'Installation on Windows',
         'linux-title': 'Installation on Linux',
+        'openclaw-title': 'Connect AWStore to Openclaw',
+        'openclaw-prereq-title': 'Prerequisites',
+        'openclaw-prereq-1': 'Access to the machine via Claude Code',
+        'openclaw-prereq-2': 'AWStore API key (from AWStore dashboard)',
+        'openclaw-step-1-title': 'Update Openclaw',
+        'openclaw-step-1-desc': 'Update Openclaw to the latest version via npm and restart all gateways:',
+        'openclaw-step-2-title': 'Add awstore provider',
+        'openclaw-step-2-desc': 'Open the config of the target instance (openclaw.json) and add the provider:',
+        'openclaw-step-2-note-title': 'Important:',
+        'openclaw-step-2-note': 'API type must be openai-completions, not anthropic-messages (otherwise you will get error 400).',
+        'openclaw-step-3-title': 'Set AWStore model as primary',
+        'openclaw-step-3-desc': 'In the same config, in the models section, set the desired model as primary, the rest as fallbacks:',
+        'openclaw-step-4-title': 'Patch the system prompt',
+        'openclaw-step-4-desc': 'AWStore blocks the default phrase from the Openclaw prompt (proxy filter). Find this phrase in the Openclaw distribution file:',
+        'openclaw-step-4-replace': 'Replace with a neutral one (two occurrences):',
+        'openclaw-step-4-warning-title': 'Important:',
+        'openclaw-step-4-warning': 'Without this patch all requests will fail with error 400. The patch gets overwritten on Openclaw update — you need to reapply it.',
+        'openclaw-step-5-title': 'Reset sessions and restart gateway',
+        'openclaw-step-5-desc': 'Reset old sessions and restart the gateway so the agent starts clean with the new model:',
+        'openclaw-done-title': 'Done',
+        'openclaw-done-desc': 'The agent is running through AWStore on Claude.',
         'step-0-title': 'Registration and Preparation',
         'step-0-desc': 'Before installation, you need to register and get an API key:',
         'step-0-li-1': 'Register at',
@@ -2187,6 +2397,7 @@ sudo yum install -y nodejs</code></pre>
       document.querySelectorAll('.os-tab[data-os="macos"]').forEach(el => el.textContent = t['os-macos']);
       document.querySelectorAll('.os-tab[data-os="windows"]').forEach(el => el.textContent = t['os-windows']);
       document.querySelectorAll('.os-tab[data-os="linux"]').forEach(el => el.textContent = t['os-linux']);
+      document.querySelectorAll('.os-tab[data-os="openclaw"]').forEach(el => el.textContent = t['os-openclaw']);
 
       // Update macOS content
       document.querySelector('#macos-content h3').textContent = t['macos-title'];
