@@ -417,6 +417,14 @@
       border-color: var(--accent-primary);
     }
 
+    .os-divider {
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      font-weight: 300;
+      align-self: center;
+      user-select: none;
+    }
+
     .os-content {
       display: none;
     }
@@ -937,13 +945,14 @@ npm --version</code></pre>
 
     <!-- Installation -->
     <section id="install" class="fade-in">
-      <h2 data-i18n="section-install">Установка по операционным системам</h2>
+      <h2 data-i18n="section-install">Инструкция по установке</h2>
 
       <!-- OS Tabs -->
       <div class="os-tabs">
         <button class="os-tab active" data-os="macos">macOS</button>
         <button class="os-tab" data-os="windows">Windows</button>
         <button class="os-tab" data-os="linux">Linux</button>
+        <span class="os-divider">|</span>
         <button class="os-tab" data-os="openclaw">Openclaw</button>
       </div>
 
@@ -2056,7 +2065,7 @@ sudo yum install -y nodejs</code></pre>
         'btn-install': 'Начать установку',
         'btn-quickstart': 'Требования',
         'section-prerequisites': 'Предварительные требования',
-        'section-install': 'Установка по операционным системам',
+        'section-install': 'Инструкция по установке',
         'section-settings': 'Настройка settings.json',
         'section-errors': 'Частые ошибки',
         'section-faq': 'Частые вопросы',
@@ -2197,7 +2206,7 @@ sudo yum install -y nodejs</code></pre>
         'btn-install': 'Start Installation',
         'btn-quickstart': 'Prerequisites',
         'section-prerequisites': 'Prerequisites',
-        'section-install': 'Installation by OS',
+        'section-install': 'Installation Guide',
         'section-settings': 'Settings.json Configuration',
         'section-errors': 'Common Errors',
         'section-faq': 'FAQ',
