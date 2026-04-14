@@ -888,11 +888,11 @@
           <span></span>
         </button>
         <ul>
-          <li><a href="#prerequisites" data-i18n="nav-prerequisites">Требования</a></li>
-          <li><a href="#install" data-i18n="nav-install">Установка</a></li>
-          <li><a href="#settings" data-i18n="nav-settings">Settings.json</a></li>
-          <li><a href="#errors" data-i18n="nav-errors">Ошибки</a></li>
-          <li><a href="#faq" data-i18n="nav-faq">FAQ</a></li>
+          <li><a href="#install" class="nav-os" data-os="macos" data-i18n="nav-macos">macOS</a></li>
+          <li><a href="#install" class="nav-os" data-os="windows" data-i18n="nav-windows">Windows</a></li>
+          <li><a href="#install" class="nav-os" data-os="linux" data-i18n="nav-linux">Linux</a></li>
+          <li><a href="#install" class="nav-os" data-os="openclaw" data-i18n="nav-openclaw">Openclaw</a></li>
+          <li><a href="#install" class="nav-os" data-os="ide" data-i18n="nav-ide">VS Code / Cursor / Antigravity</a></li>
         </ul>
       </nav>
     </div>
@@ -909,7 +909,7 @@
       <a href="#install" class="btn btn-primary" data-i18n="btn-install">
         Начать установку
       </a>
-      <a href="#prerequisites" class="btn btn-secondary" data-i18n="btn-quickstart">
+      <a href="#install" class="btn btn-secondary" data-i18n="btn-quickstart">
         Требования
       </a>
     </div>
@@ -2032,6 +2032,24 @@ sudo yum install -y nodejs</code></pre>
         });
       });
 
+      // Nav OS links — switch tab and scroll
+      document.querySelectorAll('.nav-os').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const os = link.dataset.os;
+
+          // Activate the corresponding tab
+          osTabs.forEach(t => t.classList.remove('active'));
+          osContents.forEach(c => c.classList.remove('active'));
+
+          document.querySelector(`.os-tab[data-os="${os}"]`)?.classList.add('active');
+          document.getElementById(`${os}-content`)?.classList.add('active');
+
+          // Scroll to install section
+          document.getElementById('install')?.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
       // Copy buttons
       document.querySelectorAll('.copy-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -2138,11 +2156,11 @@ sudo yum install -y nodejs</code></pre>
     // Language Switcher
     const translations = {
       ru: {
-        'nav-prerequisites': 'Требования',
-        'nav-install': 'Установка',
-        'nav-settings': 'Settings.json',
-        'nav-errors': 'Ошибки',
-        'nav-faq': 'FAQ',
+        'nav-macos': 'macOS',
+        'nav-windows': 'Windows',
+        'nav-linux': 'Linux',
+        'nav-openclaw': 'Openclaw',
+        'nav-ide': 'VS Code / Cursor / Antigravity',
         'hero-title': 'Установка Claude Code',
         'hero-subtitle': 'Пошаговое руководство по установке и настройке Claude Code с подключением к кастомному API Claude Code API',
         'btn-install': 'Начать установку',
@@ -2296,8 +2314,11 @@ sudo yum install -y nodejs</code></pre>
         'footer-copy': 'Все права защищены'
       },
       en: {
-        'nav-prerequisites': 'Prerequisites',
-        'nav-install': 'Installation',
+        'nav-macos': 'macOS',
+        'nav-windows': 'Windows',
+        'nav-linux': 'Linux',
+        'nav-openclaw': 'Openclaw',
+        'nav-ide': 'VS Code / Cursor / Antigravity',
         'nav-settings': 'Settings.json',
         'nav-errors': 'Errors',
         'nav-faq': 'FAQ',
@@ -2477,11 +2498,11 @@ sudo yum install -y nodejs</code></pre>
       });
 
       // Update nav links
-      document.querySelectorAll('nav ul li a[href="#prerequisites"]').forEach(el => el.textContent = t['nav-prerequisites']);
-      document.querySelectorAll('nav ul li a[href="#install"]').forEach(el => el.textContent = t['nav-install']);
-      document.querySelectorAll('nav ul li a[href="#settings"]').forEach(el => el.textContent = t['nav-settings']);
-      document.querySelectorAll('nav ul li a[href="#errors"]').forEach(el => el.textContent = t['nav-errors']);
-      document.querySelectorAll('nav ul li a[href="#faq"]').forEach(el => el.textContent = t['nav-faq']);
+      document.querySelectorAll('.nav-os[data-os="macos"]').forEach(el => el.textContent = t['nav-macos']);
+      document.querySelectorAll('.nav-os[data-os="windows"]').forEach(el => el.textContent = t['nav-windows']);
+      document.querySelectorAll('.nav-os[data-os="linux"]').forEach(el => el.textContent = t['nav-linux']);
+      document.querySelectorAll('.nav-os[data-os="openclaw"]').forEach(el => el.textContent = t['nav-openclaw']);
+      document.querySelectorAll('.nav-os[data-os="ide"]').forEach(el => el.textContent = t['nav-ide']);
 
       // Update hero
       const heroTitle = document.querySelector('#hero h1');
@@ -2491,7 +2512,7 @@ sudo yum install -y nodejs</code></pre>
 
       // Update buttons
       document.querySelector('a.btn-primary[href="#install"]').textContent = t['btn-install'];
-      document.querySelector('a.btn-secondary[href="#prerequisites"]').textContent = t['btn-quickstart'];
+      document.querySelector('a.btn-secondary[href="#install"]').textContent = t['btn-quickstart'];
 
       // Update section titles
       document.querySelector('#prerequisites h2').textContent = t['section-prerequisites'];
