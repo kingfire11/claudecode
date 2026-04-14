@@ -954,6 +954,8 @@ npm --version</code></pre>
         <button class="os-tab" data-os="linux">Linux</button>
         <span class="os-divider">|</span>
         <button class="os-tab" data-os="openclaw">Openclaw</button>
+        <span class="os-divider">|</span>
+        <button class="os-tab" data-os="ide">VS Code / Cursor / Antigravity</button>
       </div>
 
       <!-- macOS Content -->
@@ -1572,6 +1574,62 @@ sudo yum install -y nodejs</code></pre>
 
         </div>
       </div>
+
+      <!-- IDE Content -->
+      <div class="os-content" id="ide-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">💻</div>
+            <h3 data-i18n="ide-title">Подключение через IDE</h3>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">0</span>
+              <h4 data-i18n="ide-prereq-title">Предварительная настройка</h4>
+            </div>
+            <p data-i18n="ide-prereq-desc">Перед подключением через IDE убедитесь, что вы уже выполнили установку по одной из операционных систем (macOS, Windows или Linux) и проверили, что Claude Code работает в терминале.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h4 data-i18n="ide-step-1-title">Откройте нужную IDE</h4>
+            </div>
+            <p data-i18n="ide-step-1-desc">Запустите одну из поддерживаемых IDE:</p>
+            <ul class="prereq-list">
+              <li data-i18n="ide-vscode">Visual Studio Code</li>
+              <li data-i18n="ide-cursor">Cursor</li>
+              <li data-i18n="ide-antigravity">Antigravity</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h4 data-i18n="ide-step-2-title">Установите расширение Claude Code</h4>
+            </div>
+            <p data-i18n="ide-step-2-desc">Откройте раздел расширений (Extensions) в вашей IDE, найдите <strong>Claude Code</strong> и установите расширение.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h4 data-i18n="ide-step-3-title">Данные подтянутся автоматически</h4>
+            </div>
+            <p data-i18n="ide-step-3-desc">После установки расширения конфигурация из <code>settings.json</code> подтянется автоматически. Откроется чат с Claude Code — можно начинать работу.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-title">
+              <span class="step-number">✓</span>
+              <h4 data-i18n="ide-done-title">Готово</h4>
+            </div>
+            <p data-i18n="ide-done-desc">Claude Code подключён и работает в вашей IDE.</p>
+          </div>
+
+        </div>
+      </div>
     </section>
 
     <!-- Settings.json paths -->
@@ -2080,6 +2138,7 @@ sudo yum install -y nodejs</code></pre>
         'os-windows': 'Windows',
         'os-linux': 'Linux',
         'os-openclaw': 'Openclaw',
+        'os-ide': 'VS Code / Cursor / Antigravity',
         'macos-title': 'Установка на macOS',
         'windows-title': 'Установка на Windows',
         'linux-title': 'Установка на Linux',
@@ -2104,6 +2163,20 @@ sudo yum install -y nodejs</code></pre>
         'openclaw-step-5-desc': 'Сбросьте старые сессии и перезапустите gateway, чтобы агент стартовал чисто с новой моделью:',
         'openclaw-done-title': 'Готово',
         'openclaw-done-desc': 'Агент работает через AWStore на Claude.',
+        'ide-title': 'Подключение через IDE',
+        'ide-prereq-title': 'Предварительная настройка',
+        'ide-prereq-desc': 'Перед подключением через IDE убедитесь, что вы уже выполнили установку по одной из операционных систем (macOS, Windows или Linux) и проверили, что Claude Code работает в терминале.',
+        'ide-step-1-title': 'Откройте нужную IDE',
+        'ide-step-1-desc': 'Запустите одну из поддерживаемых IDE:',
+        'ide-vscode': 'Visual Studio Code',
+        'ide-cursor': 'Cursor',
+        'ide-antigravity': 'Antigravity',
+        'ide-step-2-title': 'Установите расширение Claude Code',
+        'ide-step-2-desc': 'Откройте раздел расширений (Extensions) в вашей IDE, найдите Claude Code и установите расширение.',
+        'ide-step-3-title': 'Данные подтянутся автоматически',
+        'ide-step-3-desc': 'После установки расширения конфигурация из settings.json подтянется автоматически. Откроется чат с Claude Code — можно начинать работу.',
+        'ide-done-title': 'Готово',
+        'ide-done-desc': 'Claude Code подключён и работает в вашей IDE.',
         'step-0-title': 'Регистрация и подготовка',
         'step-0-desc': 'Перед установкой необходимо зарегистрироваться и получить API ключ:',
         'step-0-li-1': 'Зарегистрируйтесь на',
@@ -2221,6 +2294,7 @@ sudo yum install -y nodejs</code></pre>
         'os-windows': 'Windows',
         'os-linux': 'Linux',
         'os-openclaw': 'Openclaw',
+        'os-ide': 'VS Code / Cursor / Antigravity',
         'macos-title': 'Installation on macOS',
         'windows-title': 'Installation on Windows',
         'linux-title': 'Installation on Linux',
@@ -2245,6 +2319,20 @@ sudo yum install -y nodejs</code></pre>
         'openclaw-step-5-desc': 'Reset old sessions and restart the gateway so the agent starts clean with the new model:',
         'openclaw-done-title': 'Done',
         'openclaw-done-desc': 'The agent is running through AWStore on Claude.',
+        'ide-title': 'Connect via IDE',
+        'ide-prereq-title': 'Prerequisites',
+        'ide-prereq-desc': 'Before connecting via IDE, make sure you have already completed the installation for one of the operating systems (macOS, Windows, or Linux) and verified that Claude Code works in the terminal.',
+        'ide-step-1-title': 'Open your IDE',
+        'ide-step-1-desc': 'Launch one of the supported IDEs:',
+        'ide-vscode': 'Visual Studio Code',
+        'ide-cursor': 'Cursor',
+        'ide-antigravity': 'Antigravity',
+        'ide-step-2-title': 'Install the Claude Code extension',
+        'ide-step-2-desc': 'Open the Extensions section in your IDE, search for Claude Code, and install the extension.',
+        'ide-step-3-title': 'Configuration will be applied automatically',
+        'ide-step-3-desc': 'After installing the extension, the configuration from settings.json will be applied automatically. A Claude Code chat window will open — you can start working.',
+        'ide-done-title': 'Done',
+        'ide-done-desc': 'Claude Code is connected and working in your IDE.',
         'step-0-title': 'Registration and Preparation',
         'step-0-desc': 'Before installation, you need to register and get an API key:',
         'step-0-li-1': 'Register at',
@@ -2407,6 +2495,7 @@ sudo yum install -y nodejs</code></pre>
       document.querySelectorAll('.os-tab[data-os="windows"]').forEach(el => el.textContent = t['os-windows']);
       document.querySelectorAll('.os-tab[data-os="linux"]').forEach(el => el.textContent = t['os-linux']);
       document.querySelectorAll('.os-tab[data-os="openclaw"]').forEach(el => el.textContent = t['os-openclaw']);
+      document.querySelectorAll('.os-tab[data-os="ide"]').forEach(el => el.textContent = t['os-ide']);
 
       // Update macOS content
       document.querySelector('#macos-content h3').textContent = t['macos-title'];
