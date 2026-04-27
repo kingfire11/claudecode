@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Windsurf к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Windsurf — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div>
+        <h1>Windsurf</h1>
+        <p class="tool-subtitle">AI-редактор кода</p>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3>Откройте настройки провайдера</h3>
+      </div>
+      <p>В Windsurf откройте <strong>Settings</strong> → <strong>Windsurf Settings</strong> → <strong>Providers</strong>.</p>
+      <p>Найдите секцию <strong>Anthropic</strong> или добавьте нового провайдера.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3>Укажите Base URL и API Key</h3>
+      </div>
+      <p>В настройках провайдера Anthropic укажите:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Настройки</span>
+        </div>
+        <pre><code>Base URL: https://api.claudecodeapi.cloud
+API Key:  YOUR_API_KEY</code></pre>
+      </div>
+      <p>Или через файл <code>~/.codeium/windsurf/config.json</code>:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>JSON</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>{
+  "anthropic": {
+    "api_key": "YOUR_API_KEY",
+    "base_url": "https://api.claudecodeapi.cloud"
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3>Выберите модель</h3>
+      </div>
+      <p>В чате Windsurf (Cascade) выберите одну из доступных моделей:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Доступные модели</span>
+        </div>
+        <pre><code>claude-opus-4-7
+claude-opus-4-6
+claude-sonnet-4-6
+claude-sonnet-4-5
+claude-haiku-4-5</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">4</span>
+        <h3>Готово!</h3>
+      </div>
+      <p>Откройте Cascade (чат) в Windsurf и начните работать с Claude через наш API. Модель будет использоваться для автодополнения, чата и агентного режима.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-title">Доступные модели</div>
+      <p>В настройках можно указать: <code>claude-opus-4-7</code>, <code>claude-opus-4-6</code>, <code>claude-sonnet-4-6</code>, <code>claude-sonnet-4-5</code>, <code>claude-haiku-4-5</code></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://claudecodeapi.cloud" target="_blank">claudecodeapi.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

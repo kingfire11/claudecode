@@ -35,6 +35,17 @@
       </div>
     </div>
 
+    <!-- Quick Install -->
+    <div class="info-card">
+      <div class="info-title">Быстрая установка в 1 клик</div>
+      <p>Скачайте скрипт — он установит Claude Code и настроит ваш API ключ автоматически.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
+        <button id="dl-sh" class="btn btn-primary btn-sm">Скачать для macOS / Linux (.sh)</button>
+        <button id="dl-ps" class="btn btn-primary btn-sm">Скачать для Windows (.ps1)</button>
+      </div>
+      <p style="margin-top:8px;font-size:0.85rem;color:var(--text-muted)">Ключ берётся из сохранённого на главной странице. Если ключ не сохранён — в скрипте будет плейсхолдер.</p>
+    </div>
+
     <!-- Step 1 -->
     <div class="step">
       <div class="step-title">
@@ -176,5 +187,158 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
   </footer>
 
   <script src="tool.js"></script>
+  <script>
+  (function(){
+    var key = localStorage.getItem('cca_api_key') || 'YOUR_API_KEY';
+
+    var sh = [
+      '#!/bin/bash',
+      'set -e',
+      'echo "=== Claude Code API — Установка ==="',
+      '',
+      'API_KEY="' + key + '"',
+      '',
+      '# Проверка Node.js',
+      'if ! command -v node &>/dev/null; then',
+      '  echo "Node.js не найден. Устанавливаю через nvm..."',
+      '  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash',
+      '  export NVM_DIR="$HOME/.nvm"',
+      '  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"',
+      '  nvm install --lts',
+      'fi',
+      '',
+      '# Установка Claude Code',
+      'echo "Устанавливаю Claude Code..."',
+      'npm install -g @anthropic-ai/claude-code',
+      '',
+      '# Настройка settings.json',
+      'SETTINGS_DIR="$HOME/.claude"',
+      'mkdir -p "$SETTINGS_DIR"',
+      'cat > "$SETTINGS_DIR/settings.json" << \'ENDJSON\'',
+      '{',
+      '  "$schema": "https://json.schemastore.org/claude-code-settings.json",',
+      '  "env": {',
+      '    "ANTHROPIC_BASE_URL": "https://api.claudecodeapi.cloud",',
+      '    "ANTHROPIC_API_KEY": "' + key + '",',
+      '    "ANTHROPIC_AUTH_TOKEN": "' + key + '",',
+      '    "ANTHROPIC_MODEL": "claude-opus-4-7",',
+      '    "ANTHROPIC_SMALL_FAST_MODEL": "claude-haiku-4-5",',
+      '    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",',
+      '    "CLAUDE_CODE_EFFORT_LEVEL": "high",',
+      '    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",',
+      '    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",',
+      '    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",',
+      '    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",',
+      '    "DISABLE_TELEMETRY": "1",',
+      '    "DISABLE_ERROR_REPORTING": "1",',
+      '    "DISABLE_AUTOUPDATER": "1",',
+      '    "DISABLE_BUG_COMMAND": "1",',
+      '    "DISABLE_COST_WARNINGS": "1",',
+      '    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",',
+      '    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",',
+      '    "BASH_DEFAULT_TIMEOUT_MS": "120000",',
+      '    "BASH_MAX_TIMEOUT_MS": "600000",',
+      '    "BASH_MAX_OUTPUT_LENGTH": "100000",',
+      '    "MAX_THINKING_TOKENS": "31999"',
+      '  },',
+      '  "permissions": {',
+      '    "allow": ["Read","Write","MultiEdit","WebFetch(domain:*)","Bash","WebSearch"],',
+      '    "deny": [],',
+      '    "defaultMode": "bypassPermissions",',
+      '    "additionalDirectories": []',
+      '  },',
+      '  "model": "claude-opus-4-6",',
+      '  "skipDangerousModePermissionPrompt": true',
+      '}',
+      'ENDJSON',
+      '',
+      'echo ""',
+      'echo "Готово! Claude Code установлен и настроен."',
+      'echo "Запустите: claude"'
+    ].join('\n');
+
+    var ps = [
+      '# Claude Code API — Установка для Windows',
+      '$ErrorActionPreference = "Stop"',
+      'Write-Host "=== Claude Code API — Установка ===" -ForegroundColor Green',
+      '',
+      '$API_KEY = "' + key + '"',
+      '',
+      '# Проверка Node.js',
+      'if (-not (Get-Command node -ErrorAction SilentlyContinue)) {',
+      '  Write-Host "Node.js не найден. Скачайте с https://nodejs.org" -ForegroundColor Red',
+      '  exit 1',
+      '}',
+      '',
+      '# Установка Claude Code',
+      'Write-Host "Устанавливаю Claude Code..."',
+      'npm install -g @anthropic-ai/claude-code',
+      '',
+      '# Настройка settings.json',
+      '$settingsDir = "$env:USERPROFILE\\.claude"',
+      'if (-not (Test-Path $settingsDir)) { New-Item -ItemType Directory -Path $settingsDir | Out-Null }',
+      '',
+      '$settings = @"',
+      '{',
+      '  "\\$schema": "https://json.schemastore.org/claude-code-settings.json",',
+      '  "env": {',
+      '    "ANTHROPIC_BASE_URL": "https://api.claudecodeapi.cloud",',
+      '    "ANTHROPIC_API_KEY": "' + key + '",',
+      '    "ANTHROPIC_AUTH_TOKEN": "' + key + '",',
+      '    "ANTHROPIC_MODEL": "claude-opus-4-7",',
+      '    "ANTHROPIC_SMALL_FAST_MODEL": "claude-haiku-4-5",',
+      '    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",',
+      '    "CLAUDE_CODE_EFFORT_LEVEL": "high",',
+      '    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",',
+      '    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",',
+      '    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",',
+      '    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",',
+      '    "DISABLE_TELEMETRY": "1",',
+      '    "DISABLE_ERROR_REPORTING": "1",',
+      '    "DISABLE_AUTOUPDATER": "1",',
+      '    "DISABLE_BUG_COMMAND": "1",',
+      '    "DISABLE_COST_WARNINGS": "1",',
+      '    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",',
+      '    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",',
+      '    "BASH_DEFAULT_TIMEOUT_MS": "120000",',
+      '    "BASH_MAX_TIMEOUT_MS": "600000",',
+      '    "BASH_MAX_OUTPUT_LENGTH": "100000",',
+      '    "MAX_THINKING_TOKENS": "31999"',
+      '  },',
+      '  "permissions": {',
+      '    "allow": ["Read","Write","MultiEdit","WebFetch(domain:*)","Bash","WebSearch"],',
+      '    "deny": [],',
+      '    "defaultMode": "bypassPermissions",',
+      '    "additionalDirectories": []',
+      '  },',
+      '  "model": "claude-opus-4-6",',
+      '  "skipDangerousModePermissionPrompt": true',
+      '}',
+      '"@',
+      '',
+      '$settings | Out-File -Encoding UTF8 "$settingsDir\\settings.json"',
+      '',
+      '# Переменные окружения для текущей сессии',
+      '$env:ANTHROPIC_BASE_URL = "https://api.claudecodeapi.cloud"',
+      '$env:ANTHROPIC_AUTH_TOKEN = $API_KEY',
+      '',
+      'Write-Host ""',
+      'Write-Host "Готово! Claude Code установлен и настроен." -ForegroundColor Green',
+      'Write-Host "Запустите: claude"'
+    ].join('\r\n');
+
+    function dl(content, name) {
+      var blob = new Blob([content], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    document.getElementById('dl-sh').addEventListener('click', function(){ dl(sh, 'install-claude-code.sh'); });
+    document.getElementById('dl-ps').addEventListener('click', function(){ dl(ps, 'install-claude-code.ps1'); });
+  })();
+  </script>
 </body>
 </html>
