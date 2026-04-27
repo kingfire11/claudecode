@@ -501,41 +501,7 @@
       </div>
     </section>
 
-    <!-- CTA -->
-    <section id="cta" class="fade-in">
-      <h2 data-i18n="cta-title">Готовы начать?</h2>
-      <p data-i18n="cta-desc">Напишите нам в телеграм для покупки</p>
-      <a href="https://t.me/claudxeseller" target="_blank" class="btn btn-primary" data-i18n="btn-register-free">Написать в Telegram</a>
-    </section>
   </main>
-
-  <!-- Floating Help Button -->
-  <button class="floating-help-btn" id="help-btn" title="Помощь">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-    </svg>
-    <span data-i18n="help-label">Помощь</span>
-  </button>
-
-  <!-- Help Modal -->
-  <div class="modal-overlay" id="help-modal">
-    <div class="modal-content">
-      <button class="modal-close" id="modal-close">&times;</button>
-      <div class="modal-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-      </div>
-      <h3 data-i18n="help-title">Нужна помощь?</h3>
-      <p data-i18n="help-desc">Не получается подключиться? Напишите нам — мы поможем!</p>
-      <a href="https://t.me/claudxeseller" target="_blank" rel="noopener" class="btn btn-primary modal-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
-          <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-        </svg>
-        <span data-i18n="btn-telegram">Написать в Telegram</span>
-      </a>
-    </div>
-  </div>
 
   <!-- Footer -->
   <footer>
@@ -562,16 +528,6 @@
       apikeyInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') apikeySave.click();
       });
-
-      // Help Modal
-      const helpBtn = document.getElementById('help-btn');
-      const helpModal = document.getElementById('help-modal');
-      const modalClose = document.getElementById('modal-close');
-
-      helpBtn.addEventListener('click', () => helpModal.classList.add('active'));
-      modalClose.addEventListener('click', () => helpModal.classList.remove('active'));
-      helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.classList.remove('active'); });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') helpModal.classList.remove('active'); });
 
       // FAQ accordion
       document.querySelectorAll('.faq-question').forEach(q => {
