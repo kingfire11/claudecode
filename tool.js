@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Apply saved API key
+  const apiKey = localStorage.getItem('cca_api_key');
+  if (apiKey) {
+    document.querySelectorAll('.code-block code').forEach(el => {
+      el.textContent = el.textContent.replace(/YOUR_API_KEY/g, apiKey);
+    });
+    document.querySelectorAll('.field-value').forEach(el => {
+      if (el.textContent.trim() === 'YOUR_API_KEY') {
+        el.textContent = apiKey;
+        if (el.dataset.copy) el.dataset.copy = apiKey;
+      }
+    });
+  }
+
   // Copy buttons for code blocks
   document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', async () => {

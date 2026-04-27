@@ -98,34 +98,45 @@
     /* Main */
     main { max-width: 960px; margin: 0 auto; padding: 0 1.5rem 100px; }
 
-    /* Registration Step */
-    .reg-section { padding: 3rem 0; }
+    /* API Key Section */
+    .apikey-section { padding: 2rem 0 1rem; }
 
-    .step-header {
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+    .apikey-card {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;
     }
 
-    .step-number {
-      width: 36px; height: 36px; background: var(--accent-primary); color: var(--bg-primary);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 1rem; flex-shrink: 0;
+    .apikey-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: rgba(0, 220, 130, 0.1); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent-primary);
     }
 
-    .step-header h2 { margin: 0; }
+    .apikey-text h3 { margin-bottom: 0.25rem; }
+    .apikey-text p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
 
-    .reg-card {
+    .apikey-input-wrap {
+      display: flex; gap: 0.75rem; margin-bottom: 0.75rem;
+    }
+
+    .apikey-input-wrap input {
+      flex: 1; padding: 0.875rem 1rem;
       background: var(--bg-secondary); border: 1px solid var(--border-color);
-      border-radius: 12px; padding: 1.75rem; margin-bottom: 1.5rem;
+      border-radius: 8px; color: var(--text-primary);
+      font-family: var(--font-mono); font-size: 0.95rem;
+      outline: none; transition: var(--transition);
     }
+    .apikey-input-wrap input:focus { border-color: var(--accent-primary); }
+    .apikey-input-wrap input::placeholder { color: var(--text-muted); }
 
-    .reg-card ol { padding-left: 1.5rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
-    .reg-card ol li { margin-bottom: 0.5rem; }
+    .apikey-hint { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
 
     .btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.875rem 1.75rem; font-size: 1rem; font-weight: 500;
       border-radius: 8px; border: none; cursor: pointer; transition: var(--transition);
     }
+    .btn-sm { padding: 0.875rem 1.25rem; font-size: 0.95rem; }
 
     .btn-primary { background: var(--accent-primary); color: var(--bg-primary); }
     .btn-primary:hover {
@@ -320,35 +331,27 @@
 
   <!-- Main -->
   <main>
-    <!-- Step 1: Registration -->
-    <section class="reg-section fade-in">
-      <div class="step-header">
-        <span class="step-number">1</span>
-        <h2 data-i18n="step-reg">Зарегистрируйтесь и получите API ключ</h2>
+    <!-- API Key Input -->
+    <section class="apikey-section fade-in">
+      <div class="apikey-card">
+        <div class="apikey-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        </div>
+        <div class="apikey-text">
+          <h3 data-i18n="apikey-title">Вставьте ваш API ключ</h3>
+          <p data-i18n="apikey-desc">Конфиги будут автоматически заполнены вашим ключом</p>
+        </div>
       </div>
-      <div class="reg-card">
-        <ol>
-          <li data-i18n="reg-1">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a></li>
-          <li data-i18n="reg-2"><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
-          <li data-i18n="reg-3">Сохраните API ключ из личного кабинета</li>
-        </ol>
-        <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" data-i18n="btn-register">
-          Зарегистрироваться
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.25rem;">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-        </a>
+      <div class="apikey-input-wrap">
+        <input type="text" id="apikey-input" placeholder="sk-..." autocomplete="off" spellcheck="false">
+        <button id="apikey-save" class="btn btn-primary btn-sm" data-i18n="apikey-save">Сохранить</button>
       </div>
+      <p class="apikey-hint" data-i18n="apikey-hint">Ключ хранится только в вашем браузере (localStorage)</p>
     </section>
 
-    <!-- Step 2: Choose Tool -->
+    <!-- Choose Tool -->
     <section class="tools-section fade-in">
-      <div class="step-header">
-        <span class="step-number">2</span>
-        <h2 data-i18n="step-tool">Выберите ваш инструмент</h2>
-      </div>
+      <h2 data-i18n="step-tool">Выберите ваш инструмент</h2>
 
       <div class="tools-grid">
         <!-- Cursor -->
@@ -464,12 +467,12 @@
 
         <div class="faq-item">
           <button class="faq-question" data-i18n="faq-q5">Как получить API ключ?</button>
-          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a5">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a>, пополните баланс и создайте API ключ в личном кабинете.</p></div></div>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a5">Зарегистрируйтесь на <a href="https://claudecodeapi.cloud/register" target="_blank">claudecodeapi.cloud/register</a>, пополните баланс и создайте API ключ в личном кабинете.</p></div></div>
         </div>
 
         <div class="faq-item">
           <button class="faq-question" data-i18n="faq-q6">Где посмотреть статистику использования?</button>
-          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a6">Вся статистика, история запросов и детализация расходов доступны в личном кабинете на awstore.cloud.</p></div></div>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a6">Вся статистика, история запросов и детализация расходов доступны в личном кабинете на claudecodeapi.cloud.</p></div></div>
         </div>
       </div>
     </section>
@@ -478,7 +481,7 @@
     <section id="cta" class="fade-in">
       <h2 data-i18n="cta-title">Готовы начать?</h2>
       <p data-i18n="cta-desc">Зарегистрируйтесь и получите доступ к Claude Code по выгодным ценам</p>
-      <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" data-i18n="btn-register-free">Зарегистрироваться бесплатно</a>
+      <a href="https://claudecodeapi.cloud/register" target="_blank" class="btn btn-primary" data-i18n="btn-register-free">Зарегистрироваться бесплатно</a>
     </section>
   </main>
 
@@ -512,11 +515,30 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+    <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br><a href="https://claudecodeapi.cloud" target="_blank">claudecodeapi.cloud</a></p>
   </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // API Key
+      const apikeyInput = document.getElementById('apikey-input');
+      const apikeySave = document.getElementById('apikey-save');
+      const saved = localStorage.getItem('cca_api_key');
+      if (saved) apikeyInput.value = saved;
+
+      apikeySave.addEventListener('click', () => {
+        const key = apikeyInput.value.trim();
+        if (key) {
+          localStorage.setItem('cca_api_key', key);
+          apikeySave.textContent = '✓';
+          setTimeout(() => { apikeySave.textContent = currentLang === 'en' ? 'Save' : 'Сохранить'; }, 1500);
+        }
+      });
+
+      apikeyInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') apikeySave.click();
+      });
+
       // Help Modal
       const helpBtn = document.getElementById('help-btn');
       const helpModal = document.getElementById('help-modal');
@@ -561,11 +583,10 @@
         en: {
           'hero-title': 'Connect to Claude Code API',
           'hero-subtitle': 'Choose your tool and follow the setup guide',
-          'step-reg': 'Register and get your API key',
-          'reg-1': 'Register at awstore.cloud/register',
-          'reg-2': 'Remember your username — you will need it for balance top-up',
-          'reg-3': 'Save the API key from your account',
-          'btn-register': 'Register',
+          'apikey-title': 'Paste your API key',
+          'apikey-desc': 'Configs will be automatically filled with your key',
+          'apikey-save': 'Save',
+          'apikey-hint': 'Key is stored only in your browser (localStorage)',
           'step-tool': 'Choose your tool',
           'tool-cursor-desc': 'AI code editor',
           'tool-cc-desc': 'Official CLI',
@@ -584,9 +605,9 @@
           'faq-q4': 'Which models are available?',
           'faq-a4': 'All current Anthropic models: Claude Opus 4.7, Opus 4.6, Opus 4.5, Sonnet 4.6, Sonnet 4.5, Haiku 4.5 and more.',
           'faq-q5': 'How to get an API key?',
-          'faq-a5': 'Register at awstore.cloud/register, top up your balance and create an API key in your account.',
+          'faq-a5': 'Register at claudecodeapi.cloud/register, top up your balance and create an API key in your account.',
           'faq-q6': 'Where to see usage statistics?',
-          'faq-a6': 'All stats and expense details are available in your account at awstore.cloud.',
+          'faq-a6': 'All stats and expense details are available in your account at claudecodeapi.cloud.',
           'cta-title': 'Ready to start?',
           'cta-desc': 'Register and get access to Claude Code at great prices',
           'btn-register-free': 'Register for Free',
