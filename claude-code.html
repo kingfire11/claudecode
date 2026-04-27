@@ -39,11 +39,17 @@
     <div class="info-card">
       <div class="info-title">Быстрая установка в 1 клик</div>
       <p>Скачайте скрипт — он установит Claude Code и настроит ваш API ключ автоматически.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-        <button id="dl-sh" class="btn btn-primary btn-sm">Скачать для macOS / Linux (.sh)</button>
-        <button id="dl-ps" class="btn btn-primary btn-sm">Скачать для Windows (.ps1)</button>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:1rem">
+        <button id="dl-sh" class="dl-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          macOS / Linux (.sh)
+        </button>
+        <button id="dl-ps" class="dl-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Windows (.ps1)
+        </button>
       </div>
-      <p style="margin-top:8px;font-size:0.85rem;color:var(--text-muted)">Ключ берётся из сохранённого на главной странице. Если ключ не сохранён — в скрипте будет плейсхолдер.</p>
+      <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-muted);margin-bottom:0">Ключ берётся из сохранённого на главной странице. Если ключ не сохранён — в скрипте будет плейсхолдер.</p>
     </div>
 
     <!-- Step 1 -->
