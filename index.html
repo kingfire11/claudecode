@@ -571,7 +571,7 @@
           });
           if (!resp.ok) throw new Error();
           const data = await resp.json();
-          balanceValue.textContent = '$' + parseFloat(data.balance).toFixed(2);
+          balanceValue.textContent = parseFloat(data.balance).toFixed(2) + ' cr';
         } catch {
           balanceValue.textContent = 'ошибка';
         }
