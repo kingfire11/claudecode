@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Claude Code к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Claude Code — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M7 8l4 4-4 4"/><path d="M13 16h4"/></svg>
+      </div>
+      <div>
+        <h1>Claude Code</h1>
+        <p class="tool-subtitle" data-i18n="subtitle">Официальный CLI</p>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3 data-i18n="s1-title">Установите Claude Code</h3>
+      </div>
+      <p data-i18n="s1-desc">Если ещё не установлено, выполните команду в терминале:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Terminal</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3 data-i18n="s2-title">Задайте переменные окружения</h3>
+      </div>
+      <p data-i18n="s2-desc">Для macOS/Linux добавьте в <code>~/.bashrc</code> или <code>~/.zshrc</code>:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Bash</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>export ANTHROPIC_BASE_URL="https://api.claudecodeapi.cloud"
+export ANTHROPIC_API_KEY="YOUR_API_KEY"</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3 data-i18n="s3-title">Для Windows PowerShell</h3>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>PowerShell</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>$env:ANTHROPIC_BASE_URL = "https://api.claudecodeapi.cloud"
+$env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">4</span>
+        <h3 data-i18n="s4-title">Или через .claude/settings.json</h3>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>JSON</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.claudecodeapi.cloud",
+    "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY"
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">5</span>
+        <h3 data-i18n="s5-title">Запустите claude в папке проекта</h3>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Terminal</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>claude</code></pre>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

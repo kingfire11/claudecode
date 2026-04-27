@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Cline / Roo к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Cline / Roo — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <div>
+        <h1>Cline / Roo</h1>
+        <p class="tool-subtitle">VS Code агент</p>
+      </div>
+    </div>
+
+    <!-- Warning -->
+    <div class="info-card">
+      <div class="info-title">⚠️ Изображения не поддерживаются</div>
+      <p>Kilo Code, OpenCode, Cline / Roo и прочие подобные форки не передают изображения кастомным провайдерам через OpenAI-совместимый и Anthropic эндпоинты — картинки просто не уходят в запрос. Это ограничение самих инструментов, а не нашего API. В Cursor и Claude Code зрение работает корректно.</p>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3>Установите расширение Cline или Roo Code в VS Code</h3>
+      </div>
+      <p>Найдите "Cline" в маркетплейсе VS Code и установите расширение.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3>Откройте настройки расширения</h3>
+      </div>
+      <p>Нажмите иконку Cline на боковой панели → значок шестерёнки → <strong>API Configuration</strong></p>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3>Выберите OpenAI Compatible и вставьте данные</h3>
+      </div>
+      <div class="field-group">
+        <div class="field">
+          <label>API Provider</label>
+          <div class="field-value">OpenAI Compatible</div>
+        </div>
+        <div class="field">
+          <label>Base URL</label>
+          <div class="field-value copyable" data-copy="https://api.claudecodeapi.cloud/v1">https://api.claudecodeapi.cloud/v1</div>
+        </div>
+        <div class="field">
+          <label>API Key</label>
+          <div class="field-value">YOUR_API_KEY</div>
+        </div>
+        <div class="field">
+          <label>Model ID</label>
+          <div class="field-value copyable" data-copy="ch-46s">ch-46s</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

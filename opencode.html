@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение OpenCode к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>OpenCode — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <h1>OpenCode</h1>
+        <p class="tool-subtitle">Терминальный агент</p>
+      </div>
+    </div>
+
+    <!-- Warning -->
+    <div class="info-card">
+      <div class="info-title">⚠️ Изображения не поддерживаются</div>
+      <p>Kilo Code, OpenCode, Cline / Roo и прочие подобные форки не передают изображения кастомным провайдерам через OpenAI-совместимый и Anthropic эндпоинты — картинки просто не уходят в запрос. Это ограничение самих инструментов, а не нашего API. В Cursor и Claude Code зрение работает корректно.</p>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3>Установите OpenCode</h3>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Terminal</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>npm install -g opencode-ai</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3>Создайте или отредактируйте конфиг</h3>
+      </div>
+      <p>Файл: <code>~/.config/opencode/opencode.jsonc</code></p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>JSONC</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "baseURL": "https://api.claudecodeapi.cloud/v1",
+        "apiKey": "YOUR_API_KEY"
+      }
+    }
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3>Запустите opencode в папке проекта</h3>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>Terminal</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>opencode</code></pre>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

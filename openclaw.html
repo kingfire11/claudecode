@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Openclaw к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Openclaw — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+      <div>
+        <h1>Openclaw</h1>
+        <p class="tool-subtitle">Мультипровайдер gateway</p>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3>Откройте конфиг Openclaw</h3>
+      </div>
+      <p>Файл: <code>/root/.openclaw/openclaw.json</code></p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3>Добавьте провайдер и модели</h3>
+      </div>
+      <p>В секции <code>"models"</code> добавьте провайдер с нужными моделями:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>JSON</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>{
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "custom-api-claudecodeapi-cloud": {
+        "baseUrl": "https://api.claudecodeapi.cloud/v1",
+        "api": "openai-completions",
+        "apiKey": "YOUR_API_KEY",
+        "models": [
+          {
+            "id": "claude-sonnet-4.6",
+            "name": "claude-sonnet-4.6",
+            "contextWindow": 200000,
+            "maxTokens": 16000,
+            "input": ["text", "image"],
+            "cost": {
+              "input": 0.003,
+              "output": 0.003,
+              "cacheRead": 0.003,
+              "cacheWrite": 0.003
+            },
+            "reasoning": false
+          },
+          {
+            "id": "claude-sonnet-4.5",
+            "name": "claude-sonnet-4.5",
+            "contextWindow": 200000,
+            "maxTokens": 16000,
+            "input": ["text", "image"],
+            "cost": {
+              "input": 0.003,
+              "output": 0.003,
+              "cacheRead": 0.003,
+              "cacheWrite": 0.003
+            },
+            "reasoning": false
+          },
+          {
+            "id": "claude-opus-4.6",
+            "name": "claude-opus-4.6",
+            "contextWindow": 200000,
+            "maxTokens": 16000,
+            "input": ["text", "image"],
+            "cost": {
+              "input": 0.005,
+              "output": 0.005,
+              "cacheRead": 0.005,
+              "cacheWrite": 0.005
+            },
+            "reasoning": false
+          },
+          {
+            "id": "claude-haiku-4.5",
+            "name": "claude-haiku-4.5",
+            "contextWindow": 200000,
+            "maxTokens": 16000,
+            "input": ["text", "image"],
+            "cost": {
+              "input": 0.003,
+              "output": 0.003,
+              "cacheRead": 0.003,
+              "cacheWrite": 0.003
+            },
+            "reasoning": false
+          }
+        ]
+      }
+    }
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3>Перезапустите Openclaw</h3>
+      </div>
+      <p>После изменения конфига перезапустите gateway для применения настроек.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

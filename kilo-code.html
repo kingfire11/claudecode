@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Kilo Code к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Kilo Code — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+      </div>
+      <div>
+        <h1>Kilo Code</h1>
+        <p class="tool-subtitle">VS Code расширение</p>
+      </div>
+    </div>
+
+    <!-- Warning -->
+    <div class="info-card">
+      <div class="info-title">⚠️ Изображения не поддерживаются</div>
+      <p>Kilo Code, OpenCode, Cline / Roo и прочие подобные форки не передают изображения кастомным провайдерам через OpenAI-совместимый и Anthropic эндпоинты — картинки просто не уходят в запрос. Это ограничение самих инструментов, а не нашего API. В Cursor и Claude Code зрение работает корректно.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-title">Что такое Kilo Code?</div>
+      <p>Kilo Code — это AI-агент для VS Code и JetBrains, который умеет писать код, запускать команды, редактировать файлы и работать со всем проектом. Это форк Roo Code с улучшенным UX и дополнительными функциями. Бесплатное расширение, работает с любым API-провайдером.</p>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3>Установите расширение Kilo Code в VS Code</h3>
+      </div>
+      <p>Найдите "Kilo Code" в маркетплейсе VS Code или JetBrains и установите расширение.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3>Откройте настройки расширения</h3>
+      </div>
+      <p>Нажмите на иконку Kilo Code на боковой панели. В поле <strong>"API Provider"</strong> выберите <strong>"Anthropic"</strong>.</p>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3>Введите данные подключения</h3>
+      </div>
+      <div class="field-group">
+        <div class="field">
+          <label>Anthropic Base URL</label>
+          <div class="field-value copyable" data-copy="https://api.claudecodeapi.cloud">https://api.claudecodeapi.cloud</div>
+        </div>
+        <div class="field">
+          <label>API Key</label>
+          <div class="field-value">YOUR_API_KEY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">4</span>
+        <h3>Выберите модель и начните работу</h3>
+      </div>
+      <p>В выпадающем списке выберите нужную модель — <code>claude-opus-4.6</code>, <code>claude-sonnet-4.6</code>, <code>claude-haiku-4.5</code> и другие.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

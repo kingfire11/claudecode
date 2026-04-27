@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Инструкции по установке Claude Code с подключением к кастомному API Claude Code API">
+  <meta name="description" content="Инструкции по подключению к Claude Code API — выберите ваш инструмент">
   <meta name="theme-color" content="#0a0a0a">
-  <title>Claude Code API — Установка Claude Code</title>
+  <title>Claude Code API — Подключение инструментов</title>
   <style>
-    /* CSS Variables */
     :root {
       --bg-primary: #0a0a0a;
       --bg-secondary: #111111;
@@ -20,26 +19,13 @@
       --accent-hover: #00ff95;
       --accent-glow: rgba(0, 220, 130, 0.3);
       --border-color: #30363d;
-      --error-bg: #4c1a1a;
-      --error-border: #f85149;
-      --success-bg: #1a3a1a;
-      --success-border: #3fb950;
       --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
       --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --transition: all 0.2s ease;
     }
 
-    /* Reset & Base */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 80px;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-sans);
@@ -49,135 +35,51 @@
       min-height: 100vh;
     }
 
-    /* Typography */
-    h1, h2, h3, h4 {
-      font-weight: 600;
-      line-height: 1.3;
-      color: var(--text-primary);
-    }
-
+    h1, h2, h3 { font-weight: 600; line-height: 1.3; color: var(--text-primary); }
     h1 { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; }
-    h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); margin-top: 4rem; margin-bottom: 1.5rem; letter-spacing: -0.01em; }
-    h3 { font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-    h4 { font-size: 1rem; margin-bottom: 0.5rem; }
-
+    h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); letter-spacing: -0.01em; }
     p { margin-bottom: 1rem; color: var(--text-secondary); }
 
-    ul { margin-bottom: 1rem; padding-left: 1.5rem; color: var(--text-secondary); }
-    li { margin-bottom: 0.5rem; }
-
-    a {
-      color: var(--accent-primary);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
+    a { color: var(--accent-primary); text-decoration: none; transition: var(--transition); }
     a:hover { color: var(--accent-hover); }
 
-    code {
-      font-family: var(--font-mono);
-      font-size: 0.9em;
-    }
+    ::selection { background: var(--accent-primary); color: var(--bg-primary); }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
     /* Header */
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-color);
-      transform: translateZ(0);
     }
 
     .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
     }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
     .logo span { color: var(--accent-primary); }
 
-    .lang-switch {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
+    .lang-switch { display: flex; gap: 0.5rem; align-items: center; }
 
     .lang-btn {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 0.35rem 0.6rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: var(--transition);
+      background: transparent; border: 1px solid var(--border-color);
+      color: var(--text-muted); padding: 0.35rem 0.6rem;
+      font-size: 0.8rem; font-weight: 500; border-radius: 6px;
+      cursor: pointer; transition: var(--transition);
     }
+    .lang-btn:hover { border-color: var(--accent-primary); color: var(--text-primary); }
+    .lang-btn.active { background: var(--accent-primary); border-color: var(--accent-primary); color: var(--bg-primary); }
 
-    .lang-btn:hover {
-      border-color: var(--accent-primary);
-      color: var(--text-primary);
-    }
-
-    .lang-btn.active {
-      background: var(--accent-primary);
-      border-color: var(--accent-primary);
-      color: var(--bg-primary);
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-    }
-
-    nav a {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      padding: 0.5rem 0;
-      border-bottom: 2px solid transparent;
-      transition: var(--transition);
-    }
-
-    nav a:hover {
-      color: var(--text-primary);
-      border-bottom-color: var(--accent-primary);
-    }
-
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-
-    .mobile-menu span {
-      width: 24px;
-      height: 2px;
-      background: var(--text-primary);
-      transition: var(--transition);
-    }
-
-    /* Hero Section */
+    /* Hero */
     #hero {
-      padding: clamp(100px, 20vh, 180px) 1.5rem 80px;
+      padding: clamp(100px, 18vh, 160px) 1.5rem 60px;
       text-align: center;
       background: radial-gradient(ellipse at top, rgba(0, 220, 130, 0.1) 0%, transparent 50%);
     }
@@ -185,690 +87,216 @@
     #hero h1 {
       margin-bottom: 1.5rem;
       background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
     #hero .subtitle {
       font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
+      color: var(--text-muted); max-width: 600px; margin: 0 auto;
     }
 
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    /* Main */
+    main { max-width: 960px; margin: 0 auto; padding: 0 1.5rem 100px; }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.875rem 1.75rem;
-      font-size: 1rem;
-      font-weight: 500;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-    }
+    /* Registration Step */
+    .reg-section { padding: 3rem 0; }
 
-    .btn-primary {
-      background: var(--accent-primary);
-      color: var(--bg-primary);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px var(--accent-glow);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent-primary);
-      background: var(--bg-tertiary);
-    }
-
-    /* Main Content */
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 1.5rem 100px;
-    }
-
-    section {
-      padding: 3rem 0;
-    }
-
-    section:first-of-type {
-      padding-top: 0;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      transition: var(--transition);
-    }
-
-    .card:last-child {
-      margin-bottom: 0;
-    }
-
-    .card:hover {
-      border-color: var(--accent-primary);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--bg-tertiary);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-    }
-
-    /* Code Blocks */
-    .code-block {
-      background: var(--bg-code);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      margin: 1.25rem 0;
-      overflow: hidden;
-    }
-
-    .code-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      background: var(--bg-tertiary);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .code-header span {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .copy-btn {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      background: transparent;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      font-family: var(--font-mono);
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .copy-btn:hover {
-      color: var(--text-primary);
-      border-color: var(--accent-primary);
-      background: var(--bg-tertiary);
-    }
-
-    .copy-btn.copied {
-      color: var(--accent-primary);
-      border-color: var(--accent-primary);
-    }
-
-    .code-block pre {
-      padding: 1.25rem;
-      overflow-x: auto;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .code-block code {
-      color: var(--text-primary);
-      display: block;
-      white-space: pre;
-      font-family: var(--font-mono);
-    }
-
-    /* Step numbers */
-    .step {
-      counter-increment: step-counter;
-      margin-bottom: 2.5rem;
-    }
-
-    .step:last-child {
-      margin-bottom: 0;
-    }
-
-    .step-title {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+    .step-header {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
     }
 
     .step-number {
-      width: 32px;
-      height: 32px;
-      background: var(--accent-primary);
-      color: var(--bg-primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.95rem;
-      flex-shrink: 0;
+      width: 36px; height: 36px; background: var(--accent-primary); color: var(--bg-primary);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1rem; flex-shrink: 0;
     }
 
-    /* Tabs for OS selection */
-    .os-tabs {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 2.5rem;
-      flex-wrap: wrap;
+    .step-header h2 { margin: 0; }
+
+    .reg-card {
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 1.75rem; margin-bottom: 1.5rem;
     }
 
-    .os-tab {
-      padding: 0.875rem 1.5rem;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.95rem;
-      font-weight: 500;
+    .reg-card ol { padding-left: 1.5rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .reg-card ol li { margin-bottom: 0.5rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.875rem 1.75rem; font-size: 1rem; font-weight: 500;
+      border-radius: 8px; border: none; cursor: pointer; transition: var(--transition);
     }
 
-    .os-tab:hover {
-      border-color: var(--accent-primary);
-      color: var(--text-primary);
-      transform: translateY(-1px);
+    .btn-primary { background: var(--accent-primary); color: var(--bg-primary); }
+    .btn-primary:hover {
+      background: var(--accent-hover); transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--accent-glow);
     }
 
-    .os-tab.active {
-      background: var(--accent-primary);
-      color: var(--bg-primary);
-      border-color: var(--accent-primary);
-    }
+    /* Tools Grid */
+    .tools-section { padding: 3rem 0; }
 
-    .os-divider {
-      color: var(--text-muted);
-      font-size: 1.25rem;
-      font-weight: 300;
-      align-self: center;
-      user-select: none;
-    }
-
-    .os-content {
-      display: none;
-    }
-
-    .os-content.active {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Prerequisites list */
-    .prereq-list {
-      list-style: none;
+    .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
-      padding: 0;
-      margin: 1.5rem 0;
+      margin-top: 1.5rem;
     }
 
-    .prereq-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 1.25rem;
-      background: var(--bg-secondary);
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      transition: var(--transition);
+    .tool-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 1.25rem 1.5rem;
+      cursor: pointer; transition: var(--transition);
+      text-decoration: none; color: inherit;
     }
 
-    .prereq-list li:hover {
+    .tool-card:hover {
       border-color: var(--accent-primary);
       transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 220, 130, 0.1);
+      color: inherit;
     }
 
-    .prereq-list li::before {
-      content: '✓';
-      color: var(--accent-primary);
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    /* Error table */
-    .error-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-    }
-
-    .error-table th,
-    .error-table td {
-      padding: 1.25rem;
-      text-align: left;
-      border: 1px solid var(--border-color);
-      vertical-align: top;
-    }
-
-    .error-table th {
-      background: var(--bg-tertiary);
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .error-table tr:hover {
-      background: var(--bg-secondary);
-    }
-
-    .error-table code {
-      color: var(--accent-primary);
-      font-size: 0.85rem;
-    }
-
-    .error-table td small {
-      display: block;
-      margin-top: 0.5rem;
+    .tool-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
       color: var(--text-muted);
-      font-size: 0.85rem;
     }
+
+    .tool-icon svg { width: 28px; height: 28px; }
+
+    .tool-info { flex: 1; min-width: 0; }
+    .tool-name { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
+    .tool-desc { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+
+    .tool-arrow {
+      color: var(--text-muted); font-size: 1.25rem; flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .tool-card:hover .tool-arrow { color: var(--accent-primary); transform: translateX(3px); }
 
     /* FAQ */
-    .faq-item {
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      overflow: hidden;
-      transition: var(--transition);
-    }
+    .faq-section { padding: 3rem 0; }
 
-    .faq-item:hover {
-      border-color: var(--text-muted);
+    .faq-item {
+      border: 1px solid var(--border-color); border-radius: 10px;
+      margin-bottom: 1rem; overflow: hidden; transition: var(--transition);
     }
+    .faq-item:hover { border-color: var(--text-muted); }
+    .faq-item.active { border-color: var(--accent-primary); }
 
     .faq-question {
-      width: 100%;
-      padding: 1.25rem 1.5rem;
-      background: var(--bg-secondary);
-      border: none;
-      color: var(--text-primary);
-      font-size: 1rem;
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 100%; padding: 1.25rem 1.5rem;
+      background: var(--bg-secondary); border: none;
+      color: var(--text-primary); font-size: 1rem; font-weight: 500;
+      text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
       transition: var(--transition);
     }
-
-    .faq-question:hover {
-      background: var(--bg-tertiary);
-    }
-
+    .faq-question:hover { background: var(--bg-tertiary); }
     .faq-question::after {
-      content: '+';
-      font-size: 1.5rem;
-      color: var(--accent-primary);
-      transition: var(--transition);
-      line-height: 1;
+      content: '+'; font-size: 1.5rem; color: var(--accent-primary);
+      transition: var(--transition); line-height: 1;
     }
+    .faq-item.active .faq-question::after { content: '\2212'; }
 
-    .faq-item.active .faq-question::after {
-      content: '−';
-    }
-
-    .faq-item.active {
-      border-color: var(--accent-primary);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 500px;
-    }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.active .faq-answer { max-height: 500px; }
 
     .faq-answer-content {
-      padding: 1.25rem 1.5rem;
-      color: var(--text-secondary);
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
+      padding: 1.25rem 1.5rem; color: var(--text-secondary);
+      background: var(--bg-secondary); border-top: 1px solid var(--border-color);
     }
+    .faq-answer-content p:last-child { margin-bottom: 0; }
 
-    .faq-answer-content p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* CTA Section */
+    /* CTA */
     #cta {
-      text-align: center;
-      padding: 5rem 2rem;
+      text-align: center; padding: 5rem 2rem;
       background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(0, 220, 130, 0.05) 100%);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      margin-top: 4rem;
+      border: 1px solid var(--border-color); border-radius: 16px; margin-top: 4rem;
     }
-
-    #cta h2 {
-      margin-top: 0;
-      margin-bottom: 1rem;
-    }
-
-    #cta p {
-      max-width: 500px;
-      margin: 0 auto 2rem;
-    }
+    #cta h2 { margin-bottom: 1rem; }
+    #cta p { max-width: 500px; margin: 0 auto 2rem; }
 
     /* Footer */
     footer {
       border-top: 1px solid var(--border-color);
-      padding: 4rem 1.5rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.95rem;
+      padding: 4rem 1.5rem; text-align: center;
+      color: var(--text-muted); font-size: 0.95rem;
     }
+    footer a { color: var(--accent-primary); }
+    footer p { color: var(--text-muted); }
 
-    footer a {
+    /* Floating Help */
+    .floating-help-btn {
+      position: fixed; bottom: 30px; right: 30px;
+      height: 50px; background: var(--accent-primary); color: var(--bg-primary);
+      border-radius: 25px; display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 0 20px;
+      box-shadow: 0 4px 20px rgba(0, 220, 130, 0.4);
+      transition: var(--transition); z-index: 999;
+      border: none; cursor: pointer; font-weight: 600; font-size: 0.95rem;
+    }
+    .floating-help-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(0, 220, 130, 0.6); color: var(--bg-primary);
+    }
+    .floating-help-btn svg { width: 22px; height: 22px; stroke-width: 2.5; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; padding: 1.5rem; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+
+    .modal-content {
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 2rem; max-width: 400px; width: 100%;
+      text-align: center; position: relative;
+      transform: translateY(20px); transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+
+    .modal-icon {
+      width: 80px; height: 80px; margin: 0 auto 1.5rem;
+      background: rgba(0, 220, 130, 0.1); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
       color: var(--accent-primary);
     }
-
-    footer p {
-      color: var(--text-muted);
-    }
+    .modal-content h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .modal-content p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .modal-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; }
 
     /* Scroll animations */
     .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
+      opacity: 0; transform: translateY(30px);
       transition: opacity 0.6s ease, transform 0.6s ease;
-      will-change: opacity, transform;
     }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-in.visible {
-      will-change: auto;
-    }
-
-    /* Section spacing */
-    #hero + section {
-      padding-top: 4rem;
-    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     /* Responsive */
     @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        background: var(--bg-primary);
-        padding: 1rem;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      nav ul.active {
-        display: flex;
-      }
-
-      .mobile-menu {
-        display: flex;
-      }
-
-      .os-tabs {
-        justify-content: center;
-      }
-
-      .os-tab {
-        flex: 1;
-        text-align: center;
-        min-width: 100px;
-      }
-
-      .error-table {
-        font-size: 0.85rem;
-      }
-
-      .error-table th,
-      .error-table td {
-        padding: 0.75rem 0.5rem;
-      }
+      .tools-grid { grid-template-columns: 1fr; }
+      .floating-help-btn { bottom: 20px; right: 20px; padding: 0 16px; height: 45px; }
+      .modal-content { padding: 1.5rem; }
     }
 
-    /* Selection */
-    ::selection {
-      background: var(--accent-primary);
-      color: var(--bg-primary);
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-primary);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
-    }
-
-    /* Floating Help Button */
-    .floating-help-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: auto;
-      height: 50px;
-      background: var(--accent-primary);
-      color: var(--bg-primary);
-      border-radius: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 20px;
-      box-shadow: 0 4px 20px rgba(0, 220, 130, 0.4);
-      transition: var(--transition);
-      z-index: 999;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .floating-help-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 30px rgba(0, 220, 130, 0.6);
-      color: var(--bg-primary);
-    }
-
-    .floating-help-btn svg {
-      width: 22px;
-      height: 22px;
-      stroke-width: 2.5;
-    }
-
-    .help-label {
-      white-space: nowrap;
-    }
-
-    /* Modal Overlay */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    /* Modal Content */
-    .modal-content {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2rem;
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .modal-content {
-      transform: translateY(0);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: var(--transition);
-    }
-
-    .modal-close:hover {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-    }
-
-    .modal-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 1.5rem;
-      background: rgba(0, 220, 130, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent-primary);
-    }
-
-    .modal-content h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .modal-content p {
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-
-    .modal-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-
-    @media (max-width: 768px) {
-      .lang-switch {
-        margin-right: 1rem;
-      }
-
-      .lang-btn {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.75rem;
-      }
-
-      .floating-help-btn {
-        bottom: 20px;
-        right: 20px;
-        padding: 0 16px;
-        height: 45px;
-      }
-
-      .floating-help-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      .help-label {
-        font-size: 0.85rem;
-      }
-
-      .modal-content {
-        padding: 1.5rem;
-      }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -876,1040 +304,172 @@
   <!-- Header -->
   <header>
     <div class="header-content">
-      <a href="#" class="logo">Claude Code <span>API</span></a>
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
       <div class="lang-switch">
         <button class="lang-btn active" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
-      <nav>
-        <button class="mobile-menu" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <ul>
-          <li><a href="#install" class="nav-os" data-os="macos" data-i18n="nav-macos">macOS</a></li>
-          <li><a href="#install" class="nav-os" data-os="windows" data-i18n="nav-windows">Windows</a></li>
-          <li><a href="#install" class="nav-os" data-os="linux" data-i18n="nav-linux">Linux</a></li>
-          <li><a href="#install" class="nav-os" data-os="openclaw" data-i18n="nav-openclaw">Openclaw</a></li>
-          <li><a href="#install" class="nav-os" data-os="ide" data-i18n="nav-ide">VS Code / Cursor / Antigravity</a></li>
-        </ul>
-      </nav>
     </div>
   </header>
 
   <!-- Hero -->
   <section id="hero">
-    <h1 data-i18n="hero-title">Установка Claude Code</h1>
-    <p class="subtitle" data-i18n="hero-subtitle">
-      Пошаговое руководство по установке и настройке Claude Code с подключением
-      к кастомному API Claude Code API
-    </p>
-    <div class="cta-buttons">
-      <a href="#install" class="btn btn-primary" data-i18n="btn-install">
-        Начать установку
-      </a>
-      <a href="#install" class="btn btn-secondary" data-i18n="btn-quickstart">
-        Требования
-      </a>
-    </div>
+    <h1 data-i18n="hero-title">Подключение к Claude Code API</h1>
+    <p class="subtitle" data-i18n="hero-subtitle">Выберите ваш инструмент и следуйте инструкции по подключению</p>
   </section>
 
-  <!-- Main Content -->
+  <!-- Main -->
   <main>
-    <!-- Prerequisites -->
-    <section id="prerequisites" class="fade-in">
-      <h2 data-i18n="section-prerequisites">Предварительные требования</h2>
-      <p data-i18n="prereq-intro">Перед установкой Claude Code убедитесь, что у вас установлены следующие компоненты:</p>
-      <ul class="prereq-list">
-        <li data-i18n="prereq-list-1">Node.js версии 18 или выше</li>
-        <li data-i18n="prereq-list-2">npm (поставляется с Node.js)</li>
-        <li data-i18n="prereq-list-3">Доступ в интернет</li>
-      </ul>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon">📦</div>
-          <h3 data-i18n="card-check-versions">Проверка установленных версий</h3>
-        </div>
-        <p data-i18n="card-check-desc">Выполните следующие команды для проверки:</p>
-        <div class="code-block">
-          <div class="code-header">
-            <span>Terminal</span>
-            <button class="copy-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              <span data-i18n="btn-copy">Копировать</span>
-            </button>
-          </div>
-          <pre><code>node --version
-npm --version</code></pre>
-        </div>
+    <!-- Step 1: Registration -->
+    <section class="reg-section fade-in">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <h2 data-i18n="step-reg">Зарегистрируйтесь и получите API ключ</h2>
+      </div>
+      <div class="reg-card">
+        <ol>
+          <li data-i18n="reg-1">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a></li>
+          <li data-i18n="reg-2"><strong>Запомните ваш никнейм</strong> — он понадобится для пополнения баланса</li>
+          <li data-i18n="reg-3">Сохраните API ключ из личного кабинета</li>
+        </ol>
+        <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" data-i18n="btn-register">
+          Зарегистрироваться
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.25rem;">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
       </div>
     </section>
 
-    <!-- Installation -->
-    <section id="install" class="fade-in">
-      <h2 data-i18n="section-install">Инструкция по установке</h2>
-
-      <!-- OS Tabs -->
-      <div class="os-tabs">
-        <button class="os-tab active" data-os="macos">macOS</button>
-        <button class="os-tab" data-os="windows">Windows</button>
-        <button class="os-tab" data-os="linux">Linux</button>
-        <span class="os-divider">|</span>
-        <button class="os-tab" data-os="openclaw">Openclaw</button>
-        <span class="os-divider">|</span>
-        <button class="os-tab" data-os="ide">VS Code / Cursor / Antigravity</button>
+    <!-- Step 2: Choose Tool -->
+    <section class="tools-section fade-in">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <h2 data-i18n="step-tool">Выберите ваш инструмент</h2>
       </div>
 
-      <!-- macOS Content -->
-      <div class="os-content active" id="macos-content">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon">🍎</div>
-            <h3 data-i18n="macos-title">Установка на macOS</h3>
+      <div class="tools-grid">
+        <!-- Cursor -->
+        <a href="cursor.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"/><path d="M17.5 21L21.5 13L13 17.5L15.5 18.5L17.5 21Z" stroke-linejoin="round"/></svg>
           </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">0</span>
-              <h4 data-i18n="step-0-title">Регистрация и подготовка</h4>
-            </div>
-            <p style="margin-bottom: 1rem;" data-i18n="step-0-desc">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
-            <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
-              <li data-i18n-html="step-0-li-1">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a></li>
-              <li><strong data-i18n="step-0-li-2">Запомните ваш никнейм</strong> <span data-i18n="step-0-li-2-cont">— он понадобится для пополнения баланса</span></li>
-              <li data-i18n="step-0-li-3">Сохраните API ключ из личного кабинета</li>
-            </ol>
-            <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;" data-i18n="btn-register">
-              Зарегистрироваться
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </a>
+          <div class="tool-info">
+            <div class="tool-name">Cursor</div>
+            <p class="tool-desc" data-i18n="tool-cursor-desc">AI-редактор кода</p>
           </div>
+          <span class="tool-arrow">›</span>
+        </a>
 
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">1</span>
-              <h4 data-i18n="step-2-title">Установка Node.js</h4>
-            </div>
-            <p data-i18n="step-1-macos-desc">Скачайте и установите Node.js с официального сайта:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>brew install node</code></pre>
-            </div>
+        <!-- Claude Code -->
+        <a href="claude-code.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M7 8l4 4-4 4"/><path d="M13 16h4"/></svg>
           </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">2</span>
-              <h4 data-i18n="step-3-title">Установка Claude Code</h4>
-            </div>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-            </div>
+          <div class="tool-info">
+            <div class="tool-name">Claude Code</div>
+            <p class="tool-desc" data-i18n="tool-cc-desc">Официальный CLI</p>
           </div>
+          <span class="tool-arrow">›</span>
+        </a>
 
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">3</span>
-              <h4 data-i18n="step-4-title">Настройка settings.json</h4>
-            </div>
-            <p data-i18n="step-4-desc">Откройте файл конфигурации Claude Code:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>nano ~/.claude/settings.json</code></pre>
-            </div>
-            <p data-i18n="step-4-desc-finder">Или откройте через Finder: <code>~/Library/Application Support/Claude/settings.json</code></p>
-            <p data-i18n="step-4-desc-config">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ из личного кабинета):</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>JSON</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>{
-  "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://api.awstore.cloud",
-    "ANTHROPIC_API_KEY": "ваш_api_key",
-    "ANTHROPIC_AUTH_TOKEN": "ваш_api_key",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_CODE_EFFORT_LEVEL": "high",
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
-    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
-    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "DISABLE_TELEMETRY": "1",
-    "DISABLE_ERROR_REPORTING": "1",
-    "DISABLE_AUTOUPDATER": "1",
-    "DISABLE_BUG_COMMAND": "1",
-    "DISABLE_COST_WARNINGS": "1",
-    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
-    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
-    "BASH_DEFAULT_TIMEOUT_MS": "120000",
-    "BASH_MAX_TIMEOUT_MS": "600000",
-    "BASH_MAX_OUTPUT_LENGTH": "100000",
-    "MAX_THINKING_TOKENS": "31999"
-  },
-  "model": "claude-opus-4-6",
-  "skipDangerousModePermissionPrompt": true
-}</code></pre>
-            </div>
-            <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Claude Code API.</span></p>
+        <!-- Kilo Code -->
+        <a href="kilo-code.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
           </div>
+          <div class="tool-info">
+            <div class="tool-name">Kilo Code</div>
+            <p class="tool-desc" data-i18n="tool-kilo-desc">VS Code расширение</p>
+          </div>
+          <span class="tool-arrow">›</span>
+        </a>
 
-        </div>
+        <!-- Cline / Roo -->
+        <a href="cline-roo.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div class="tool-info">
+            <div class="tool-name">Cline / Roo</div>
+            <p class="tool-desc" data-i18n="tool-cline-desc">VS Code агент</p>
+          </div>
+          <span class="tool-arrow">›</span>
+        </a>
+
+        <!-- Continue -->
+        <a href="continue.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <div class="tool-info">
+            <div class="tool-name">Continue</div>
+            <p class="tool-desc" data-i18n="tool-continue-desc">VS Code / JetBrains</p>
+          </div>
+          <span class="tool-arrow">›</span>
+        </a>
+
+        <!-- OpenCode -->
+        <a href="opencode.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="tool-info">
+            <div class="tool-name">OpenCode</div>
+            <p class="tool-desc" data-i18n="tool-opencode-desc">Терминальный агент</p>
+          </div>
+          <span class="tool-arrow">›</span>
+        </a>
+
+        <!-- Openclaw -->
+        <a href="openclaw.html" class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </div>
+          <div class="tool-info">
+            <div class="tool-name">Openclaw</div>
+            <p class="tool-desc" data-i18n="tool-openclaw-desc">Мультипровайдер gateway</p>
+          </div>
+          <span class="tool-arrow">›</span>
+        </a>
       </div>
-
-      <!-- Windows Content -->
-      <div class="os-content" id="windows-content">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon">🪟</div>
-            <h3 data-i18n="windows-title">Установка на Windows</h3>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">0</span>
-              <h4 data-i18n="step-0-title">Регистрация и подготовка</h4>
-            </div>
-            <p style="margin-bottom: 1rem;" data-i18n="step-0-desc">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
-            <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
-              <li data-i18n-html="step-0-li-1">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a></li>
-              <li><strong data-i18n="step-0-li-2">Запомните ваш никнейм</strong> <span data-i18n="step-0-li-2-cont">— он понадобится для пополнения баланса</span></li>
-              <li data-i18n="step-0-li-3">Сохраните API ключ из личного кабинета</li>
-            </ol>
-            <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;" data-i18n="btn-register">
-              Зарегистрироваться
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </a>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">1</span>
-              <h4 data-i18n="step-1-win-title">Установка Node.js</h4>
-            </div>
-            <p data-i18n="step-1-win-desc">Скачайте и установите Node.js с официального сайта:</p>
-            <ul>
-              <li data-i18n-html="step-1-win-li-1">Перейдите на <a href="https://nodejs.org/" target="_blank">nodejs.org</a></li>
-              <li data-i18n="step-1-win-li-2">Скачайте LTS версию для Windows</li>
-              <li data-i18n="step-1-win-li-3">Запустите установщик и следуйте инструкциям</li>
-            </ul>
-            <p data-i18n="step-1-win-end">После установки перезапустите терминал.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">2</span>
-              <h4 data-i18n="step-3-title">Установка Claude Code</h4>
-            </div>
-            <p data-i18n="step-3-macos-desc">Откройте командную строку и выполните:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>cmd / PowerShell</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">3</span>
-              <h4 data-i18n="step-4-title">Настройка settings.json</h4>
-            </div>
-            <p data-i18n="win-step-4-desc">Откройте файл конфигурации через командную строку:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>cmd / PowerShell</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>cd %USERPROFILE%\.claude
-notepad settings.json</code></pre>
-            </div>
-            <p data-i18n="win-step-4-create">Если файл не существует, создайте новый.</p>
-            <p data-i18n="win-step-4-paste">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code></p>
-            <p data-i18n="win-step-4-key">на ваш ключ):</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>JSON</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>{
-  "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://api.awstore.cloud",
-    "ANTHROPIC_API_KEY": "ваш_api_key",
-    "ANTHROPIC_AUTH_TOKEN": "ваш_api_key",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_CODE_EFFORT_LEVEL": "high",
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
-    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
-    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "DISABLE_TELEMETRY": "1",
-    "DISABLE_ERROR_REPORTING": "1",
-    "DISABLE_AUTOUPDATER": "1",
-    "DISABLE_BUG_COMMAND": "1",
-    "DISABLE_COST_WARNINGS": "1",
-    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
-    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
-    "BASH_DEFAULT_TIMEOUT_MS": "120000",
-    "BASH_MAX_TIMEOUT_MS": "600000",
-    "BASH_MAX_OUTPUT_LENGTH": "100000",
-    "MAX_THINKING_TOKENS": "31999"
-  },
-  "model": "claude-opus-4-6",
-  "skipDangerousModePermissionPrompt": true
-}</code></pre>
-            </div>
-            <p><strong data-i18n="win-step-4-important">Важно:</strong> <span data-i18n="win-step-4-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="win-step-4-end">на фактический ключ из личного кабинета Claude Code API.</span></p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Linux Content -->
-      <div class="os-content" id="linux-content">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon">🐧</div>
-            <h3 data-i18n="linux-title">Установка на Linux</h3>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">0</span>
-              <h4 data-i18n="step-0-title">Регистрация и подготовка</h4>
-            </div>
-            <p style="margin-bottom: 1rem;" data-i18n="step-0-desc">Перед установкой необходимо зарегистрироваться и получить API ключ:</p>
-            <ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;">
-              <li data-i18n-html="step-0-li-1">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a></li>
-              <li><strong data-i18n="step-0-li-2">Запомните ваш никнейм</strong> <span data-i18n="step-0-li-2-cont">— он понадобится для пополнения баланса</span></li>
-              <li data-i18n="step-0-li-3">Сохраните API ключ из личного кабинета</li>
-            </ol>
-            <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center;" data-i18n="btn-register">
-              Зарегистрироваться
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.5rem;">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </a>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">1</span>
-              <h4 data-i18n="step-1-linux-ubuntu">Установка Node.js (Ubuntu/Debian)</h4>
-            </div>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt-get install -y nodejs</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">2</span>
-              <h4 data-i18n="step-1-linux-centos">Установка Node.js (CentOS/RHEL/Fedora)</h4>
-            </div>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
-sudo yum install -y nodejs</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">3</span>
-              <h4 data-i18n="step-3-title">Установка Claude Code</h4>
-            </div>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-            </div>
-            <p data-i18n="linux-step-3-sudo">Если возникает ошибка доступа, используйте <code>sudo</code>:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  Копировать
-                </button>
-              </div>
-              <pre><code>sudo npm install -g @anthropic-ai/claude-code</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">4</span>
-              <h4 data-i18n="step-4-title">Настройка settings.json</h4>
-            </div>
-            <p data-i18n="step-4-desc">Откройте файл конфигурации Claude Code:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>code ~/.claude/settings.json</code></pre>
-            </div>
-            <p data-i18n="step-4-desc-editor">Или используйте текстовый редактор:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>nano ~/.claude/settings.json</code></pre>
-            </div>
-            <p data-i18n="step-4-desc-config">Вставьте следующую конфигурацию (замените <code>ваш_api_key</code> на ваш ключ):</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>JSON</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>{
-  "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://api.awstore.cloud",
-    "ANTHROPIC_API_KEY": "ваш_api_key",
-    "ANTHROPIC_AUTH_TOKEN": "ваш_api_key",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_CODE_EFFORT_LEVEL": "high",
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
-    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
-    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "DISABLE_TELEMETRY": "1",
-    "DISABLE_ERROR_REPORTING": "1",
-    "DISABLE_AUTOUPDATER": "1",
-    "DISABLE_BUG_COMMAND": "1",
-    "DISABLE_COST_WARNINGS": "1",
-    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
-    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
-    "BASH_DEFAULT_TIMEOUT_MS": "120000",
-    "BASH_MAX_TIMEOUT_MS": "600000",
-    "BASH_MAX_OUTPUT_LENGTH": "100000",
-    "MAX_THINKING_TOKENS": "31999"
-  },
-  "model": "claude-opus-4-6",
-  "skipDangerousModePermissionPrompt": true
-}</code></pre>
-            </div>
-            <p><strong data-i18n="step-4-important">Важно:</strong> <span data-i18n="step-4-important-replace">Замените</span> <code>ваш_api_key</code> <span data-i18n="step-4-important-end">на фактический ключ из личного кабинета Claude Code API.</span></p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Openclaw Content -->
-      <div class="os-content" id="openclaw-content">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon">🔗</div>
-            <h3 data-i18n="openclaw-title">Подключение AWStore к Openclaw</h3>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">0</span>
-              <h4 data-i18n="openclaw-prereq-title">Что нужно заранее</h4>
-            </div>
-            <ul class="prereq-list">
-              <li data-i18n="openclaw-prereq-1">Доступ к машине через Claude Code</li>
-              <li data-i18n="openclaw-prereq-2">API-ключ от AWStore (из дашборда AWStore)</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">1</span>
-              <h4 data-i18n="openclaw-step-1-title">Обновить Openclaw</h4>
-            </div>
-            <p data-i18n="openclaw-step-1-desc">Обновите Openclaw до последней версии через npm и перезапустите все gateway:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>npm update -g openclaw</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">2</span>
-              <h4 data-i18n="openclaw-step-2-title">Добавить провайдер awstore</h4>
-            </div>
-            <p data-i18n="openclaw-step-2-desc">Откройте конфиг нужного инстанса (<code>openclaw.json</code>) и добавьте провайдер:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>JSON</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>{
-  "providers": {
-    "awstore": {
-      "baseUrl": "https://api.awstore.cloud/v1",
-      "apiType": "openai-completions",
-      "apiKey": "ваш_api_key",
-      "models": ["claude-opus-4-6", "claude-sonnet-4-5", "claude-sonnet-4", "claude-haiku-4-5"]
-    }
-  }
-}</code></pre>
-            </div>
-            <p><strong data-i18n="openclaw-step-2-note-title">Важно:</strong> <span data-i18n="openclaw-step-2-note">Тип API — <code>openai-completions</code>, не <code>anthropic-messages</code> (иначе будет ошибка 400).</span></p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">3</span>
-              <h4 data-i18n="openclaw-step-3-title">Назначить модель AWStore основной</h4>
-            </div>
-            <p data-i18n="openclaw-step-3-desc">В том же конфиге в секции моделей установите нужную модель как <code>primary</code>, остальные — в <code>fallbacks</code>:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>JSON</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>{
-  "model": {
-    "primary": "awstore/claude-opus-4-6",
-    "fallbacks": ["awstore/claude-sonnet-4-5", "awstore/claude-sonnet-4"]
-  }
-}</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">4</span>
-              <h4 data-i18n="openclaw-step-4-title">Пропатчить системный промпт</h4>
-            </div>
-            <p data-i18n="openclaw-step-4-desc">AWStore блокирует стандартную фразу из промпта Openclaw (фильтр прокси). Найдите в файле дистрибутива Openclaw фразу:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Text</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>You are a personal assistant running inside OpenClaw.</code></pre>
-            </div>
-            <p data-i18n="openclaw-step-4-replace">Замените на нейтральную (два вхождения):</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Text</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>You are an AI agent.</code></pre>
-            </div>
-            <p><strong data-i18n="openclaw-step-4-warning-title">Важно:</strong> <span data-i18n="openclaw-step-4-warning">Без этого патча все запросы будут падать с ошибкой 400. При обновлении Openclaw патч затирается — нужно повторять.</span></p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">5</span>
-              <h4 data-i18n="openclaw-step-5-title">Сбросить сессии и перезапустить gateway</h4>
-            </div>
-            <p data-i18n="openclaw-step-5-desc">Сбросьте старые сессии и перезапустите gateway, чтобы агент стартовал чисто с новой моделью:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>Bash</span>
-                <button class="copy-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span data-i18n="btn-copy">Копировать</span>
-                </button>
-              </div>
-              <pre><code>openclaw gateway restart</code></pre>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">✓</span>
-              <h4 data-i18n="openclaw-done-title">Готово</h4>
-            </div>
-            <p data-i18n="openclaw-done-desc">Агент работает через AWStore на Claude.</p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- IDE Content -->
-      <div class="os-content" id="ide-content">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon">💻</div>
-            <h3 data-i18n="ide-title">Подключение через IDE</h3>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">0</span>
-              <h4 data-i18n="ide-prereq-title">Предварительная настройка</h4>
-            </div>
-            <p data-i18n="ide-prereq-desc">Перед подключением через IDE убедитесь, что вы уже выполнили установку по одной из операционных систем (macOS, Windows или Linux) и проверили, что Claude Code работает в терминале.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">1</span>
-              <h4 data-i18n="ide-step-1-title">Откройте нужную IDE</h4>
-            </div>
-            <p data-i18n="ide-step-1-desc">Запустите одну из поддерживаемых IDE:</p>
-            <ul class="prereq-list">
-              <li data-i18n="ide-vscode">Visual Studio Code</li>
-              <li data-i18n="ide-cursor">Cursor</li>
-              <li data-i18n="ide-antigravity">Antigravity</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">2</span>
-              <h4 data-i18n="ide-step-2-title">Установите расширение Claude Code</h4>
-            </div>
-            <p data-i18n="ide-step-2-desc">Откройте раздел расширений (Extensions) в вашей IDE, найдите <strong>Claude Code</strong> и установите расширение.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">3</span>
-              <h4 data-i18n="ide-step-3-title">Нажмите на значок Claude Code</h4>
-            </div>
-            <p data-i18n="ide-step-3-desc">После установки расширения в боковой панели появится значок Claude Code — нажмите на него:</p>
-            <div style="text-align: center; margin: 1.5rem 0;">
-              <img src="claude-code-icon.png" alt="Claude Code icon" style="width: 48px; height: 48px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-tertiary); padding: 8px;">
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">4</span>
-              <h4 data-i18n="ide-step-4-title">Данные подтянутся автоматически</h4>
-            </div>
-            <p data-i18n="ide-step-4-desc">Конфигурация из <code>settings.json</code> подтянется автоматически. Откроется чат с Claude Code — можно начинать работу.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">
-              <span class="step-number">✓</span>
-              <h4 data-i18n="ide-done-title">Готово</h4>
-            </div>
-            <p data-i18n="ide-done-desc">Claude Code подключён и работает в вашей IDE.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Settings.json paths -->
-    <section id="settings" class="fade-in">
-      <h2 data-i18n="location-title">Расположение settings.json</h2>
-      <p data-i18n="settings-desc">Файл конфигурации <code>settings.json</code> находится в следующих директориях:</p>
-
-      <div class="card">
-        <table class="error-table">
-          <thead>
-            <tr>
-              <th data-i18n="os-macos">ОС</th>
-              <th data-i18n="table-cause">Путь к settings.json</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong data-i18n="macos-title">macOS</strong></td>
-              <td><code>~/.claude/settings.json</code><br><small>~/Library/Application Support/Claude/settings.json</small></td>
-            </tr>
-            <tr>
-              <td><strong data-i18n="windows-title">Windows</strong></td>
-              <td><code>%APPDATA%\Claude\settings.json</code></td>
-            </tr>
-            <tr>
-              <td><strong data-i18n="linux-title">Linux</strong></td>
-              <td><code>~/.claude/settings.json</code><br><small>~/.config/Claude/settings.json</small></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card" style="border-color: var(--accent-primary);">
-        <p style="margin: 0; color: var(--text-secondary);">
-          <strong data-i18n="card-tip-title">💡 Совет:</strong> <span data-i18n="card-tip-text">После редактирования settings.json перезапустите терминал для применения изменений.</span>
-        </p>
-      </div>
-    </section>
-
-    <!-- Verification -->
-    <section id="verification" class="fade-in">
-      <h2 data-i18n="verify-title">Проверка работоспособности</h2>
-      <p data-i18n="verify-desc">После настройки убедитесь, что Claude Code работает корректно:</p>
-
-      <div class="card">
-        <div class="code-block">
-          <div class="code-header">
-            <span>Terminal</span>
-            <button class="copy-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              <span data-i18n="btn-copy">Копировать</span>
-            </button>
-          </div>
-          <pre><code>claude --version</code></pre>
-        </div>
-      </div>
-
-      <p data-i18n="verify-run-desc">Запустите Claude Code и задайте простой вопрос:</p>
-
-      <div class="card">
-        <div class="code-block">
-          <div class="code-header">
-            <span>Terminal</span>
-            <button class="copy-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              <span data-i18n="btn-copy">Копировать</span>
-            </button>
-          </div>
-          <pre><code>claude
-> Привет! Расскажи, что ты умеешь делать?</code></pre>
-        </div>
-      </div>
-
-      <div class="card" style="border-color: var(--success-border); background: var(--success-bg);">
-        <p style="margin: 0; color: var(--text-primary);">
-          <strong data-i18n="verify-success">✓ Успех!</strong> <span data-i18n="verify-success-desc">Если вы получили ответ от Claude — настройка завершена успешно.</span>
-        </p>
-      </div>
-    </section>
-
-    <!-- Errors -->
-    <section id="errors" class="fade-in">
-      <h2 data-i18n="errors-title">Возможные ошибки и решения</h2>
-
-      <table class="error-table">
-        <thead>
-          <tr>
-            <th data-i18n="table-error">Ошибка</th>
-            <th data-i18n="table-cause">Причина</th>
-            <th data-i18n="table-solution">Решение</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>command not found: claude</code></td>
-            <td>Claude Code не установлен или не в PATH</td>
-            <td>Переустановите: <code>npm install -g @anthropic-ai/claude-code</code></td>
-          </tr>
-          <tr>
-            <td><code>EACCES permission denied</code></td>
-            <td>Недостаточно прав для установки</td>
-            <td>Используйте <code>sudo</code> или настройте права на npm глобальные пакеты</td>
-          </tr>
-          <tr>
-            <td><code>connection refused</code></td>
-            <td>Неверный Base URL или проблемы с сетью</td>
-            <td>Проверьте URL: <code>https://awstore.cloud/api</code></td>
-          </tr>
-          <tr>
-            <td><code>401 Unauthorized</code></td>
-            <td>Неверный API ключ</td>
-            <td>Получите новый ключ в личном кабинете и обновите конфиг</td>
-          </tr>
-          <tr>
-            <td><code>npm ERR! code EEXIST</code></td>
-            <td>Конфликт версий или файлов</td>
-            <td>Удалите старую версию: <code>npm uninstall -g @anthropic-ai/claude-code</code></td>
-          </tr>
-          <tr>
-            <td><code>node: command not found</code></td>
-            <td>Node.js не установлен</td>
-            <td>Установите Node.js 18+ согласно инструкции для вашей ОС</td>
-          </tr>
-          <tr>
-            <td><code>certificate verify failed</code></td>
-            <td>Проблемы с SSL сертификатом</td>
-            <td>Обновите сертификаты ОС или временно отключите проверку SSL</td>
-          </tr>
-          <tr>
-            <td><code>Invalid JSON in settings.json</code></td>
-            <td>Синтаксическая ошибка в JSON</td>
-            <td>Проверьте файл на валидность JSON (запятые, кавычки, скобки)</td>
-          </tr>
-          <tr>
-            <td><code>ANTHROPIC_API_KEY is required</code></td>
-            <td>Не указан API ключ</td>
-            <td>Добавьте ключ в settings.json: <code>"ANTHROPIC_API_KEY": "ваш_ключ"</code></td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="fade-in">
+    <section class="faq-section fade-in">
       <h2 data-i18n="section-faq">Часто задаваемые вопросы</h2>
 
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q1">
-          Что такое Claude Code API?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a1">
-            <p>Claude Code API — это кастомный API-прокси для Claude Code, который предоставляет доступ к моделям Anthropic по более доступным ценам. Сервис выступает промежуточным звеном между клиентом и официальным API Anthropic.</p>
-          </div>
+      <div style="margin-top: 1.5rem;">
+        <div class="faq-item">
+          <button class="faq-question" data-i18n="faq-q1">Что такое Claude Code API?</button>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a1">Claude Code API — это кастомный API-прокси, который предоставляет доступ к моделям Anthropic по более доступным ценам. Сервис выступает промежуточным звеном между клиентом и официальным API Anthropic.</p></div></div>
         </div>
-      </div>
 
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q5">
-          Как получить API ключ?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a5">
-            <p>Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a>, пополните баланс и создайте API ключ в личном кабинете.</p>
-          </div>
+        <div class="faq-item">
+          <button class="faq-question" data-i18n="faq-q2">Безопасно ли использовать?</button>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a2">Да, Claude Code API использует официальное API Anthropic. Ваши данные не сохраняются и не передаются третьим лицам.</p></div></div>
         </div>
-      </div>
 
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q2">
-          Безопасно ли использовать кастомный API?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a2">
-            <p>Да, Claude Code API использует официальное API Anthropic. Ваши данные не сохраняются и не передаются третьим лицам. API ключ используется только для аутентификации и тарификации запросов.</p>
-          </div>
+        <div class="faq-item">
+          <button class="faq-question" data-i18n="faq-q3">Нужна ли подписка?</button>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a3">Нет. Вы платите только за фактически использованные токены. Никакой ежемесячной подписки.</p></div></div>
         </div>
-      </div>
 
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q3">
-          Можно ли использовать Claude Code без подписки?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a3">
-            <p>Да, с Claude Code API вы платите только за фактически использованные токены. Никакой ежемесячной подписки не требуется.</p>
-          </div>
+        <div class="faq-item">
+          <button class="faq-question" data-i18n="faq-q4">Какие модели доступны?</button>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a4">Все актуальные модели Anthropic: Claude Opus 4.7, Opus 4.6, Opus 4.5, Sonnet 4.6, Sonnet 4.5, Haiku 4.5 и другие.</p></div></div>
         </div>
-      </div>
 
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q4">
-          Какие модели доступны через Claude Code API?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a4">
-            <p>Доступны все модели Anthropic, включая новейшие:<br>
-            <strong>Claude Sonnet 4.6</strong>, <strong>Claude Opus 4.6</strong>, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Выбор модели указывается в <code>settings.json</code> (параметр <code>model</code>) или при запуске через флаг <code>--model</code>.</p>
-          </div>
+        <div class="faq-item">
+          <button class="faq-question" data-i18n="faq-q5">Как получить API ключ?</button>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a5">Зарегистрируйтесь на <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a>, пополните баланс и создайте API ключ в личном кабинете.</p></div></div>
         </div>
-      </div>
 
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q6">
-          Как обновить Claude Code?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a6">
-            <p>Для обновления выполните команду: <code>npm update -g @anthropic-ai/claude-code</code>. Рекомендуется регулярно обновляться до последней версии.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q7">
-          Что делать, если Claude Code не отвечает?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a7">
-            <p>Проверьте: 1) Подключение к интернету, 2) Корректность Base URL, 3) Наличие средств на балансе, 4) Статус сервиса на странице Claude Code API. Также попробуйте перезапустить терминал.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q8">
-          Можно ли использовать на сервере без GUI?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a8">
-            <p>Да, Claude Code полностью работает в терминале и не требует графического интерфейса. Идеально подходит для удалённых серверов и CI/CD пайплайнов.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q9">
-          Как сменить API ключ или Base URL?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a9">
-            <p>Откройте файл <code>settings.json</code> и измените значения <code>ANTHROPIC_API_KEY</code> и <code>ANTHROPIC_BASE_URL</code>. Путь к файлу:<br>
-            <strong>macOS/Linux:</strong> <code>~/.claude/settings.json</code><br>
-            <strong>Windows:</strong> <code>%APPDATA%\Claude\settings.json</code></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" data-i18n="faq-q10">
-          Где посмотреть историю использования и расходы?
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-content" data-i18n-html="faq-a10">
-            <p>Вся статистика использования, история запросов и детализация расходов доступны в личном кабинете на awstore.cloud после авторизации.</p>
-          </div>
+        <div class="faq-item">
+          <button class="faq-question" data-i18n="faq-q6">Где посмотреть статистику использования?</button>
+          <div class="faq-answer"><div class="faq-answer-content"><p data-i18n="faq-a6">Вся статистика, история запросов и детализация расходов доступны в личном кабинете на awstore.cloud.</p></div></div>
         </div>
       </div>
     </section>
@@ -1917,23 +477,17 @@ sudo yum install -y nodejs</code></pre>
     <!-- CTA -->
     <section id="cta" class="fade-in">
       <h2 data-i18n="cta-title">Готовы начать?</h2>
-      <p style="margin-bottom: 1.5rem;" data-i18n="footer-cta">
-        Зарегистрируйтесь в Claude Code API и получите доступ к Claude Code по выгодным ценам
-      </p>
-      <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" data-i18n="btn-register">
-        Зарегистрироваться бесплатно
-      </a>
+      <p data-i18n="cta-desc">Зарегистрируйтесь и получите доступ к Claude Code по выгодным ценам</p>
+      <a href="https://awstore.cloud/register" target="_blank" class="btn btn-primary" data-i18n="btn-register-free">Зарегистрироваться бесплатно</a>
     </section>
   </main>
 
   <!-- Floating Help Button -->
   <button class="floating-help-btn" id="help-btn" title="Помощь">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-      <line x1="12" y1="17" x2="12.01" y2="17"/>
+      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
     </svg>
-    <span class="help-label" data-i18n="help-label">Помощь</span>
+    <span data-i18n="help-label">Помощь</span>
   </button>
 
   <!-- Help Modal -->
@@ -1942,31 +496,25 @@ sudo yum install -y nodejs</code></pre>
       <button class="modal-close" id="modal-close">&times;</button>
       <div class="modal-icon">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
         </svg>
       </div>
-      <h3 data-i18n="footer-help">Нужна помощь с установкой?</h3>
-      <p data-i18n="footer-help-desc">Не получается установить Claude Code? Напишите нам — мы поможем!</p>
+      <h3 data-i18n="help-title">Нужна помощь?</h3>
+      <p data-i18n="help-desc">Не получается подключиться? Напишите нам — мы поможем!</p>
       <a href="https://t.me/claudxeseller" target="_blank" rel="noopener" class="btn btn-primary modal-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
           <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
         </svg>
-        <span data-i18n="btn-telegram">Отправить в Telegram</span>
+        <span data-i18n="btn-telegram">Написать в Telegram</span>
       </a>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <p>
-      &copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br>
-      <a href="https://awstore.cloud" target="_blank">awstore.cloud</a>
-    </p>
+    <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
   </footer>
 
-  <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Help Modal
@@ -1974,657 +522,105 @@ sudo yum install -y nodejs</code></pre>
       const helpModal = document.getElementById('help-modal');
       const modalClose = document.getElementById('modal-close');
 
-      if (helpBtn && helpModal && modalClose) {
-        helpBtn.addEventListener('click', () => {
-          helpModal.classList.add('active');
+      helpBtn.addEventListener('click', () => helpModal.classList.add('active'));
+      modalClose.addEventListener('click', () => helpModal.classList.remove('active'));
+      helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.classList.remove('active'); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') helpModal.classList.remove('active'); });
+
+      // FAQ accordion
+      document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+          const item = q.parentElement;
+          const wasActive = item.classList.contains('active');
+          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+          if (!wasActive) item.classList.add('active');
         });
+      });
 
-        modalClose.addEventListener('click', () => {
-          helpModal.classList.remove('active');
-        });
+      // Scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        helpModal.addEventListener('click', (e) => {
-          if (e.target === helpModal) {
-            helpModal.classList.remove('active');
-          }
-        });
-
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && helpModal.classList.contains('active')) {
-            helpModal.classList.remove('active');
-          }
-        });
-      }
-
-      // Mobile menu toggle
-      const mobileMenu = document.querySelector('.mobile-menu');
-      const navUl = document.querySelector('nav ul');
-
-      if (mobileMenu && navUl) {
-        mobileMenu.addEventListener('click', () => {
-          navUl.classList.toggle('active');
-        });
-
-        // Close mobile menu on link click
-        document.querySelectorAll('nav a').forEach(link => {
-          link.addEventListener('click', () => {
-            navUl.classList.remove('active');
+      // Header shadow
+      let ticking = false;
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            header.style.boxShadow = window.scrollY > 50 ? '0 4px 20px rgba(0,0,0,0.5)' : 'none';
+            ticking = false;
           });
-        });
-      }
-
-      // OS Tabs
-      const osTabs = document.querySelectorAll('.os-tab');
-      const osContents = document.querySelectorAll('.os-content');
-
-      osTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          const os = tab.dataset.os;
-
-          // Remove active from all
-          osTabs.forEach(t => t.classList.remove('active'));
-          osContents.forEach(c => c.classList.remove('active'));
-
-          // Add active to selected
-          tab.classList.add('active');
-          document.getElementById(`${os}-content`).classList.add('active');
-        });
-      });
-
-      // Nav OS links — switch tab and scroll
-      document.querySelectorAll('.nav-os').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const os = link.dataset.os;
-
-          // Activate the corresponding tab
-          osTabs.forEach(t => t.classList.remove('active'));
-          osContents.forEach(c => c.classList.remove('active'));
-
-          document.querySelector(`.os-tab[data-os="${os}"]`)?.classList.add('active');
-          document.getElementById(`${os}-content`)?.classList.add('active');
-
-          // Scroll to install section
-          document.getElementById('install')?.scrollIntoView({ behavior: 'smooth' });
-        });
-      });
-
-      // Copy buttons
-      document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.code-block').querySelector('code').textContent;
-
-          try {
-            await navigator.clipboard.writeText(code);
-            btn.classList.add('copied');
-            btn.innerHTML = `
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            Скопировано
-          `;
-
-          setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.innerHTML = `
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              Копировать
-            `;
-          }, 2000);
-        } catch (err) {
-          console.error('Failed to copy:', err);
+          ticking = true;
         }
-      });
-    });
+      }, { passive: true });
 
-    // FAQ accordion
-    document.querySelectorAll('.faq-question').forEach(question => {
-      question.addEventListener('click', () => {
-        const item = question.parentElement;
-        const isActive = item.classList.contains('active');
-
-        // Close all
-        document.querySelectorAll('.faq-item').forEach(i => {
-          i.classList.remove('active');
-        });
-
-        // Open clicked if wasn't active
-        if (!isActive) {
-          item.classList.add('active');
+      // Language switcher
+      const translations = {
+        en: {
+          'hero-title': 'Connect to Claude Code API',
+          'hero-subtitle': 'Choose your tool and follow the setup guide',
+          'step-reg': 'Register and get your API key',
+          'reg-1': 'Register at awstore.cloud/register',
+          'reg-2': 'Remember your username — you will need it for balance top-up',
+          'reg-3': 'Save the API key from your account',
+          'btn-register': 'Register',
+          'step-tool': 'Choose your tool',
+          'tool-cursor-desc': 'AI code editor',
+          'tool-cc-desc': 'Official CLI',
+          'tool-kilo-desc': 'VS Code extension',
+          'tool-cline-desc': 'VS Code agent',
+          'tool-continue-desc': 'VS Code / JetBrains',
+          'tool-opencode-desc': 'Terminal agent',
+          'tool-openclaw-desc': 'Multi-provider gateway',
+          'section-faq': 'FAQ',
+          'faq-q1': 'What is Claude Code API?',
+          'faq-a1': 'Claude Code API is a custom API proxy that provides access to Anthropic models at more affordable prices.',
+          'faq-q2': 'Is it safe?',
+          'faq-a2': 'Yes, it uses the official Anthropic API. Your data is not stored or shared with third parties.',
+          'faq-q3': 'Is subscription required?',
+          'faq-a3': 'No. You only pay for tokens actually used. No monthly subscription.',
+          'faq-q4': 'Which models are available?',
+          'faq-a4': 'All current Anthropic models: Claude Opus 4.7, Opus 4.6, Opus 4.5, Sonnet 4.6, Sonnet 4.5, Haiku 4.5 and more.',
+          'faq-q5': 'How to get an API key?',
+          'faq-a5': 'Register at awstore.cloud/register, top up your balance and create an API key in your account.',
+          'faq-q6': 'Where to see usage statistics?',
+          'faq-a6': 'All stats and expense details are available in your account at awstore.cloud.',
+          'cta-title': 'Ready to start?',
+          'cta-desc': 'Register and get access to Claude Code at great prices',
+          'btn-register-free': 'Register for Free',
+          'help-label': 'Help',
+          'help-title': 'Need help?',
+          'help-desc': 'Having trouble connecting? Write to us — we will help!',
+          'btn-telegram': 'Message on Telegram',
+          'footer-copy': 'All rights reserved'
         }
-      });
-    });
+      };
 
-    // Scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observer.observe(el);
-    });
-
-    // Smooth scroll for anchor links (only internal #links)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        // Skip if it's not a valid internal anchor (must start with # and be a simple anchor)
-        if (!href || href === '#' || !href.startsWith('#') || href.includes('http') || href.includes('t.me')) return;
-
-        e.preventDefault();
-        const targetId = href.substring(1); // Remove the #
-        const target = document.getElementById(targetId) || document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // Header shadow on scroll (throttled with rAF)
-    const header = document.querySelector('header');
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (window.scrollY > 50) {
-            header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
-          } else {
-            header.style.boxShadow = 'none';
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-
-    // Language Switcher
-    const translations = {
-      ru: {
-        'nav-macos': 'macOS',
-        'nav-windows': 'Windows',
-        'nav-linux': 'Linux',
-        'nav-openclaw': 'Openclaw',
-        'nav-ide': 'VS Code / Cursor / Antigravity',
-        'hero-title': 'Установка Claude Code',
-        'hero-subtitle': 'Пошаговое руководство по установке и настройке Claude Code с подключением к кастомному API Claude Code API',
-        'btn-install': 'Начать установку',
-        'btn-quickstart': 'Требования',
-        'section-prerequisites': 'Предварительные требования',
-        'section-install': 'Инструкция по установке',
-        'section-settings': 'Настройка settings.json',
-        'section-errors': 'Частые ошибки',
-        'section-faq': 'Частые вопросы',
-        'prereq-intro': 'Перед установкой Claude Code убедитесь, что у вас установлены следующие компоненты:',
-        'prereq-list-1': 'Node.js версии 18 или выше',
-        'prereq-list-2': 'npm (поставляется с Node.js)',
-        'prereq-list-3': 'Доступ в интернет',
-        'card-check-versions': 'Проверка установленных версий',
-        'card-check-desc': 'Выполните следующие команды для проверки:',
-        'btn-copy': 'Копировать',
-        'os-macos': 'macOS',
-        'os-windows': 'Windows',
-        'os-linux': 'Linux',
-        'os-openclaw': 'Openclaw',
-        'os-ide': 'VS Code / Cursor / Antigravity',
-        'macos-title': 'Установка на macOS',
-        'windows-title': 'Установка на Windows',
-        'linux-title': 'Установка на Linux',
-        'openclaw-title': 'Подключение AWStore к Openclaw',
-        'openclaw-prereq-title': 'Что нужно заранее',
-        'openclaw-prereq-1': 'Доступ к машине через Claude Code',
-        'openclaw-prereq-2': 'API-ключ от AWStore (из дашборда AWStore)',
-        'openclaw-step-1-title': 'Обновить Openclaw',
-        'openclaw-step-1-desc': 'Обновите Openclaw до последней версии через npm и перезапустите все gateway:',
-        'openclaw-step-2-title': 'Добавить провайдер awstore',
-        'openclaw-step-2-desc': 'Откройте конфиг нужного инстанса (openclaw.json) и добавьте провайдер:',
-        'openclaw-step-2-note-title': 'Важно:',
-        'openclaw-step-2-note': 'Тип API — openai-completions, не anthropic-messages (иначе будет ошибка 400).',
-        'openclaw-step-3-title': 'Назначить модель AWStore основной',
-        'openclaw-step-3-desc': 'В том же конфиге в секции моделей установите нужную модель как primary, остальные — в fallbacks:',
-        'openclaw-step-4-title': 'Пропатчить системный промпт',
-        'openclaw-step-4-desc': 'AWStore блокирует стандартную фразу из промпта Openclaw (фильтр прокси). Найдите в файле дистрибутива Openclaw фразу:',
-        'openclaw-step-4-replace': 'Замените на нейтральную (два вхождения):',
-        'openclaw-step-4-warning-title': 'Важно:',
-        'openclaw-step-4-warning': 'Без этого патча все запросы будут падать с ошибкой 400. При обновлении Openclaw патч затирается — нужно повторять.',
-        'openclaw-step-5-title': 'Сбросить сессии и перезапустить gateway',
-        'openclaw-step-5-desc': 'Сбросьте старые сессии и перезапустите gateway, чтобы агент стартовал чисто с новой моделью:',
-        'openclaw-done-title': 'Готово',
-        'openclaw-done-desc': 'Агент работает через AWStore на Claude.',
-        'ide-title': 'Подключение через IDE',
-        'ide-prereq-title': 'Предварительная настройка',
-        'ide-prereq-desc': 'Перед подключением через IDE убедитесь, что вы уже выполнили установку по одной из операционных систем (macOS, Windows или Linux) и проверили, что Claude Code работает в терминале.',
-        'ide-step-1-title': 'Откройте нужную IDE',
-        'ide-step-1-desc': 'Запустите одну из поддерживаемых IDE:',
-        'ide-vscode': 'Visual Studio Code',
-        'ide-cursor': 'Cursor',
-        'ide-antigravity': 'Antigravity',
-        'ide-step-2-title': 'Установите расширение Claude Code',
-        'ide-step-2-desc': 'Откройте раздел расширений (Extensions) в вашей IDE, найдите Claude Code и установите расширение.',
-        'ide-step-3-title': 'Нажмите на значок Claude Code',
-        'ide-step-3-desc': 'После установки расширения в боковой панели появится значок Claude Code — нажмите на него:',
-        'ide-step-4-title': 'Данные подтянутся автоматически',
-        'ide-step-4-desc': 'Конфигурация из settings.json подтянется автоматически. Откроется чат с Claude Code — можно начинать работу.',
-        'ide-done-title': 'Готово',
-        'ide-done-desc': 'Claude Code подключён и работает в вашей IDE.',
-        'step-0-title': 'Регистрация и подготовка',
-        'step-0-desc': 'Перед установкой необходимо зарегистрироваться и получить API ключ:',
-        'step-0-li-1': 'Зарегистрируйтесь на',
-        'step-0-li-2': 'Запомните ваш никнейм',
-        'step-0-li-2-cont': '— он понадобится для пополнения баланса',
-        'step-0-li-3': 'Сохраните API ключ из личного кабинета',
-        'btn-register': 'Зарегистрироваться',
-        'step-1-macos-title': 'Установка Homebrew (если не установлен)',
-        'step-1-macos-desc': 'Homebrew — пакетный менеджер для macOS, который упростит установку Node.js.',
-        'step-1-win-title': 'Установка Node.js',
-        'step-1-win-desc': 'Скачайте и установите Node.js с официального сайта:',
-        'step-1-win-li-1': 'Перейдите на',
-        'step-1-win-li-2': 'Скачайте LTS версию для Windows',
-        'step-1-win-li-3': 'Запустите установщик и следуйте инструкциям',
-        'step-1-win-end': 'После установки перезапустите терминал.',
-        'step-1-linux-ubuntu': 'Установка Node.js (Ubuntu/Debian)',
-        'step-1-linux-centos': 'Установка Node.js (CentOS/RHEL/Fedora)',
-        'step-2-title': 'Установка Node.js',
-        'step-3-title': 'Установка Claude Code',
-        'step-3-macos-desc': 'Если возникает ошибка доступа, используйте',
-        'step-4-title': 'Настройка settings.json',
-        'step-4-desc': 'Откройте файл конфигурации Claude Code:',
-        'step-4-desc-finder': 'Или откройте через Finder:',
-        'step-4-desc-not-exists': 'Если файл не существует, создайте новый. Вставьте следующую конфигурацию (замените',
-        'step-4-desc-editor': 'Или используйте текстовый редактор:',
-        'step-4-desc-config': 'Вставьте следующую конфигурацию (замените',
-        'step-4-important': 'Важно:',
-        'step-4-important-replace': 'Замените',
-        'step-4-important-end': 'на фактический ключ из личного кабинета Claude Code API.',
-        'settings-file-locations': 'Файл конфигурации',
-        'settings-file-locations-end': 'находится в следующих директориях:',
-        'verify-title': 'Проверка работоспособности',
-        'verify-desc': 'После настройки убедитесь, что Claude Code работает корректно:',
-        'verify-run-desc': 'Запустите Claude Code и задайте простой вопрос:',
-        'verify-success': '✓ Успех!',
-        'verify-success-desc': 'Если вы получили ответ от Claude — настройка завершена успешно.',
-        'errors-title': 'Возможные ошибки и решения',
-        'footer-help': 'Нужна помощь с установкой?',
-        'footer-help-desc': 'Не получается установить Claude Code? Напишите нам — мы поможем!',
-        'footer-cta': 'Зарегистрируйтесь в Claude Code API и получите доступ к Claude Code по выгодным ценам',
-        'faq-q1': 'Что такое Claude Code API?',
-        'faq-a1': 'Claude Code API — это кастомный API-прокси для Claude Code, который предоставляет доступ к моделям Anthropic по более доступным ценам. Сервис выступает промежуточным звеном между клиентом и официальным API Anthropic.',
-        'faq-q2': 'Это безопасно?',
-        'faq-a2': 'Да, Claude Code API использует официальное API Anthropic. Ваши данные не сохраняются и не передаются третьим лицам. API ключ используется только для аутентификации и тарификации запросов.',
-        'faq-q3': 'Нужна ли подписка?',
-        'faq-a3': 'Да, с Claude Code API вы платите только за фактически использованные токены. Никакой ежемесячной подписки не требуется.',
-        'faq-q4': 'Какие модели доступны?',
-        'faq-a4': 'Все актуальные модели Anthropic, включая новейшие: Claude Sonnet 4.6, Claude Opus 4.6, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Выбор модели указывается в settings.json (параметр model) или при запуске через флаг --model.',
-        'faq-q5': 'Как пополнить баланс?',
-        'faq-a5': 'Зарегистрируйтесь на awstore.cloud/register, пополните баланс и создайте API ключ в личном кабинете.',
-        'faq-q6': 'Как обновить Claude Code?',
-        'faq-a6': 'Для обновления выполните команду: npm update -g @anthropic-ai/claude-code. Рекомендуется регулярно обновляться до последней версии.',
-        'faq-q7': 'Что делать если ошибка подключения?',
-        'faq-a7': 'Проверьте: 1) Подключение к интернету, 2) Корректность Base URL, 3) Наличие средств на балансе, 4) Статус сервиса на странице Claude Code API. Также попробуйте перезапустить терминал.',
-        'faq-q8': 'Можно ли использовать на сервере без GUI?',
-        'faq-a8': 'Да, Claude Code полностью работает в терминале и не требует графического интерфейса. Идеально подходит для удалённых серверов и CI/CD пайплайнов.',
-        'faq-q9': 'Как сменить API ключ?',
-        'faq-a9': 'Откройте файл settings.json и измените значения ANTHROPIC_API_KEY и ANTHROPIC_BASE_URL.',
-        'faq-q10': 'Где посмотреть статистику использования?',
-        'faq-a10': 'Вся статистика использования, история запросов и детализация расходов доступны в личном кабинете на awstore.cloud после авторизации.',
-        'cta-title': 'Готовы начать?',
-        'help-label': 'Помощь',
-        'btn-register-free': 'Зарегистрироваться бесплатно',
-        'table-error': 'Ошибка',
-        'table-cause': 'Причина',
-        'table-solution': 'Решение',
-        'settings-desc': 'Файл конфигурации settings.json находится в следующих директориях:',
-        'settings-macos': 'macOS:',
-        'settings-linux': 'Linux:',
-        'settings-windows': 'Windows:',
-        'verify-success-full': 'Если вы получили ответ от Claude — настройка завершена успешно.',
-        'card-success': '✓ Успех!',
-        'card-tip-title': '💡 Совет:',
-        'card-tip-text': 'После редактирования settings.json перезапустите терминал для применения изменений.',
-        'linux-step-1-desc': 'Выберите подходящий метод для вашего дистрибутива:',
-        'linux-step-3-desc': 'Установите Claude Code:',
-        'linux-step-3-sudo': 'Если возникает ошибка доступа, используйте',
-        'win-step-4-desc': 'Откройте файл конфигурации:',
-        'win-step-4-create': 'Если файл не существует, создайте новый.',
-        'win-step-4-paste': 'Вставьте следующую конфигурацию (замените',
-        'win-step-4-key': 'на ваш ключ):',
-        'win-step-4-important': 'Важно:',
-        'win-step-4-replace': 'Замените',
-        'win-step-4-end': 'на фактический ключ из личного кабинета Claude Code API.',
-        'macos-step-4-desc': 'Откройте файл конфигурации:',
-        'macos-step-4-finder': 'Или через Finder:',
-        'macos-step-4-paste': 'Вставьте следующую конфигурацию (замените',
-        'macos-step-4-key': 'на ваш ключ из личного кабинета):',
-        'location-title': 'Расположение файла settings.json',
-        'footer-copy': 'Все права защищены'
-      },
-      en: {
-        'nav-macos': 'macOS',
-        'nav-windows': 'Windows',
-        'nav-linux': 'Linux',
-        'nav-openclaw': 'Openclaw',
-        'nav-ide': 'VS Code / Cursor / Antigravity',
-        'nav-settings': 'Settings.json',
-        'nav-errors': 'Errors',
-        'nav-faq': 'FAQ',
-        'hero-title': 'Claude Code Installation',
-        'hero-subtitle': 'Step-by-step guide to installing and configuring Claude Code with custom Claude Code API API',
-        'btn-install': 'Start Installation',
-        'btn-quickstart': 'Prerequisites',
-        'section-prerequisites': 'Prerequisites',
-        'section-install': 'Installation Guide',
-        'section-settings': 'Settings.json Configuration',
-        'section-errors': 'Common Errors',
-        'section-faq': 'FAQ',
-        'prereq-intro': 'Before installing Claude Code, make sure you have the following components installed:',
-        'prereq-list-1': 'Node.js version 18 or higher',
-        'prereq-list-2': 'npm (comes with Node.js)',
-        'prereq-list-3': 'Internet connection',
-        'card-check-versions': 'Check installed versions',
-        'card-check-desc': 'Run the following commands to verify:',
-        'btn-copy': 'Copy',
-        'os-macos': 'macOS',
-        'os-windows': 'Windows',
-        'os-linux': 'Linux',
-        'os-openclaw': 'Openclaw',
-        'os-ide': 'VS Code / Cursor / Antigravity',
-        'macos-title': 'Installation on macOS',
-        'windows-title': 'Installation on Windows',
-        'linux-title': 'Installation on Linux',
-        'openclaw-title': 'Connect AWStore to Openclaw',
-        'openclaw-prereq-title': 'Prerequisites',
-        'openclaw-prereq-1': 'Access to the machine via Claude Code',
-        'openclaw-prereq-2': 'AWStore API key (from AWStore dashboard)',
-        'openclaw-step-1-title': 'Update Openclaw',
-        'openclaw-step-1-desc': 'Update Openclaw to the latest version via npm and restart all gateways:',
-        'openclaw-step-2-title': 'Add awstore provider',
-        'openclaw-step-2-desc': 'Open the config of the target instance (openclaw.json) and add the provider:',
-        'openclaw-step-2-note-title': 'Important:',
-        'openclaw-step-2-note': 'API type must be openai-completions, not anthropic-messages (otherwise you will get error 400).',
-        'openclaw-step-3-title': 'Set AWStore model as primary',
-        'openclaw-step-3-desc': 'In the same config, in the models section, set the desired model as primary, the rest as fallbacks:',
-        'openclaw-step-4-title': 'Patch the system prompt',
-        'openclaw-step-4-desc': 'AWStore blocks the default phrase from the Openclaw prompt (proxy filter). Find this phrase in the Openclaw distribution file:',
-        'openclaw-step-4-replace': 'Replace with a neutral one (two occurrences):',
-        'openclaw-step-4-warning-title': 'Important:',
-        'openclaw-step-4-warning': 'Without this patch all requests will fail with error 400. The patch gets overwritten on Openclaw update — you need to reapply it.',
-        'openclaw-step-5-title': 'Reset sessions and restart gateway',
-        'openclaw-step-5-desc': 'Reset old sessions and restart the gateway so the agent starts clean with the new model:',
-        'openclaw-done-title': 'Done',
-        'openclaw-done-desc': 'The agent is running through AWStore on Claude.',
-        'ide-title': 'Connect via IDE',
-        'ide-prereq-title': 'Prerequisites',
-        'ide-prereq-desc': 'Before connecting via IDE, make sure you have already completed the installation for one of the operating systems (macOS, Windows, or Linux) and verified that Claude Code works in the terminal.',
-        'ide-step-1-title': 'Open your IDE',
-        'ide-step-1-desc': 'Launch one of the supported IDEs:',
-        'ide-vscode': 'Visual Studio Code',
-        'ide-cursor': 'Cursor',
-        'ide-antigravity': 'Antigravity',
-        'ide-step-2-title': 'Install the Claude Code extension',
-        'ide-step-2-desc': 'Open the Extensions section in your IDE, search for Claude Code, and install the extension.',
-        'ide-step-3-title': 'Click the Claude Code icon',
-        'ide-step-3-desc': 'After installing the extension, the Claude Code icon will appear in the sidebar — click on it:',
-        'ide-step-4-title': 'Configuration will be applied automatically',
-        'ide-step-4-desc': 'The configuration from settings.json will be applied automatically. A Claude Code chat window will open — you can start working.',
-        'ide-done-title': 'Done',
-        'ide-done-desc': 'Claude Code is connected and working in your IDE.',
-        'step-0-title': 'Registration and Preparation',
-        'step-0-desc': 'Before installation, you need to register and get an API key:',
-        'step-0-li-1': 'Register at',
-        'step-0-li-2': 'Remember your nickname',
-        'step-0-li-2-cont': '— you will need it for balance top-up',
-        'step-0-li-3': 'Save the API key from your account',
-        'btn-register': 'Register',
-        'step-1-macos-title': 'Install Homebrew (if not installed)',
-        'step-1-macos-desc': 'Homebrew is a package manager for macOS that simplifies Node.js installation.',
-        'step-1-win-title': 'Install Node.js',
-        'step-1-win-desc': 'Download and install Node.js from the official website:',
-        'step-1-win-li-1': 'Go to',
-        'step-1-win-li-2': 'Download LTS version for Windows',
-        'step-1-win-li-3': 'Run the installer and follow instructions',
-        'step-1-win-end': 'After installation, restart your terminal.',
-        'step-1-linux-ubuntu': 'Install Node.js (Ubuntu/Debian)',
-        'step-1-linux-centos': 'Install Node.js (CentOS/RHEL/Fedora)',
-        'step-2-title': 'Install Node.js',
-        'step-3-title': 'Install Claude Code',
-        'step-3-macos-desc': 'If you get access denied error, use',
-        'step-4-title': 'Configure settings.json',
-        'step-4-desc': 'Open Claude Code configuration file:',
-        'step-4-desc-finder': 'Or open via Finder:',
-        'step-4-desc-not-exists': 'If the file does not exist, create a new one. Paste the following configuration (replace',
-        'step-4-desc-editor': 'Or use a text editor:',
-        'step-4-desc-config': 'Paste the following configuration (replace',
-        'step-4-important': 'Important:',
-        'step-4-important-replace': 'Replace',
-        'step-4-important-end': 'with your actual key from Claude Code API account.',
-        'settings-file-locations': 'Configuration file',
-        'settings-file-locations-end': 'is located in the following directories:',
-        'verify-title': 'Verify Installation',
-        'verify-desc': 'After configuration, make sure Claude Code is working correctly:',
-        'verify-run-desc': 'Run Claude Code and ask a simple question:',
-        'verify-success': '✓ Success!',
-        'verify-success-desc': 'If you received a response from Claude — setup is complete.',
-        'errors-title': 'Common Errors and Solutions',
-        'footer-help': 'Need Help with Installation?',
-        'footer-help-desc': 'Having trouble installing Claude Code? Write to us — we will help!',
-        'footer-cta': 'Register in Claude Code API and get access to Claude Code at great prices',
-        'faq-q1': 'What is Claude Code API?',
-        'faq-a1': 'Claude Code API is a custom API proxy for Claude Code that provides access to Anthropic models at more affordable prices. The service acts as an intermediary between the client and the official Anthropic API.',
-        'faq-q2': 'Is it safe?',
-        'faq-a2': 'Yes, Claude Code API uses the official Anthropic API. Your data is not stored or shared with third parties. The API key is used only for authentication and billing.',
-        'faq-q3': 'Is subscription required?',
-        'faq-a3': 'With Claude Code API, you only pay for tokens actually used. No monthly subscription is required.',
-        'faq-q4': 'Which models are available?',
-        'faq-a4': 'All current Anthropic models including the newest: Claude Sonnet 4.6, Claude Opus 4.6, Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku. Model selection is specified in settings.json (model parameter) or via --model flag.',
-        'faq-q5': 'How to top up balance?',
-        'faq-a5': 'Register at awstore.cloud/register, top up your balance and create an API key in your account.',
-        'faq-q6': 'How to update Claude Code?',
-        'faq-a6': 'To update, run: npm update -g @anthropic-ai/claude-code. It is recommended to update regularly to the latest version.',
-        'faq-q7': 'What if connection error?',
-        'faq-a7': 'Check: 1) Internet connection, 2) Base URL correctness, 3) Balance availability, 4) Service status on Claude Code API page. Also try restarting the terminal.',
-        'faq-q8': 'Can I use on a server without GUI?',
-        'faq-a8': 'Yes, Claude Code works entirely in the terminal and does not require a graphical interface. Ideal for remote servers and CI/CD pipelines.',
-        'faq-q9': 'How to change API key?',
-        'faq-a9': 'Open settings.json file and change ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL values.',
-        'faq-q10': 'Where to see usage statistics?',
-        'faq-a10': 'All usage statistics, request history and expense details are available in your account at awstore.cloud after login.',
-        'cta-title': 'Ready to Start?',
-        'help-label': 'Help',
-        'btn-register-free': 'Register for Free',
-        'table-error': 'Error',
-        'table-cause': 'Cause',
-        'table-solution': 'Solution',
-        'step-5-desc': 'Select top-up amount and enter your Telegram username',
-        'credit-label': 'credits',
-        'rub-label': '₽',
-        'settings-desc': 'The settings.json configuration file is located in the following directories:',
-        'settings-macos': 'macOS:',
-        'settings-linux': 'Linux:',
-        'settings-windows': 'Windows:',
-        'verify-success-full': 'If you received a response from Claude — setup is complete.',
-        'card-success': '✓ Success!',
-        'card-tip-title': '💡 Tip:',
-        'card-tip-text': 'After editing settings.json, restart your terminal to apply changes.',
-        'linux-step-1-desc': 'Choose the appropriate method for your distribution:',
-        'linux-step-3-desc': 'Install Claude Code:',
-        'linux-step-3-sudo': 'If you get access denied error, use',
-        'win-step-4-desc': 'Open configuration file:',
-        'win-step-4-create': 'If the file does not exist, create a new one.',
-        'win-step-4-paste': 'Paste the following configuration (replace',
-        'win-step-4-key': 'with your key):',
-        'win-step-4-important': 'Important:',
-        'win-step-4-replace': 'Replace',
-        'win-step-4-end': 'with your actual key from Claude Code API account.',
-        'macos-step-4-desc': 'Open configuration file:',
-        'macos-step-4-finder': 'Or via Finder:',
-        'macos-step-4-paste': 'Paste the following configuration (replace',
-        'macos-step-4-key': 'with your key from account):',
-        'location-title': 'settings.json File Location',
-        'footer-copy': 'All rights reserved'
-      }
-    };
-
-    let currentLang = 'ru';
-
-    function updateContent(lang) {
-      const t = translations[lang];
-      if (!t) return;
-
-      // Update elements with data-i18n attribute
+      let currentLang = 'ru';
+      const ruTexts = {};
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (t[key]) el.textContent = t[key];
+        ruTexts[el.getAttribute('data-i18n')] = el.innerHTML;
       });
 
-      // Update elements with data-i18n-html attribute
-      document.querySelectorAll('[data-i18n-html]').forEach(el => {
-        const key = el.getAttribute('data-i18n-html');
-        if (t[key]) el.innerHTML = `<p>${t[key]}</p>`;
-      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.dataset.lang;
+          if (lang === currentLang) return;
+          currentLang = lang;
+          document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          document.documentElement.lang = lang;
 
-      // Update nav links
-      document.querySelectorAll('.nav-os[data-os="macos"]').forEach(el => el.textContent = t['nav-macos']);
-      document.querySelectorAll('.nav-os[data-os="windows"]').forEach(el => el.textContent = t['nav-windows']);
-      document.querySelectorAll('.nav-os[data-os="linux"]').forEach(el => el.textContent = t['nav-linux']);
-      document.querySelectorAll('.nav-os[data-os="openclaw"]').forEach(el => el.textContent = t['nav-openclaw']);
-      document.querySelectorAll('.nav-os[data-os="ide"]').forEach(el => el.textContent = t['nav-ide']);
-
-      // Update hero
-      const heroTitle = document.querySelector('#hero h1');
-      const heroSubtitle = document.querySelector('#hero .subtitle');
-      if (heroTitle) heroTitle.textContent = t['hero-title'];
-      if (heroSubtitle) heroSubtitle.textContent = t['hero-subtitle'];
-
-      // Update buttons
-      document.querySelector('a.btn-primary[href="#install"]').textContent = t['btn-install'];
-      document.querySelector('a.btn-secondary[href="#install"]').textContent = t['btn-quickstart'];
-
-      // Update section titles
-      document.querySelector('#prerequisites h2').textContent = t['section-prerequisites'];
-      document.querySelector('#install h2').textContent = t['section-install'];
-      document.querySelector('#settings h2').textContent = t['section-settings'];
-      document.querySelector('#errors h2').textContent = t['section-errors'];
-      document.querySelector('#faq h2').textContent = t['section-faq'];
-
-      // Update prerequisites
-      document.querySelector('#prerequisites > p').textContent = t['prereq-intro'];
-      const prereqItems = document.querySelectorAll('#prerequisites .prereq-list li');
-      if (prereqItems[0]) prereqItems[0].textContent = t['prereq-list-1'];
-      if (prereqItems[1]) prereqItems[1].textContent = t['prereq-list-2'];
-      if (prereqItems[2]) prereqItems[2].textContent = t['prereq-list-3'];
-      document.querySelector('#prerequisites h3').textContent = t['card-check-versions'];
-      document.querySelector('#prerequisites .card > p').textContent = t['card-check-desc'];
-
-      // Update copy buttons
-      document.querySelectorAll('.copy-btn').forEach(btn => {
-        const textNode = btn.childNodes[btn.childNodes.length - 1];
-        if (textNode && textNode.nodeType === 3) {
-          textNode.textContent = t['btn-copy'];
-        } else {
-          btn.childNodes[btn.childNodes.length - 1]?.textContent === '' && (btn.lastElementChild.previousElementSibling.textContent = t['btn-copy']);
-        }
-      });
-
-      // Update OS tabs
-      document.querySelectorAll('.os-tab[data-os="macos"]').forEach(el => el.textContent = t['os-macos']);
-      document.querySelectorAll('.os-tab[data-os="windows"]').forEach(el => el.textContent = t['os-windows']);
-      document.querySelectorAll('.os-tab[data-os="linux"]').forEach(el => el.textContent = t['os-linux']);
-      document.querySelectorAll('.os-tab[data-os="openclaw"]').forEach(el => el.textContent = t['os-openclaw']);
-      document.querySelectorAll('.os-tab[data-os="ide"]').forEach(el => el.textContent = t['os-ide']);
-
-      // Update macOS content
-      document.querySelector('#macos-content h3').textContent = t['macos-title'];
-      document.querySelectorAll('#macos-content .step-title h4')[0].textContent = t['step-0-title'];
-      document.querySelectorAll('#macos-content .step')[0].querySelector('p').textContent = t['step-0-desc'];
-      const macosLi = document.querySelectorAll('#macos-content .step')[0].querySelectorAll('ol li');
-      if (macosLi[0]) macosLi[0].innerHTML = t['step-0-li-1'] + ' <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a>';
-      if (macosLi[1]) macosLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
-      if (macosLi[2]) macosLi[2].textContent = t['step-0-li-3'];
-      document.querySelector('#macos-content .btn-primary[href*="register"]').textContent = t['btn-register'];
-      document.querySelectorAll('#macos-content .step-title h4')[1].textContent = t['step-2-title'];
-      document.querySelectorAll('#macos-content .step')[1].querySelector('p').textContent = t['step-1-macos-desc'];
-      document.querySelectorAll('#macos-content .step-title h4')[2].textContent = t['step-3-title'];
-      document.querySelectorAll('#macos-content .step-title h4')[3].textContent = t['step-4-title'];
-
-      // Update Windows content
-      document.querySelector('#windows-content h3').textContent = t['windows-title'];
-      document.querySelectorAll('#windows-content .step-title h4')[0].textContent = t['step-0-title'];
-      document.querySelectorAll('#windows-content .step')[0].querySelector('p').textContent = t['step-0-desc'];
-      const winLi = document.querySelectorAll('#windows-content .step')[0].querySelectorAll('ol li');
-      if (winLi[0]) winLi[0].innerHTML = t['step-0-li-1'] + ' <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a>';
-      if (winLi[1]) winLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
-      if (winLi[2]) winLi[2].textContent = t['step-0-li-3'];
-      document.querySelector('#windows-content .btn-primary[href*="register"]').textContent = t['btn-register'];
-      document.querySelectorAll('#windows-content .step-title h4')[1].textContent = t['step-1-win-title'];
-      document.querySelectorAll('#windows-content .step')[1].querySelector('p').textContent = t['step-1-win-desc'];
-      const winUl = document.querySelectorAll('#windows-content .step')[1].querySelectorAll('ul li');
-      if (winUl[0]) winUl[0].innerHTML = t['step-1-win-li-1'] + ' <a href="https://nodejs.org/" target="_blank">nodejs.org</a>';
-      if (winUl[1]) winUl[1].textContent = t['step-1-win-li-2'];
-      if (winUl[2]) winUl[2].textContent = t['step-1-win-li-3'];
-      document.querySelectorAll('#windows-content .step')[1].querySelectorAll('p')[1].textContent = t['step-1-win-end'];
-      document.querySelectorAll('#windows-content .step-title h4')[2].textContent = t['step-3-title'];
-      document.querySelectorAll('#windows-content .step-title h4')[3].textContent = t['step-4-title'];
-
-      // Update Linux content
-      document.querySelector('#linux-content h3').textContent = t['linux-title'];
-      document.querySelectorAll('#linux-content .step-title h4')[0].textContent = t['step-0-title'];
-      document.querySelectorAll('#linux-content .step')[0].querySelector('p').textContent = t['step-0-desc'];
-      const linuxLi = document.querySelectorAll('#linux-content .step')[0].querySelectorAll('ol li');
-      if (linuxLi[0]) linuxLi[0].innerHTML = t['step-0-li-1'] + ' <a href="https://awstore.cloud/register" target="_blank">awstore.cloud/register</a>';
-      if (linuxLi[1]) linuxLi[1].innerHTML = '<strong>' + t['step-0-li-2'] + '</strong>' + t['step-0-li-2-cont'];
-      if (linuxLi[2]) linuxLi[2].textContent = t['step-0-li-3'];
-      document.querySelector('#linux-content .btn-primary[href*="register"]').textContent = t['btn-register'];
-      document.querySelectorAll('#linux-content .step-title h4')[1].textContent = t['step-1-linux-ubuntu'];
-      document.querySelectorAll('#linux-content .step-title h4')[2].textContent = t['step-1-linux-centos'];
-      document.querySelectorAll('#linux-content .step-title h4')[3].textContent = t['step-3-title'];
-      document.querySelectorAll('#linux-content .step')[3].querySelectorAll('p')[0].textContent = t['step-3-macos-desc'] + ' sudo';
-      document.querySelectorAll('#linux-content .step-title h4')[4].textContent = t['step-4-title'];
-      document.querySelectorAll('#linux-content .step')[4].querySelectorAll('p')[0].textContent = t['step-4-desc'];
-      document.querySelectorAll('#linux-content .step')[4].querySelectorAll('p')[1].textContent = t['step-4-desc-editor'];
-      document.querySelectorAll('#linux-content .step')[4].querySelectorAll('p')[2].textContent = t['step-4-desc-config'];
-
-      // Update footer
-      const footerP = document.querySelector('footer p');
-      if (footerP) {
-        footerP.innerHTML = `&copy; 2026 Claude Code API. ${t['footer-copy']}`;
-      }
-
-      // Update HTML lang attribute
-      document.documentElement.lang = lang;
-    }
-
-    // Initialize language switcher
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const lang = this.dataset.lang;
-        if (lang === currentLang) return;
-
-        currentLang = lang;
-
-        // Update button states
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-
-        // Update content
-        updateContent(lang);
+          const t = lang === 'en' ? translations.en : ruTexts;
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) el.innerHTML = t[key];
+          });
+        });
       });
     });
-  }); // End DOMContentLoaded
   </script>
 </body>
 </html>

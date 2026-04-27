@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Cursor к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Cursor — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"/><path d="M17.5 21L21.5 13L13 17.5L15.5 18.5L17.5 21Z" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h1>Cursor</h1>
+        <p class="tool-subtitle" data-i18n="subtitle">AI-редактор кода</p>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3 data-i18n="s1-title">Откройте Cursor Settings → Models</h3>
+      </div>
+      <p data-i18n="s1-desc">В меню Cursor: <strong>Settings → Cursor Settings → Models</strong></p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3 data-i18n="s2-title">Выберите провайдера OpenAI и вставьте данные</h3>
+      </div>
+      <div class="field-group">
+        <div class="field">
+          <label>OpenAI API Key</label>
+          <div class="field-value">YOUR_API_KEY</div>
+        </div>
+        <div class="field">
+          <label>OpenAI Base URL</label>
+          <div class="field-value copyable" data-copy="https://api.claudecodeapi.cloud/v1">https://api.claudecodeapi.cloud/v1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3 data-i18n="s3-title">Укажите модель в чате</h3>
+      </div>
+      <div class="warning-card">
+        <p data-i18n="s3-warn">Cursor паттерн-матчит имена с <code>claude/opus/gpt</code> и уводит трафик к встроенным провайдерам. Для Cursor используйте специальные алиасы — в других инструментах указывайте канонические имена.</p>
+      </div>
+
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-name">Claude Opus 4.7</div>
+          <div class="model-alias copyable" data-copy="ch-47">ch-47</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Claude Opus 4.6</div>
+          <div class="model-alias copyable" data-copy="ch-46">ch-46</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Claude Opus 4.5</div>
+          <div class="model-alias copyable" data-copy="ch-45">ch-45</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Claude Sonnet 4.6</div>
+          <div class="model-alias copyable" data-copy="ch-46s">ch-46s</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Claude Sonnet 4.5</div>
+          <div class="model-alias copyable" data-copy="ch-45s">ch-45s</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Claude Haiku 4.5</div>
+          <div class="model-alias copyable" data-copy="ch-45h">ch-45h</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>

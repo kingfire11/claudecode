@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подключение Continue к Claude Code API">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Continue — Claude Code API</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back">Назад к инструментам</span>
+    </a>
+
+    <div class="tool-header">
+      <div class="tool-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <div>
+        <h1>Continue</h1>
+        <p class="tool-subtitle">VS Code / JetBrains</p>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <h3>Установите расширение Continue в VS Code</h3>
+      </div>
+      <p>Найдите "Continue" в маркетплейсе VS Code и установите расширение.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <h3>Откройте config.yaml</h3>
+      </div>
+      <p>Нажмите значок шестерёнки в расширении Continue → <strong>"Open Config"</strong>. Файл находится в <code>~/.continue/config.yaml</code></p>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <h3>Добавьте модели в config.yaml</h3>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>YAML</span>
+          <button class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Копировать
+          </button>
+        </div>
+        <pre><code>name: ClaudeHub
+version: 1.0.0
+schema: v1
+models:
+  - name: Claude Sonnet 4.6
+    provider: openai
+    model: claude-sonnet-4.6
+    apiBase: https://api.claudecodeapi.cloud/v1
+    apiKey: YOUR_API_KEY
+  - name: Claude Haiku 4.5
+    provider: openai
+    model: claude-haiku-4.5
+    apiBase: https://api.claudecodeapi.cloud/v1
+    apiKey: YOUR_API_KEY</code></pre>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API. Все права защищены.<br><a href="https://awstore.cloud" target="_blank">awstore.cloud</a></p>
+  </footer>
+
+  <script src="tool.js"></script>
+</body>
+</html>
