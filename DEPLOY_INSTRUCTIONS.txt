@@ -1,0 +1,5 @@
+
+# После создания репозитория выполните:
+git remote add origin https://github.com/YOUR_USERNAME/kiro-cheap-docs.git
+git push -u origin main
+
