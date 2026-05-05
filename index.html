@@ -535,6 +535,7 @@
     <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br><a href="https://claudecodeapi.cloud" target="_blank">claudecodeapi.cloud</a></p>
   </footer>
 
+  <script src="provider.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // API Key
@@ -566,7 +567,8 @@
         if (!key) { balanceValue.textContent = '—'; return; }
         balanceRefresh.classList.add('spinning');
         try {
-          const resp = await fetch('https://api.claudecodeapi.cloud/v1/balance', {
+          const base = (window.CCAProvider && window.CCAProvider.base()) || 'https://api.east-api-3.org';
+          const resp = await fetch(base + '/v1/balance', {
             headers: { 'x-api-key': key }
           });
           if (!resp.ok) throw new Error();
@@ -580,6 +582,7 @@
 
       balanceRefresh.addEventListener('click', fetchBalance);
       if (saved) fetchBalance();
+      if (window.CCAProvider) window.CCAProvider.onChange(function(){ if (localStorage.getItem('cca_api_key')) fetchBalance(); });
 
       // FAQ accordion
       document.querySelectorAll('.faq-question').forEach(q => {

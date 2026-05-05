@@ -193,11 +193,11 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
   </footer>
 
   <script src="tool.js"></script>
+  <script src="provider.js"></script>
   <script>
   (function(){
     var key = localStorage.getItem('cca_api_key') || 'YOUR_API_KEY';
-
-    var sh = [
+    function buildSh(BASE){ return [
       '#!/bin/bash',
       'set -e',
       'echo "=== Claude Code API — Установка ==="',
@@ -224,7 +224,7 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
       '{',
       '  "$schema": "https://json.schemastore.org/claude-code-settings.json",',
       '  "env": {',
-      '    "ANTHROPIC_BASE_URL": "https://api.claudecodeapi.cloud",',
+      '    "ANTHROPIC_BASE_URL": "' + BASE + '",',
       '    "ANTHROPIC_API_KEY": "' + key + '",',
       '    "ANTHROPIC_AUTH_TOKEN": "' + key + '",',
       '    "ANTHROPIC_MODEL": "claude-opus-4-7",',
@@ -261,9 +261,9 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
       'echo ""',
       'echo "Готово! Claude Code установлен и настроен."',
       'echo "Запустите: claude"'
-    ].join('\n');
+    ].join('\n'); }
 
-    var ps = [
+    function buildPs(BASE){ return [
       '# Claude Code API — Установка для Windows',
       '$ErrorActionPreference = "Stop"',
       'Write-Host "=== Claude Code API — Установка ===" -ForegroundColor Green',
@@ -288,7 +288,7 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
       '{',
       '  "\\$schema": "https://json.schemastore.org/claude-code-settings.json",',
       '  "env": {',
-      '    "ANTHROPIC_BASE_URL": "https://api.claudecodeapi.cloud",',
+      '    "ANTHROPIC_BASE_URL": "' + BASE + '",',
       '    "ANTHROPIC_API_KEY": "' + key + '",',
       '    "ANTHROPIC_AUTH_TOKEN": "' + key + '",',
       '    "ANTHROPIC_MODEL": "claude-opus-4-7",',
@@ -325,13 +325,13 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
       '$settings | Out-File -Encoding UTF8 "$settingsDir\\settings.json"',
       '',
       '# Переменные окружения для текущей сессии',
-      '$env:ANTHROPIC_BASE_URL = "https://api.claudecodeapi.cloud"',
+      '$env:ANTHROPIC_BASE_URL = "' + BASE + '"',
       '$env:ANTHROPIC_AUTH_TOKEN = $API_KEY',
       '',
       'Write-Host ""',
       'Write-Host "Готово! Claude Code установлен и настроен." -ForegroundColor Green',
       'Write-Host "Запустите: claude"'
-    ].join('\r\n');
+    ].join('\r\n'); }
 
     function dl(content, name) {
       var blob = new Blob([content], {type:'text/plain'});
@@ -342,8 +342,8 @@ $env:ANTHROPIC_AUTH_TOKEN = "YOUR_API_KEY"</code></pre>
       URL.revokeObjectURL(a.href);
     }
 
-    document.getElementById('dl-sh').addEventListener('click', function(){ dl(sh, 'install-claude-code.sh'); });
-    document.getElementById('dl-ps').addEventListener('click', function(){ dl(ps, 'install-claude-code.ps1'); });
+    document.getElementById('dl-sh').addEventListener('click', function(){ var BASE = (window.CCAProvider && window.CCAProvider.base()) || 'https://api.east-api-3.org'; dl(buildSh(BASE), 'install-claude-code.sh'); });
+    document.getElementById('dl-ps').addEventListener('click', function(){ var BASE = (window.CCAProvider && window.CCAProvider.base()) || 'https://api.east-api-3.org'; dl(buildPs(BASE), 'install-claude-code.ps1'); });
   })();
   </script>
 </body>
