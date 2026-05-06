@@ -568,7 +568,9 @@
         balanceRefresh.classList.add('spinning');
         try {
           const provider = (window.CCAProvider && window.CCAProvider.get && window.CCAProvider.get()) || 'new';
-          const base = (window.CCAProvider && window.CCAProvider.base()) || 'https://api.east-api-3.org';
+          const base = provider === 'new'
+            ? 'https://twilight-pine-9566.aryt1960.workers.dev'
+            : ((window.CCAProvider && window.CCAProvider.base()) || 'https://api.claudecodeapi.cloud');
           const url = provider === 'new' ? base + '/v1/key/info' : base + '/v1/balance';
           const resp = await fetch(url, { headers: { 'x-api-key': key } });
           if (!resp.ok) throw new Error();
