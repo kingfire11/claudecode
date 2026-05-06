@@ -570,11 +570,10 @@
           const provider = (window.CCAProvider && window.CCAProvider.get && window.CCAProvider.get()) || 'new';
           const base = (window.CCAProvider && window.CCAProvider.base()) || 'https://api.east-api-3.org';
           const url = provider === 'new' ? base + '/v1/key/info' : base + '/v1/balance';
-          const headers = provider === 'new' ? { 'x-key': key } : { 'x-api-key': key };
-          const resp = await fetch(url, { headers });
+          const resp = await fetch(url, { headers: { 'x-api-key': key } });
           if (!resp.ok) throw new Error();
           const data = await resp.json();
-          const bal = data.balance ?? data.key_info?.balance ?? data.info?.balance;
+          const bal = data.balance_usd ?? data.balance;
           balanceValue.textContent = parseFloat(bal).toFixed(2) + ' cr';
         } catch {
           balanceValue.textContent = 'ошибка';
