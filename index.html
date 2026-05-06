@@ -574,7 +574,7 @@
           if (!resp.ok) throw new Error();
           const data = await resp.json();
           const bal = data.balance_usd ?? data.balance;
-          balanceValue.textContent = parseFloat(bal).toFixed(2) + ' cr';
+          balanceValue.textContent = '$' + parseFloat(bal).toFixed(2);
         } catch {
           balanceValue.textContent = 'ошибка';
         }
