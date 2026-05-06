@@ -567,13 +567,15 @@
         if (!key) { balanceValue.textContent = '—'; return; }
         balanceRefresh.classList.add('spinning');
         try {
+          const provider = (window.CCAProvider && window.CCAProvider.get && window.CCAProvider.get()) || 'new';
           const base = (window.CCAProvider && window.CCAProvider.base()) || 'https://api.east-api-3.org';
-          const resp = await fetch(base + '/v1/balance', {
-            headers: { 'x-api-key': key }
-          });
+          const url = provider === 'new' ? base + '/v1/key/info' : base + '/v1/balance';
+          const headers = provider === 'new' ? { 'x-key': key } : { 'x-api-key': key };
+          const resp = await fetch(url, { headers });
           if (!resp.ok) throw new Error();
           const data = await resp.json();
-          balanceValue.textContent = parseFloat(data.balance).toFixed(2) + ' cr';
+          const bal = data.balance ?? data.key_info?.balance ?? data.info?.balance;
+          balanceValue.textContent = parseFloat(bal).toFixed(2) + ' cr';
         } catch {
           balanceValue.textContent = 'ошибка';
         }
