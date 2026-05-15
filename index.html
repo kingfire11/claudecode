@@ -339,8 +339,9 @@
   <header>
     <div class="header-content">
       <a href="/" class="logo">Claude Code <span>API</span></a>
-      <div class="lang-switch">
-        <button class="lang-btn active" data-lang="ru">RU</button>
+      <div class="lang-switch" style="display: flex; gap: 1rem; align-items: center;">
+        <a href="docs.html" style="color: var(--accent); font-weight: 500;">Docs</a>
+        <button class="lang-btn" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
@@ -532,7 +533,10 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br><a href="https://claudecodeapi.cloud" target="_blank">claudecodeapi.cloud</a></p>
+    <p>&copy; 2026 Claude Code API. <span data-i18n="footer-copy">Все права защищены</span>.<br>
+      <a href="https://claudecodeapi.cloud" target="_blank">claudecodeapi.cloud</a> ·
+      <a href="docs.html">Документация</a>
+    </p>
   </footer>
 
   <script src="provider.js"></script>

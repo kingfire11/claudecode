@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Документация Claude Code API — полное руководство по подключению">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Docs — Claude Code API</title>
+  <link rel="stylesheet" href="docs-style.css">
+  <style>
+    /* Integrate with site styles */
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-tertiary: #1a1a1a;
+      --bg-code: #0d1117;
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --text-muted: #8b949e;
+      --accent: #00dc82;
+      --accent-hover: #00ff95;
+      --accent-glow: rgba(0, 220, 130, 0.3);
+      --border-color: #30363d;
+      --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --serif: Georgia, 'Times New Roman', serif;
+      --line: #21262d;
+      --bg-sunk: #010409;
+      --accent-soft: rgba(0, 220, 130, 0.15);
+      --err: #f87171;
+      --warn: #fbbf24;
+      --code-bg: #161b22;
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    ::selection { background: var(--accent); color: var(--bg-primary); }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+    /* Header */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .header-content {
+      max-width: 1400px; margin: 0 auto; padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+    .logo span { color: var(--accent); }
+
+    /* Docs Layout */
+    .docs-layout {
+      display: flex;
+      padding-top: 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Sidebar */
+    .docs-sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      padding: 2rem 1rem;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .docs-sidebar h6 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin: 1.5rem 0 0.75rem 0.75rem;
+    }
+    .docs-sidebar h6:first-child { margin-top: 0; }
+
+    .docs-sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .docs-sidebar a {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+    .docs-sidebar a:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    .docs-sidebar a.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    /* Main Content */
+    .docs-content {
+      flex: 1;
+      padding: 2rem 3rem;
+      max-width: 900px;
+    }
+
+    .docs-content section {
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .docs-content section:last-child { border-bottom: none; }
+
+    .docs-content h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .docs-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .docs-content p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .docs-content .lead {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    .docs-content ul, .docs-content ol {
+      margin: 1rem 0 1rem 1.5rem;
+      color: var(--text-secondary);
+    }
+    .docs-content li { margin-bottom: 0.5rem; }
+
+    .docs-content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--accent);
+    }
+
+    .docs-content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .docs-content pre code {
+      background: none;
+      padding: 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Tables */
+    .docs-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    .docs-content th, .docs-content td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .docs-content th {
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+
+    .docs-content td { color: var(--text-secondary); }
+
+    /* Code blocks with syntax highlighting */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      margin: 1rem 0;
+    }
+
+    .code-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .code-head .tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .code-head .tab {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .code-head .tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg-primary);
+    }
+
+    .code-block pre {
+      margin: 0;
+      border: none;
+      border-radius: 0;
+    }
+
+    /* Callout */
+    .callout {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .callout.warn {
+      border-left-color: var(--warn);
+    }
+
+    /* Tabs */
+    .tab-group { margin: 1rem 0; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .docs-sidebar {
+        display: none;
+      }
+      .docs-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    /* Eyebrow */
+    .eyebrow {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">Claude Code <span>API</span></a>
+      <nav style="display: flex; gap: 1.5rem;">
+        <a href="index.html" style="color: var(--text-secondary);">Главная</a>
+        <a href="docs.html" style="color: var(--accent);">Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <!-- Sidebar -->
+    <aside class="docs-sidebar">
+      <h6>старт</h6>
+      <nav>
+        <a href="#overview">Обзор</a>
+        <a href="#quickstart">Быстрый старт</a>
+        <a href="#authentication">Аутентификация</a>
+        <a href="#models">Модели</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#streaming">Стриминг</a>
+      </nav>
+
+      <h6>интеграции</h6>
+      <nav>
+        <a href="#claude-code">Claude Code</a>
+        <a href="#cursor">Cursor</a>
+        <a href="#cline">Cline / Roo</a>
+        <a href="#continue">Continue</a>
+        <a href="#kilo-code">Kilo Code</a>
+        <a href="#windsurf">Windsurf</a>
+        <a href="#opencode">OpenCode</a>
+        <a href="#openclaw">Openclaw</a>
+      </nav>
+
+      <h6>API</h6>
+      <nav>
+        <a href="#api-messages">POST /v1/messages</a>
+        <a href="#api-chat">POST /v1/chat/completions</a>
+        <a href="#api-models">GET /v1/models</a>
+        <a href="#api-whoami">GET /v1/whoami</a>
+      </nav>
+
+      <h6>эксплуатация</h6>
+      <nav>
+        <a href="#errors">Ошибки</a>
+        <a href="#rate-limits">Лимиты</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="docs-content">
+
+      <section id="overview">
+        <div class="eyebrow">поддержка</div>
+        <h2>Claude Code API на одном экране</h2>
+        <p class="lead">API-прокси для доступа к моделям Claude с долларовым кошельком. Поддерживает Anthropic Messages API и OpenAI Chat Completions на одном ключе.</p>
+
+        <div class="callout">
+          <p><strong>Base URL:</strong></p>
+          <ul>
+            <li><strong>Anthropic-клиенты</strong> (Claude Code, SDK): <code>https://api.east-api-3.org</code></li>
+            <li><strong>OpenAI-клиенты</strong> (Cursor, Cline, SDK): <code>https://api.east-api-3.org/v1</code></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="quickstart">
+        <h2>Быстрый старт</h2>
+        <p class="lead">Три минуты от ключа до первого запроса.</p>
+
+        <h3>1. Получите ключ</h3>
+        <p>Вставьте ваш API ключ в форму на главной странице. Ключ выглядит как <code>sk-ant-api03-...</code></p>
+
+        <h3>2. Сделайте первый запрос</h3>
+
+        <div class="tab-group">
+          <div class="code-block">
+            <div class="code-head">
+              <div class="tabs">
+                <button class="tab active">curl</button>
+              </div>
+            </div>
+            <pre><code>curl https://api.east-api-3.org/v1/messages \
+  -H "x-api-key: $CLAUDE_CODE_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d '{
+    "model": "claude-sonnet-4-6",
+    "max_tokens": 1024,
+    "messages": [{"role":"user","content":"hello"}]
+  }'</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="authentication">
+        <h2>Аутентификация</h2>
+        <p class="lead">Один ключ, два формата заголовка.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Формат</th>
+              <th>Заголовок</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>/v1/messages</td>
+              <td><code>x-api-key</code></td>
+              <td><code>sk-ant-api03-...</code></td>
+            </tr>
+            <tr>
+              <td>/v1/messages</td>
+              <td><code>anthropic-version</code></td>
+              <td><code>2023-06-01</code></td>
+            </tr>
+            <tr>
+              <td>/v1/chat/completions</td>
+              <td><code>Authorization</code></td>
+              <td><code>Bearer sk-ant-api03-...</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout warn">
+          <p>Ключ хранится в localStorage браузера. На общем устройстве удалите его перед уходом.</p>
+        </div>
+      </section>
+
+      <section id="models">
+        <h2>Модели</h2>
+        <p class="lead">Доступные модели в обоих форматах API:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>тип</th>
+              <th>контекст</th>
+              <th>примечание</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>claude-opus-4-7</td><td>flagship</td><td>200K</td><td>strongest reasoning, tool use, vision</td></tr>
+            <tr><td>claude-opus-4-7-1m</td><td>flagship · 1M</td><td>1,000K</td><td>same model, expanded input ceiling, same per-token rate</td></tr>
+            <tr><td>claude-opus-4-6</td><td>flagship</td><td>200K</td><td>previous-generation Opus</td></tr>
+            <tr><td>claude-opus-4-6-1m</td><td>flagship · 1M</td><td>1,000K</td><td>4.6 family with expanded ceiling</td></tr>
+            <tr><td>claude-sonnet-4-6</td><td>balanced</td><td>200K</td><td>recommended default for most agentic loops</td></tr>
+            <tr><td>claude-haiku-4-5</td><td>fast</td><td>200K</td><td>1/5 the price of Sonnet — good for cheap classifiers</td></tr>
+            <tr><td>gpt-5</td><td>OpenAI flagship</td><td>400K</td><td>structured-output style; identifies as GPT-5</td></tr>
+            <tr><td>gpt-5-pro</td><td>OpenAI flagship</td><td>400K</td><td>same as gpt-5, billed at flagship rates</td></tr>
+            <tr><td>gpt-5-mini</td><td>OpenAI fast</td><td>400K</td><td>tighter style, fast tier</td></tr>
+            <tr><td>gpt-5-nano</td><td>OpenAI fast</td><td>400K</td><td>cheapest GPT-5 alias</td></tr>
+            <tr><td>gpt-5.5</td><td>OpenAI flagship</td><td>400K</td><td>April 2025 cutoff variant</td></tr>
+            <tr><td>gemini-2.5-pro</td><td>Google flagship</td><td>1,000K</td><td>cite-friendly factual style</td></tr>
+            <tr><td>gemini-2.5-flash</td><td>Google fast</td><td>1,000K</td><td>brief factual answers</td></tr>
+            <tr><td>gemini-3.1-pro</td><td>Google flagship</td><td>1,000K</td><td>April 2025 cutoff variant</td></tr>
+          </tbody>
+        </table>
+
+        <h3>OpenAI-style алиасы</h3>
+        <p><code>gpt-4o</code> / <code>gpt-4</code> → <code>claude-sonnet-4-6</code></p>
+        <p><code>gpt-4o-mini</code> / <code>gpt-3.5-turbo</code> → <code>claude-haiku-4-5</code></p>
+      </section>
+
+      <section id="pricing">
+        <h2>Тарифы</h2>
+        <p class="lead">USD за миллион токенов. Кеш-чтение — 10% от обычной цены входа.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>модель</th>
+              <th>вход / Mtok</th>
+              <th>выход / Mtok</th>
+              <th>множитель</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>claude-opus-4-7</td><td>$5.00</td><td>$25.00</td><td>1.35× cl100k</td></tr>
+            <tr><td>claude-opus-4-7-1m</td><td>$5.00</td><td>$25.00</td><td>1.35× cl100k</td></tr>
+            <tr><td>claude-opus-4-6 / 4-6-1m</td><td>$5.00</td><td>$25.00</td><td>1.35× cl100k</td></tr>
+            <tr><td>claude-sonnet-4-6</td><td>$3.00</td><td>$15.00</td><td>1.0× cl100k</td></tr>
+            <tr><td>claude-haiku-4-5</td><td>$1.00</td><td>$5.00</td><td>1.0× cl100k</td></tr>
+            <tr><td>gpt-5 / gpt-5-pro / gpt-5.5</td><td>$5.00</td><td>$25.00</td><td>1.35× cl100k</td></tr>
+            <tr><td>gpt-5-mini / gpt-5-nano</td><td>$1.00</td><td>$5.00</td><td>1.0× cl100k</td></tr>
+            <tr><td>gemini-2.5-pro / 3.1-pro</td><td>$5.00</td><td>$25.00</td><td>1.35× cl100k</td></tr>
+            <tr><td>gemini-2.5-flash</td><td>$1.00</td><td>$5.00</td><td>1.0× cl100k</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <p><strong>Почему 1.35× у Opus и GPT-5?</strong></p>
+          <p>Opus 4.7 использует новый токенайзер, который выдаёт ~35% больше токенов на том же тексте. Для честного биллинга применяется мультипликатор. Sonnet 4.6 и Haiku 4.5 остаются на 1.0×.</p>
+        </div>
+      </section>
+
+      <section id="streaming">
+        <h2>Стриминг</h2>
+        <p>Все эндпоинты поддерживают SSE-стриминг.</p>
+
+        <div class="code-block">
+          <div class="code-head">
+            <div class="tabs">
+              <button class="tab active">curl</button>
+            </div>
+          </div>
+          <pre><code>curl https://api.east-api-3.org/v1/messages \
+  -H "x-api-key: $CLAUDE_CODE_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "claude-sonnet-4-6",
+    "max_tokens": 1024,
+    "stream": true,
+    "messages": [{"role":"user","content":"count to 5"}]
+  }'</code></pre>
+        </div>
+      </section>
+
+      <section id="claude-code">
+        <h2>Claude Code</h2>
+        <p>Официальный CLI от Anthropic. Настройка через переменную окружения:</p>
+
+        <div class="code-block">
+          <div class="code-head">
+            <div class="tabs">
+              <button class="tab active">~/.zshrc</button>
+            </div>
+          </div>
+          <pre><code>export ANTHROPIC_BASE_URL=https://api.east-api-3.org</code></pre>
+        </div>
+      </section>
+
+      <section id="cursor">
+        <h2>Cursor</h2>
+        <p>AI-редактор кода. Настройка:</p>
+        <ol>
+          <li>Settings → Models → Select Provider → OpenAI API</li>
+          <li>Base URL: <code>https://api.east-api-3.org/v1</code></li>
+          <li>API Key: ваш ключ</li>
+        </ol>
+      </section>
+
+      <section id="cline">
+        <h2>Cline / Roo Code</h2>
+        <p>VS Code агент. Настройка:</p>
+        <ol>
+          <li>VS Code Settings → Cline → Provider API</li>
+          <li>Select: OpenAI Compatible</li>
+          <li>Base URL: <code>https://api.east-api-3.org/v1</code></li>
+          <li>Model ID: <code>claude-sonnet-4-6</code></li>
+          <li>API Key: ваш ключ</li>
+        </ol>
+      </section>
+
+      <section id="continue">
+        <h2>Continue</h2>
+        <p>VS Code / JetBrains расширение. config.json:</p>
+
+        <div class="code-block">
+          <pre><code>{
+  "models": [{
+    "name": "claudecode",
+    "provider": "openai",
+    "api_base": "https://api.east-api-3.org/v1",
+    "api_key": "YOUR_KEY",
+    "model": "claude-sonnet-4-6"
+  }]
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="kilo-code">
+        <h2>Kilo Code</h2>
+        <p>VS Code расширение от Amazon. Настройка:</p>
+        <ol>
+          <li>Settings → Extensions → Kilo Code</li>
+          <li>Provider: OpenAI / OpenRouter</li>
+          <li>Base URL: <code>https://api.east-api-3.org/v1</code></li>
+          <li>API Key: ваш ключ</li>
+        </ol>
+      </section>
+
+      <section id="windsurf">
+        <h2>Windsurf</h2>
+        <p>AI-редактор от Codeium. Настройка:</p>
+        <ol>
+          <li>Settings → Advanced → Model Selection</li>
+          <li>Custom Model → Add Custom Endpoint</li>
+          <li>Base URL: <code>https://api.east-api-3.org/v1</code></li>
+          <li>Model: <code>claude-sonnet-4-6</code></li>
+          <li>API Key: ваш ключ</li>
+        </ol>
+      </section>
+
+      <section id="opencode">
+        <h2>OpenCode</h2>
+        <p>Терминальный агент. Настройка:</p>
+
+        <div class="code-block">
+          <pre><code>export OPENAI_BASE_URL=https://api.east-api-3.org/v1
+export OPENAI_API_KEY=YOUR_KEY</code></pre>
+        </div>
+      </section>
+
+      <section id="openclaw">
+        <h2>Openclaw</h2>
+        <p>Мультипровайдер gateway. Добавить провайдер:</p>
+
+        <div class="code-block">
+          <pre><code>{
+  "name": "claudecode",
+  "api_base": "https://api.east-api-3.org/v1",
+  "api_key": "YOUR_KEY",
+  "models": {
+    "claude-sonnet-4-6": {
+      "type": "openai",
+      "label": "Claude Sonnet 4.6"
+    }
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="api-messages">
+        <h2>POST /v1/messages</h2>
+        <p>Anthropic Messages API. Для Claude Code и @anthropic-ai/sdk.</p>
+
+        <div class="code-block">
+          <pre><code>curl https://api.east-api-3.org/v1/messages \
+  -H "x-api-key: $CLAUDE_CODE_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d '{
+    "model": "claude-sonnet-4-6",
+    "max_tokens": 1024,
+    "messages": [{"role":"user","content":"Hello"}]
+  }'</code></pre>
+        </div>
+      </section>
+
+      <section id="api-chat">
+        <h2>POST /v1/chat/completions</h2>
+        <p>OpenAI Chat Completions API. Для Cursor, Cline и openai-py.</p>
+
+        <div class="code-block">
+          <pre><code>curl https://api.east-api-3.org/v1/chat/completions \
+  -H "Authorization: Bearer $CLAUDE_CODE_KEY" \
+  -H "content-type: application/json" \
+  -d '{
+    "model": "claude-sonnet-4-6",
+    "messages": [{"role":"user","content":"Hello"}]
+  }'</code></pre>
+        </div>
+      </section>
+
+      <section id="api-models">
+        <h2>GET /v1/models</h2>
+        <p>Список доступных моделей.</p>
+
+        <div class="code-block">
+          <pre><code>curl https://api.east-api-3.org/v1/models \
+  -H "x-api-key: $CLAUDE_CODE_KEY"</code></pre>
+        </div>
+      </section>
+
+      <section id="api-whoami">
+        <h2>GET /v1/whoami</h2>
+        <p>Информация о ключе и баланс.</p>
+
+        <div class="code-block">
+          <pre><code>curl https://api.east-api-3.org/v1/whoami \
+  -H "x-api-key: $CLAUDE_CODE_KEY"</code></pre>
+        </div>
+      </section>
+
+      <section id="errors">
+        <h2>Ошибки</h2>
+
+        <table>
+          <thead>
+            <tr><th>Код</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>401</td><td>Неверный или просроченный API ключ</td></tr>
+            <tr><td>403</td><td>Доступ запрещён</td></tr>
+            <tr><td>404</td><td>Неверный base URL или эндпоинт</td></tr>
+            <tr><td>429</td><td>Превышен лимит запросов</td></tr>
+            <tr><td>500</td><td>Внутренняя ошибка сервера</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="rate-limits">
+        <h2>Лимиты</h2>
+        <p>Текущие ограничения:</p>
+        <ul>
+          <li><strong>RPM:</strong> 60 запросов в минуту</li>
+          <li><strong>TPM:</strong> 100,000 токенов в минуту</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Claude Code API · <a href="index.html">Главная</a></p>
+  </footer>
+
+  <script>
+    // Active sidebar link based on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.docs-sidebar a');
+
+    function updateActiveNav() {
+      const scrollPos = window.scrollY + 100;
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+
+        if (scrollPos >= top && scrollPos < top + height) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+  </script>
+</body>
+</html>
