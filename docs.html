@@ -510,66 +510,149 @@
 
       <section id="streaming">
         <h2>Стриминг</h2>
-        <p>Все эндпоинты поддерживают SSE-стриминг.</p>
+        <p class="lead">Оба формата поддерживают SSE. Каждая форма повторяет родительский API в точности — никаких Claude Code-специфичных фреймов.</p>
 
-        <div class="code-block">
-          <div class="code-head">
-            <div class="tabs">
-              <button class="tab active">curl</button>
-            </div>
-          </div>
-          <pre><code>curl https://api.east-api-3.org/v1/messages \
-  -H "x-api-key: $CLAUDE_CODE_KEY" \
-  -H "anthropic-version: 2023-06-01" \
-  -d '{
-    "model": "claude-sonnet-4-6",
-    "max_tokens": 1024,
-    "stream": true,
-    "messages": [{"role":"user","content":"count to 5"}]
-  }'</code></pre>
+        <h3>Anthropic-формат</h3>
+        <p>Поставьте <code>"stream": true</code> в теле и читайте ответ как Server-Sent Events. Типы фреймов:</p>
+        <ul>
+          <li><code>message_start</code></li>
+          <li><code>content_block_start</code></li>
+          <li><code>content_block_delta</code></li>
+          <li><code>content_block_stop</code></li>
+          <li><code>message_delta</code></li>
+          <li><code>message_stop</code></li>
+          <li>+ периодические <code>ping</code></li>
+        </ul>
+        <p>Финальный <code>usage</code> приходит в <code>message_delta</code>. Подробности — в <a href="https://docs.claude.com/en/api/messages-streaming" target="_blank">документации Anthropic</a>.</p>
+
+        <h3>OpenAI-формат</h3>
+        <p>Поставьте <code>"stream": true</code> и читайте SSE-чанки вида <code>data: {"choices":[{"delta":{"content":"…"}}]}</code>. Терминальный фрейм — <code>data: [DONE]</code>.</p>
+        <p>Опционально запросите <code>"stream_options": {"include_usage": true}</code> чтобы получить финальный usage перед <code>[DONE]</code>.</p>
+
+        <div class="callout">
+          <p><strong>Таймауты:</strong> Длинные SSE-стримы идут с таймаутом 600s. Тяжёлые reasoning-ходы могут молчать десятки секунд между дельтами — это нормально. Если клиент отваливается на тишине — поднимите таймаут хотя бы до 120s.</p>
         </div>
       </section>
 
       <section id="claude-code">
         <h2>Claude Code</h2>
-        <p>Официальный CLI от Anthropic. Настройка через переменную окружения:</p>
+        <p class="lead">Официальный CLI от Anthropic. Поддерживает переменную <code>ANTHROPIC_BASE_URL</code> — указывайте голый хост.</p>
+
+        <h3>Вариант A — env-переменные</h3>
 
         <div class="code-block">
           <div class="code-head">
             <div class="tabs">
-              <button class="tab active">~/.zshrc</button>
+              <button class="tab active">macOS / Linux</button>
+              <button class="tab">Windows</button>
             </div>
           </div>
-          <pre><code>export ANTHROPIC_BASE_URL=https://api.east-api-3.org</code></pre>
+          <pre><code># macOS / Linux
+export ANTHROPIC_BASE_URL="https://api.east-api-3.org"
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
+export ANTHROPIC_MODEL="claude-sonnet-4-6"
+
+claude</code></pre>
+        </div>
+
+        <div class="code-block" style="display:none;">
+          <div class="code-head">
+            <div class="tabs">
+              <button class="tab active">Windows</button>
+            </div>
+          </div>
+          <pre><code># Windows (cmd)
+setx ANTHROPIC_BASE_URL "https://api.east-api-3.org"
+setx ANTHROPIC_API_KEY "sk-ant-api03-..."
+setx ANTHROPIC_MODEL "claude-sonnet-4-6"
+
+# Windows (PowerShell)
+$env:ANTHROPIC_BASE_URL = "https://api.east-api-3.org"
+$env:ANTHROPIC_API_KEY = "sk-ant-api03-..."
+$env:ANTHROPIC_MODEL = "claude-sonnet-4-6"</code></pre>
+        </div>
+
+        <h3>Вариант B — settings.json</h3>
+        <p>Кросс-платформенно, переживает рестарт терминала. Путь: <code>~/.claude/settings.json</code></p>
+
+        <div class="code-block">
+          <pre><code>{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.east-api-3.org",
+    "ANTHROPIC_AUTH_TOKEN": "sk-ant-api03-...",
+    "ANTHROPIC_MODEL": "claude-sonnet-4-6"
+  }
+}</code></pre>
+        </div>
+
+        <div class="callout">
+          <p>Прокси принимает <strong>обе</strong> формы — <code>ANTHROPIC_API_KEY</code> (как <code>x-api-key</code>) и <code>ANTHROPIC_AUTH_TOKEN</code> (как <code>Authorization: Bearer</code>).</p>
         </div>
       </section>
 
       <section id="cursor">
         <h2>Cursor</h2>
-        <p>AI-редактор кода. Настройка:</p>
+        <p class="lead">Настройка «Override OpenAI Base URL» в Cursor отправляет Chat-формат на ваш эндпоинт.</p>
+
+        <div class="callout warn">
+          <p><strong>На бесплатном плане кастомные эндпоинты не поддерживаются.</strong> Override закрыт за Cursor Pro ($20 / мес).</p>
+        </div>
+
+        <h3>Настройка</h3>
         <ol>
-          <li>Settings → Models → Select Provider → OpenAI API</li>
-          <li>Base URL: <code>https://api.east-api-3.org/v1</code></li>
-          <li>API Key: ваш ключ</li>
+          <li>Откройте <kbd>Cmd</kbd>+<kbd>,</kbd> (или <kbd>Ctrl</kbd>+<kbd>,</kbd>) → <strong>Models</strong>.</li>
+          <li>Скролл до секции <strong>OpenAI API</strong>.</li>
+          <li>Включите <strong>Override OpenAI Base URL</strong>, вставьте <code>https://api.east-api-3.org/v1</code> — <code>/v1</code> обязателен.</li>
+          <li>Вставьте ключ в поле <strong>OpenAI API Key</strong>, нажмите <strong>Verify</strong>.</li>
+          <li>В списке моделей <strong>отключите</strong> встроенные модели Cursor.</li>
+          <li>Нажмите <strong>+ Add custom model</strong> и добавьте нужный id, например <code>claude-sonnet-4-6</code>.</li>
         </ol>
+
+        <h3>cursor-* синонимы</h3>
+        <p>Дополнительно к каноническим id доступны синонимы с префиксом <code>cursor-</code>:</p>
+        <ul>
+          <li><code>cursor-claude-sonnet-4-6</code> ↔ <code>claude-sonnet-4-6</code></li>
+          <li><code>cursor-claude-opus-4-7</code> ↔ <code>claude-opus-4-7</code></li>
+          <li><code>cursor-gpt-5</code>, <code>cursor-gpt-5-pro</code>, <code>cursor-gpt-5-mini</code></li>
+          <li><code>cursor-gemini-2.5-pro</code>, <code>cursor-gemini-2.5-flash</code></li>
+        </ul>
+
+        <h3>Известные проблемы</h3>
+        <ul>
+          <li>Sub-agents могут обходить override и бить в инфру Cursor напрямую.</li>
+          <li>Если оставите дефолтные модели Cursor включёнными — редактор может зависнуть. Отключайте.</li>
+          <li>Tab-автодополнение не затрагивается и продолжает есть собственную квоту Cursor.</li>
+        </ul>
       </section>
 
       <section id="cline">
         <h2>Cline / Roo Code</h2>
-        <p>VS Code агент. Настройка:</p>
+        <p class="lead">И Cline, и Roo Code предоставляют провайдер «OpenAI Compatible». <strong>Используйте именно «OpenAI Compatible», а не «OpenAI»</strong> — у второго нет поля Base URL.</p>
+
+        <h3>Настройка</h3>
         <ol>
-          <li>VS Code Settings → Cline → Provider API</li>
-          <li>Select: OpenAI Compatible</li>
-          <li>Base URL: <code>https://api.east-api-3.org/v1</code></li>
-          <li>Model ID: <code>claude-sonnet-4-6</code></li>
-          <li>API Key: ваш ключ</li>
+          <li>Кликните ⚙ в панели Cline (или Roo Code).</li>
+          <li>В <strong>API Provider</strong> выберите <strong>OpenAI Compatible</strong>.</li>
+          <li>Заполните:
+            <ul>
+              <li><strong>Base URL:</strong> <code>https://api.east-api-3.org/v1</code></li>
+              <li><strong>API Key:</strong> <code>sk-ant-api03-...</code></li>
+              <li><strong>Model ID:</strong> <code>claude-sonnet-4-6</code></li>
+            </ul>
+          </li>
+          <li>(Опционально) Context window = 200,000, Max output tokens = 16,384.</li>
         </ol>
+
+        <div class="callout">
+          <p>Cline-CLI пока не умеет в Base URL для OpenAI-совместимых эндпоинтов. Используйте VS Code-плагин.</p>
+        </div>
       </section>
 
       <section id="continue">
         <h2>Continue</h2>
-        <p>VS Code / JetBrains расширение. config.json:</p>
+        <p class="lead">VS Code / JetBrains расширение. Работает через litellm — поддерживает оба формата.</p>
 
+        <h3>Настройка (config.json)</h3>
         <div class="code-block">
           <pre><code>{
   "models": [{
@@ -578,6 +661,18 @@
     "api_base": "https://api.east-api-3.org/v1",
     "api_key": "YOUR_KEY",
     "model": "claude-sonnet-4-6"
+  }]
+}</code></pre>
+        </div>
+
+        <h3>Альтернативный путь — Anthropic</h3>
+        <div class="code-block">
+          <pre><code>{
+  "models": [{
+    "name": "claudecode",
+    "provider": "anthropic",
+    "api_key": "YOUR_KEY",
+    "anthropic_base_url": "https://api.east-api-3.org"
   }]
 }</code></pre>
         </div>
